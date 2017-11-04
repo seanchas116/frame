@@ -15,5 +15,15 @@
   "bugs": {
     "url": "https://github.com/seanchas116/frame/issues"
   },
-  "homepage": "https://github.com/seanchas116/frame#readme"
+  "homepage": "https://github.com/seanchas116/frame#readme",
+  "dependencies": {
+    "mobx": "^3.3.1",
+    "mobx-react": "^4.3.4",
+    "react": "^16.0.0",
+    "react-dom": "^16.0.0"
+  },
+  "devDependencies": {
+    "@types/react": "^16.0.20",
+    "@types/react-dom": "^16.0.2"
+  }
 }
