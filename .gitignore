@@ -57,3 +57,8 @@ typings/
 # dotenv environment variables file
 .env
 
+# awesome-typescript-loader cache
+.awcache
+
+# bundled files
+public/assets
