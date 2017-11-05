@@ -4,7 +4,7 @@ import * as qs from 'querystring'
 const dev = process.env.NODE_ENV === 'development'
 const contentBase = dev ? 'http://localhost:23000' : `file://${app.getAppPath()}/dist`
 
-let mainWindow: BrowserWindow|undefined
+let mainWindow: BrowserWindow | undefined
 
 async function openWindow (filePath?: string) {
   const win = mainWindow = new BrowserWindow({
@@ -13,7 +13,7 @@ async function openWindow (filePath?: string) {
     show: false
   })
 
-  const query = qs.stringify({filePath})
+  const query = qs.stringify({ filePath })
 
   win.loadURL(`${contentBase}/index.html#${query}`)
   if (dev) {
