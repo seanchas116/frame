@@ -1,4 +1,5 @@
 import { observable } from 'mobx'
+import { Brush } from './Brush'
 
 export type StrokeAlignment = 'center' | 'inner' | 'outer'
 
