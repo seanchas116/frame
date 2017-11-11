@@ -23,6 +23,7 @@
   "dependencies": {
     "mobx": "^3.3.1",
     "mobx-react": "^4.3.4",
+    "paintvec": "^0.1.1",
     "react": "^16.0.0",
     "react-dom": "^16.0.0"
   },

@@ -1,4 +1,5 @@
 import { observable } from 'mobx'
+import { Rect } from 'paintvec'
 
 export class RectShape {
   @observable rect = new Rect()
