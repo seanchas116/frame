@@ -1,4 +1,5 @@
 import { observable } from 'mobx'
+import { Vec2 } from 'paintvec'
 
 export class ColorBrush {
   @observable color: Color
@@ -7,8 +8,8 @@ export class ColorBrush {
 export type GradientStop = [number, Color]
 
 export class LinearGradientBrush {
-  @observable begin = new Point()
-  @observable end = new Point()
+  @observable begin = new Vec2()
+  @observable end = new Vec2()
   readonly stops = observable<GradientStop>()
 }
 
