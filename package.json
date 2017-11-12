@@ -14,7 +14,8 @@
     "url": "git+https://github.com/seanchas116/frame.git"
   },
   "scripts": {
-    "app": "NODE_ENV='development' electron .",
+    "app": "electron . --development",
+    "testapp": "electron . --development --test",
     "test": "echo \"Error: no test specified\" && exit 1",
     "watch": "npm-run-all --parallel watch:*",
     "watch:main": "webpack --watch --config webpack.config.main.js",
