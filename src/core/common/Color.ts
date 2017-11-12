@@ -79,6 +79,11 @@ export class RGBColor {
     return this.r === other.r && this.g === other.g && this.b === other.b && this.a === other.a
   }
 
+  toHSV () {
+    const hsv = rgb2hsv(this.r, this.g, this.b)
+    return new HSVColor(hsv.h, hsv.s, hsv.v, this.a)
+  }
+
   toString () {
     const { r, g, b, a } = this
     const rr = Math.round(r * 255)
@@ -86,7 +91,6 @@ export class RGBColor {
     const bb = Math.round(b * 255)
     return `rgba(${rr},${gg},${bb},${a})`
   }
-
 }
 
 export class HSVColor {
@@ -97,11 +101,6 @@ export class HSVColor {
   // v: 0 ... 1
   // a: 0 ... 1
   constructor (public h: number, public s: number, public v: number, public a = 1) {
-  }
-
-  static fromRGB (rgb: RGBColor) {
-    const hsv = rgb2hsv(rgb.r, rgb.g, rgb.b)
-    return new HSVColor(hsv.h, hsv.s, hsv.v, rgb.a)
   }
 
   toRGB () {
