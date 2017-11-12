@@ -40,13 +40,6 @@ function openTestWindow () {
   win.on('closed', () => {
     testWindow = undefined
   })
-  ipcMain.on('testDone', (e: Electron.IpcMessageEvent, failCount: number) => {
-    if (!argv.devserver) {
-      setImmediate(() => {
-        process.exit(failCount)
-      })
-    }
-  })
 }
 
 app.commandLine.appendSwitch('enable-experimental-web-platform-features')
