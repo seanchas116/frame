@@ -21,6 +21,8 @@
   },
   "homepage": "https://github.com/seanchas116/frame#readme",
   "dependencies": {
+    "@types/chai": "^4.0.4",
+    "chai": "^4.1.2",
     "mobx": "^3.3.1",
     "mobx-react": "^4.3.4",
     "paintvec": "^0.1.1",
@@ -28,6 +30,7 @@
     "react-dom": "^16.0.0"
   },
   "devDependencies": {
+    "@types/mocha": "^2.2.44",
     "@types/react": "^16.0.20",
     "@types/react-dom": "^16.0.2",
     "awesome-typescript-loader": "^3.3.0",
@@ -35,6 +38,8 @@
     "electron": "1.8.2-beta.2",
     "file-loader": "^1.1.5",
     "json-loader": "^0.5.7",
+    "mocha": "^4.0.1",
+    "mocha-loader": "^1.1.1",
     "npm-run-all": "^4.1.1",
     "style-loader": "^0.19.0",
     "tslint": "^5.8.0",
