@@ -2,27 +2,25 @@
   "name": "frame",
   "version": "0.1.0",
   "description": "Minumum viable digital design app",
-  "main": "public/assets/main.js",
-  "scripts": {
-    "app": "NODE_ENV='development' electron .",
-    "watch:renderer": "webpack-dev-server --config webpack.config.renderer.js --hot",
-    "watch:main": "webpack --watch --config webpack.config.main.js",
-    "watch": "npm-run-all --parallel watch:*",
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "homepage": "https://github.com/seanchas116/frame#readme",
+  "bugs": {
+    "url": "https://github.com/seanchas116/frame/issues"
   },
+  "license": "MIT",
+  "author": "",
+  "main": "public/assets/main.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/seanchas116/frame.git"
   },
-  "author": "",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/seanchas116/frame/issues"
+  "scripts": {
+    "app": "NODE_ENV='development' electron .",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "watch": "npm-run-all --parallel watch:*",
+    "watch:main": "webpack --watch --config webpack.config.main.js",
+    "watch:renderer": "webpack-dev-server --config webpack.config.renderer.js --hot"
   },
-  "homepage": "https://github.com/seanchas116/frame#readme",
   "dependencies": {
-    "@types/chai": "^4.0.4",
-    "chai": "^4.1.2",
     "mobx": "^3.3.1",
     "mobx-react": "^4.3.4",
     "paintvec": "^0.1.1",
@@ -30,11 +28,13 @@
     "react-dom": "^16.0.0"
   },
   "devDependencies": {
+    "@types/chai": "^4.0.4",
     "@types/mocha": "^2.2.44",
     "@types/react": "^16.0.20",
     "@types/react-dom": "^16.0.2",
     "@types/webpack-env": "^1.13.2",
     "awesome-typescript-loader": "^3.3.0",
+    "chai": "^4.1.2",
     "css-loader": "^0.28.7",
     "electron": "1.8.2-beta.2",
     "file-loader": "^1.1.5",
