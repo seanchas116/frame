@@ -2,7 +2,7 @@ import { app, BrowserWindow, ipcMain } from 'electron'
 import * as qs from 'querystring'
 
 const argv = require('minimist')(process.argv.slice(2))
-const contentBase = argv.development ? 'http://localhost:23000' : `file://${app.getAppPath()}/dist`
+const contentBase = argv.devserver ? 'http://localhost:23000' : `file://${app.getAppPath()}/dist`
 
 let mainWindow: BrowserWindow | undefined
 let testWindow: BrowserWindow | undefined
@@ -17,7 +17,7 @@ async function openWindow (filePath?: string) {
   const query = qs.stringify({ filePath })
 
   win.loadURL(`${contentBase}/index.html#${query}`)
-  if (argv.development) {
+  if (argv.devserver) {
     win.webContents.openDevTools()
   }
 
@@ -40,7 +40,7 @@ function openTestWindow () {
   win.on('closed', () => {
     testWindow = undefined
   })
-  ipcMain.on('testDone', (e, failCount) => {
+  ipcMain.on('testDone', (e: Electron.IpcMessageEvent, failCount: number) => {
     if (!argv.devserver) {
       setImmediate(() => {
         process.exit(failCount)
