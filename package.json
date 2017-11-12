@@ -16,8 +16,6 @@
   "scripts": {
     "app": "electron . --devserver",
     "testapp": "electron . --devserver --test",
-    "pretest": "npm run build",
-    "test": "electron . --test",
     "watch": "npm-run-all --parallel watch:*",
     "watch:main": "webpack --watch --config webpack.config.main.js",
     "watch:renderer": "webpack-dev-server --hot",
