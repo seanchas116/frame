@@ -4,11 +4,14 @@ const webpack = require('webpack')
 const fileRegex = /\.(jpg|png|woff|woff2|eot|ttf|svg)/
 
 module.exports = {
-  entry: path.resolve(__dirname, 'src/renderer.tsx'),
+  entry: {
+    renderer: path.resolve(__dirname, 'src/renderer.tsx'),
+    test: path.resolve(__dirname, 'src/test.ts')
+  },
   output: {
     path: path.resolve(__dirname, 'public/assets'),
     publicPath: '/assets/',
-    filename: 'renderer.js',
+    filename: '[name].js',
   },
   target: 'electron-renderer',
   resolve: {
