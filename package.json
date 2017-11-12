@@ -32,7 +32,7 @@
     "@types/react-dom": "^16.0.2",
     "awesome-typescript-loader": "^3.3.0",
     "css-loader": "^0.28.7",
-    "electron": "1.8.2-beta.1",
+    "electron": "1.8.2-beta.2",
     "file-loader": "^1.1.5",
     "json-loader": "^0.5.7",
     "npm-run-all": "^4.1.1",
