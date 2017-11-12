@@ -1,11 +1,12 @@
 import { observable } from 'mobx'
 import { Vec2 } from 'paintvec'
+import { HSVColor } from '../common/Color'
 
 export class ColorBrush {
-  @observable color: Color
+  @observable color: HSVColor
 }
 
-export type GradientStop = [number, Color]
+export type GradientStop = [number, HSVColor]
 
 export class LinearGradientBrush {
   @observable begin = new Vec2()
