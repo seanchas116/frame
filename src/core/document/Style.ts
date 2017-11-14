@@ -4,9 +4,9 @@ import { Brush } from './Brush'
 export type StrokeAlignment = 'center' | 'inner' | 'outer'
 
 export class Style {
-  @observable hasFill = true
+  @observable fillEnabled = true
   @observable fill: Brush
-  @observable hasStroke = true
+  @observable strokeEnabled = true
   @observable stroke: Brush
   @observable strokeWidth = 1
   @observable strokeAlignment: StrokeAlignment

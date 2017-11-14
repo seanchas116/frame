@@ -55,3 +55,32 @@ export interface ImageShapeData {
 }
 
 export type ShapeData = RectShapeData | EllipseShapeData | TextShapeData | ImageShapeData
+
+export type StrokeAlignmentData = 'center' | 'inner' | 'outer'
+
+export interface StyleData {
+  fillEnabled: boolean
+  fill: BrushData
+  strokeEnabled: boolean
+  stroke: BrushData
+  strokeWidth: number
+  strokeAlignment: StrokeAlignmentData
+}
+
+export interface ShapeLayerData {
+  shape: ShapeData
+  style: StyleData
+  name: string
+}
+
+export interface GroupLayerData {
+  name: string
+  collapsed: boolean
+  children: LayerData[]
+}
+
+export type LayerData = ShapeLayerData | GroupLayerData
+
+export interface DocumentData {
+  rootGroup: GroupLayerData
+}
