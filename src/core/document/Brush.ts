@@ -11,7 +11,7 @@ export type GradientStop = [number, HSVColor]
 export class LinearGradientBrush {
   @observable begin = new Vec2()
   @observable end = new Vec2()
-  readonly stops = observable<GradientStop>()
+  readonly stops = observable<GradientStop>([])
 }
 
 export type Brush = ColorBrush | LinearGradientBrush

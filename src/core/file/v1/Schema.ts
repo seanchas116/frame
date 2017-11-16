@@ -22,11 +22,13 @@ export interface ColorBrushData {
   color: HSVColorData
 }
 
+export type GradientStopData = [number, HSVColorData]
+
 export interface LinearGradientBrushData {
   type: 'linearGradient'
   begin: Vec2Data
   end: Vec2Data
-  stops: [number, HSVColorData][]
+  stops: GradientStopData[]
 }
 
 export type BrushData = ColorBrushData | LinearGradientBrushData
