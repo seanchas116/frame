@@ -35,24 +35,20 @@ export type BrushData = ColorBrushData | LinearGradientBrushData
 
 export interface RectShapeData {
   type: 'rect'
-  rect: RectData
   radius: number
 }
 
 export interface EllipseShapeData {
   type: 'ellipse'
-  rect: RectData
 }
 
 export interface TextShapeData {
   type: 'text'
-  rect: RectData
   text: string
 }
 
 export interface ImageShapeData {
   type: 'image'
-  rect: RectData
   dataURL: string
 }
 
@@ -70,9 +66,10 @@ export interface StyleData {
 }
 
 export interface ShapeLayerData {
+  name: string
+  rect: RectData
   shape: ShapeData
   style: StyleData
-  name: string
 }
 
 export interface GroupLayerData {
