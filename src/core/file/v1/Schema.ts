@@ -66,6 +66,7 @@ export interface StyleData {
 }
 
 export interface ShapeLayerData {
+  type: 'shape'
   name: string
   rect: RectData
   shape: ShapeData
@@ -73,8 +74,8 @@ export interface ShapeLayerData {
 }
 
 export interface GroupLayerData {
+  type: 'group'
   name: string
-  collapsed: boolean
   children: LayerData[]
 }
 

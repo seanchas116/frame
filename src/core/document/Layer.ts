@@ -13,7 +13,7 @@ export class ShapeLayer {
 export class GroupLayer {
   @observable name = 'Layer'
   @observable collapsed = false
-  readonly children = observable<Layer>()
+  readonly children = observable<Layer>([])
 }
 
 export type Layer = ShapeLayer | GroupLayer
