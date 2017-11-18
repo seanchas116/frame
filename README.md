@@ -1,5 +1,8 @@
 # frame
+
 [WIP] Minumum viable digital design app
+
+[![CircleCI](https://circleci.com/gh/seanchas116/frame.svg?style=svg)](https://circleci.com/gh/seanchas116/frame)
 
 ## What to do
 
