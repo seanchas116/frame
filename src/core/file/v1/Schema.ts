@@ -82,5 +82,5 @@ export interface GroupLayerData {
 export type LayerData = ShapeLayerData | GroupLayerData
 
 export interface DocumentData {
-  rootGroup: GroupLayerData
+  layers: LayerData[]
 }
