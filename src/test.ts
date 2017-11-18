@@ -1,2 +1,2 @@
-const requires = require.context('mocha-loader!./', true, /Test\.ts$/)
+const requires = require.context('./', true, /Test\.ts$/)
 requires.keys().forEach(requires)

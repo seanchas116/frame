@@ -6,6 +6,7 @@ const fileRegex = /\.(jpg|png|woff|woff2|eot|ttf|svg)/
 module.exports = {
   entry: {
     renderer: path.resolve(__dirname, 'src/renderer.tsx'),
+    testapp: path.resolve(__dirname, 'src/testapp.ts'),
     test: path.resolve(__dirname, 'src/test.ts')
   },
   output: {
