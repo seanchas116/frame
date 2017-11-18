@@ -21,7 +21,9 @@
     "watch:renderer": "webpack-dev-server -d --hot",
     "build": "npm-run-all --parallel build:*",
     "build:main": "webpack --config webpack.config.main.js",
-    "build:renderer": "webpack"
+    "build:renderer": "webpack",
+    "pretest": "npm run build:renderer",
+    "test": "electron-mocha --renderer public/assets/test.js"
   },
   "dependencies": {
     "minimist": "^1.2.0",
