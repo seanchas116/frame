@@ -7,11 +7,11 @@ export class File {
   constructor (public readonly document: Document) {
   }
 
-  async newFile () {
+  static async newFile () {
     return new File(new Document())
   }
 
-  async fromData (data: DocumentData) {
+  static async fromData (data: DocumentData) {
     return new File(await dataToDocument(data))
   }
 
