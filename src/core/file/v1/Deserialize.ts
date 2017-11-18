@@ -1,6 +1,6 @@
 import { Vec2, Rect } from 'paintvec'
 import { Document } from '../../document/Document'
-import { DocumentData, BrushData, HSVColorData, Vec2Data, GradientStopData, ShapeData, RectData, LayerData, StyleData } from './Schema'
+import { DocumentData, BrushData, HSVColorData, Vec2Data, ShapeData, RectData, LayerData, StyleData } from './Schema'
 import { Brush, ColorBrush, LinearGradientBrush, GradientStop } from '../../document/Brush'
 import { Shape, RectShape, EllipseShape, TextShape, ImageShape } from '../../document/Shape'
 import { HSVColor } from '../../common/Color'
@@ -33,7 +33,7 @@ export function dataToBrush (data: BrushData): Brush {
   }
 }
 
-export function dataToShape (data: ShapeData): Shape {
+export async function dataToShape (data: ShapeData): Promise<Shape> {
   switch (data.type) {
     case 'text': {
       const shape = new TextShape()
@@ -42,7 +42,7 @@ export function dataToShape (data: ShapeData): Shape {
     }
     case 'image': {
       const shape = new ImageShape()
-      shape.loadDataURL(shape.dataURL)
+      await shape.loadDataURL(shape.dataURL)
       return shape
     }
     case 'rect': {
@@ -67,27 +67,27 @@ export function dataToStyle (data: StyleData): Style {
   return style
 }
 
-export function dataToLayer (data: LayerData): Layer {
+export async function dataToLayer (data: LayerData): Promise<Layer> {
   switch (data.type) {
     case 'shape': {
       const layer = new ShapeLayer()
       layer.name = data.name
       layer.rect = dataToRect(data.rect)
-      layer.shape = dataToShape(data.shape)
+      layer.shape = await dataToShape(data.shape)
       layer.style = dataToStyle(data.style)
       return layer
     }
     case 'group': {
       const layer = new GroupLayer()
       layer.name = data.name
-      layer.children.replace(data.children.map(dataToLayer))
+      layer.children.replace(await Promise.all(data.children.map(dataToLayer)))
       return layer
     }
   }
 }
 
-export function dataToDocument (data: DocumentData): Document {
+export async function dataToDocument (data: DocumentData): Promise<Document> {
   const document = new Document()
-  document.rootGroup.children.replace(data.layers.map(dataToLayer))
+  document.rootGroup.children.replace(await Promise.all(data.layers.map(dataToLayer)))
   return document
 }
