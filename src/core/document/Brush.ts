@@ -4,6 +4,9 @@ import { HSVColor } from '../common/Color'
 
 export class ColorBrush {
   @observable color: HSVColor
+  constructor (color: HSVColor) {
+    this.color = color
+  }
 }
 
 export type GradientStop = [number, HSVColor]
