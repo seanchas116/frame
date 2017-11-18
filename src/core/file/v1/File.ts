@@ -1,6 +1,7 @@
 import { Document } from '../../document/Document'
 import { DocumentData } from './Schema'
 import { documentToData } from './Serialize'
+import { dataToDocument } from './Deserialize'
 
 export class File {
   readonly document: Document
