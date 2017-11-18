@@ -6,8 +6,9 @@ import { Style } from './Style'
 export class ShapeLayer {
   @observable name = 'Layer'
   @observable rect = new Rect()
-  shape: Shape
-  style: Style
+  readonly style = new Style()
+
+  constructor (public readonly shape: Shape) {}
 }
 
 export class GroupLayer {
