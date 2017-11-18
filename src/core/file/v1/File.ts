@@ -91,13 +91,24 @@ function layerToData (layer: Layer): LayerData {
   }
 }
 
+function documentToData (document: Document): DocumentData {
+  return {
+    rootGroup: layerToData(document.rootGroup) as GroupLayerData
+  }
+}
+
 export class File {
-  constructor (public readonly document: Document) {
+  readonly document: Document
+
+  constructor (data?: DocumentData) {
+    if (data) {
+      this.document = dataToDocument(data)
+    } else {
+      this.document = new Document()
+    }
   }
 
   toData (): DocumentData {
-    return {
-      rootGroup: layerToData(this.document.rootGroup) as GroupLayerData
-    }
+    return documentToData(this.document)
   }
 }
