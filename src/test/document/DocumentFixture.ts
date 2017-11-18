@@ -4,8 +4,8 @@ import { RectShape } from '../../core/document/Shape'
 import { Rect } from 'paintvec'
 
 export function createShapeLayer () {
-  const shape = new RectShape()
-  const layer = new ShapeLayer(shape)
+  const layer = new ShapeLayer()
+  layer.shape = new RectShape()
   layer.rect = Rect.fromWidthHeight(10, 20, 30, 40)
   layer.name = 'Layer'
   return layer
