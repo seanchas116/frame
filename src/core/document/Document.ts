@@ -1,5 +1,6 @@
 import { GroupLayer } from './Layer'
+import { observable } from 'mobx/lib/api/observable'
 
 export class Document {
-  readonly rootGroup = new GroupLayer()
+  @observable rootGroup = new GroupLayer()
 }
