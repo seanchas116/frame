@@ -4,14 +4,15 @@ import { documentToData } from './Serialize'
 import { dataToDocument } from './Deserialize'
 
 export class File {
-  readonly document: Document
+  constructor (public readonly document: Document) {
+  }
 
-  constructor (data?: DocumentData) {
-    if (data) {
-      this.document = dataToDocument(data)
-    } else {
-      this.document = new Document()
-    }
+  async newFile () {
+    return new File(new Document())
+  }
+
+  async fromData (data: DocumentData) {
+    return new File(await dataToDocument(data))
   }
 
   toData (): DocumentData {
