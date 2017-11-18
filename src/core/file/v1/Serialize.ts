@@ -1,6 +1,6 @@
 import { Vec2, Rect } from 'paintvec'
 import { Document } from '../../document/Document'
-import { DocumentData, BrushData, HSVColorData, Vec2Data, GradientStopData, ShapeData, RectData, GroupLayerData, LayerData } from './Schema'
+import { DocumentData, BrushData, HSVColorData, Vec2Data, GradientStopData, ShapeData, RectData, LayerData } from './Schema'
 import { Brush, ColorBrush } from '../../document/Brush'
 import { Shape, RectShape, EllipseShape, TextShape, ImageShape } from '../../document/Shape'
 import { HSVColor } from '../../common/Color'
@@ -93,6 +93,6 @@ export function layerToData (layer: Layer): LayerData {
 
 export function documentToData (document: Document): DocumentData {
   return {
-    rootGroup: layerToData(document.rootGroup) as GroupLayerData
+    layers: document.rootGroup.children.map(layerToData)
   }
 }
