@@ -1,14 +1,13 @@
 import { Rect } from 'paintvec'
 import { observable } from 'mobx'
-import { Shape } from './Shape'
+import { Shape, RectShape } from './Shape'
 import { Style } from './Style'
 
 export class ShapeLayer {
   @observable name = 'Layer'
   @observable rect = new Rect()
-  readonly style = new Style()
-
-  constructor (public readonly shape: Shape) {}
+  @observable shape: Shape = new RectShape()
+  @observable style = new Style()
 }
 
 export class GroupLayer {
