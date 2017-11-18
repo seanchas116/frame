@@ -68,7 +68,7 @@ function rgb2hsv (r: number, g: number, b: number) {
 }
 
 export class RGBColor {
-  constructor (public r: number, public g: number, public b: number, public a: number) {
+  constructor (public readonly r: number, public readonly g: number, public readonly b: number, public readonly a: number) {
   }
 
   members () {
@@ -94,13 +94,13 @@ export class RGBColor {
 }
 
 export class HSVColor {
-  static transparent = new HSVColor(0, 0, 0, 0)
+  static readonly transparent = new HSVColor(0, 0, 0, 0)
 
   // h: 0 ... 360
   // s: 0 ... 1
   // v: 0 ... 1
   // a: 0 ... 1
-  constructor (public h: number, public s: number, public v: number, public a = 1) {
+  constructor (public readonly h: number, public readonly s: number, public readonly v: number, public readonly a = 1) {
   }
 
   toRGB () {
