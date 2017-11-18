@@ -15,6 +15,19 @@ export class TextShape {
 export class ImageShape {
   @observable dataURL = ''
   @observable originalSize = new Vec2()
+
+  loadDataURL (dataURL: string) {
+    return new Promise<void>((resolve, reject) => {
+      const img = new Image()
+      img.onload = () => {
+        this.dataURL = dataURL
+        this.originalSize = new Vec2(img.width, img.height)
+        resolve()
+      }
+      img.onerror = reject
+      img.src = dataURL
+    })
+  }
 }
 
 export type Shape = RectShape | EllipseShape | TextShape
