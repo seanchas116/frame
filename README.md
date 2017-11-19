@@ -2,7 +2,8 @@
 
 [WIP] Minumum viable digital design app
 
-[![CircleCI](https://circleci.com/gh/seanchas116/frame.svg?style=svg)](https://circleci.com/gh/seanchas116/frame)
+[![CircleCI](https://circleci.com/gh/seanchas116/frame.svg?style=svg)](https://circleci.com/gh/seanchas116/frame) [![codecov](https://codecov.io/gh/seanchas116/frame/branch/master/graph/badge.svg)](https://codecov.io/gh/seanchas116/frame)
+
 
 ## What to do
 
