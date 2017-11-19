@@ -2,8 +2,8 @@
 import { assert } from 'chai'
 import * as tmp from 'tmp'
 import * as fs from 'fs'
-import { File } from '../../core/file/File'
-import { createDocument } from '../document/DocumentFixture'
+import { File } from '.file/File'
+import { createDocument } from '../document/Document.fixture'
 
 describe('File', () => {
   describe('constructor', () => {

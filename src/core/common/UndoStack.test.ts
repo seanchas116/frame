@@ -1,5 +1,5 @@
 import { assert } from 'chai'
-import { UndoStack, UndoCommand } from '../../core/common/UndoStack'
+import { UndoStack, UndoCommand } from './UndoStack'
 
 class ExampleCommand implements UndoCommand {
   constructor (public title: string) {}

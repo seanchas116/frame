@@ -1,4 +1,4 @@
-const requires = require.context('./', true, /Test\.ts$/)
+const requires = require.context('./', true, /\.test\.ts$/)
 requires.keys().forEach(requires)
 
 after(() => {

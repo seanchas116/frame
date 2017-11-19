@@ -1,4 +1,4 @@
-import { RGBColor, HSVColor } from '../../core/common/Color'
+import { RGBColor, HSVColor } from './Color'
 import { assert } from 'chai'
 
 describe('RGBColor', () => {
