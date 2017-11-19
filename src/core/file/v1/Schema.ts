@@ -85,6 +85,6 @@ export interface DocumentData {
   layers: LayerData[]
 }
 
-export interface FileV1Data extends DocumentData {
+export interface FileV1Format extends DocumentData {
   version: 1
 }
