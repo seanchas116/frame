@@ -84,3 +84,7 @@ export type LayerData = ShapeLayerData | GroupLayerData
 export interface DocumentData {
   layers: LayerData[]
 }
+
+export interface FileV1Data extends DocumentData {
+  version: 1
+}
