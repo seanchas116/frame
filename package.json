@@ -23,7 +23,7 @@
     "build:main": "webpack --config webpack.config.main.js",
     "build:renderer": "webpack",
     "pretest": "npm run build:renderer",
-    "test": "electron-mocha --renderer public/assets/test.js"
+    "test": "nyc electron-mocha --renderer public/assets/test.js"
   },
   "dependencies": {
     "minimist": "^1.2.0",
@@ -50,6 +50,7 @@
     "mocha": "^4.0.1",
     "mocha-loader": "^1.1.1",
     "npm-run-all": "^4.1.1",
+    "nyc": "^11.3.0",
     "style-loader": "^0.19.0",
     "tslint": "^5.8.0",
     "tslint-config-standard": "^7.0.0",
