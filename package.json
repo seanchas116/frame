@@ -24,7 +24,8 @@
     "build:renderer": "webpack",
     "build:test": "webpack --config webpack.config.test.js",
     "pretest": "npm run build:test",
-    "test": "$(npm bin)/istanbul cover electron-mocha -- --renderer public/assets/test.js"
+    "test": "electron-mocha --renderer public/assets/test.js",
+    "posttest": "istanbul report lcovonly"
   },
   "dependencies": {
     "minimist": "^1.2.0",
