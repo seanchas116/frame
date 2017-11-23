@@ -20,12 +20,18 @@ module.exports = {
     loaders: [
       {
         test: /\.tsx?$/,
-        use: ['istanbul-instrumenter-loader', {
+        exclude: /test/,
+        enforce: 'post',
+        use: 'istanbul-instrumenter-loader',
+      },
+      {
+        test: /\.tsx?$/,
+        use: {
           loader: 'awesome-typescript-loader',
           options: {
             useCache: true
           }
-        }]
+        }
       }
     ]
   },
