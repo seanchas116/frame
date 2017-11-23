@@ -1,6 +1,6 @@
-import { Document } from './Document'
-import { ShapeLayer, Layer, GroupLayer } from './Layer'
-import { RectShape } from './Shape'
+import { Document } from '../Document'
+import { ShapeLayer, Layer, GroupLayer } from '../Layer'
+import { RectShape } from '../Shape'
 import { Rect } from 'paintvec'
 
 export function createShapeLayer () {

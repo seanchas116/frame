@@ -1,6 +1,6 @@
 import { assert } from 'chai'
 import { V1Format } from './V1Format'
-import { createDocument } from '../../document/Document.fixture'
+import { createDocument } from '../../document/test/Fixture'
 
 describe('V1Format', () => {
   describe('#serialize/deserialize', () => {
