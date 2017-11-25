@@ -58,7 +58,6 @@
     "mocha": "^4.0.1",
     "mocha-loader": "^1.1.1",
     "npm-run-all": "^4.1.2",
-    "nyc": "^11.3.0",
     "style-loader": "^0.19.0",
     "tmp": "0.0.33",
     "tslint": "^5.8.0",
