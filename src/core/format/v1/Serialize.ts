@@ -5,7 +5,7 @@ import { Brush, ColorBrush } from '../../document/Brush'
 import { Shape, RectShape, EllipseShape, TextShape, ImageShape } from '../../document/Shape'
 import { HSVColor } from '../../common/Color'
 import { Style } from '../../document/Style'
-import { Layer, ShapeLayer } from '../../document/Layer'
+import { Layer } from '../../document/Layer'
 
 export function vec2ToData (p: Vec2): Vec2Data {
   const { x, y } = p
@@ -74,20 +74,12 @@ export function styleToData (style: Style) {
 }
 
 export function layerToData (layer: Layer): LayerData {
-  if (layer instanceof ShapeLayer) {
-    return {
-      type: 'shape',
-      name: layer.name,
-      rect: rectToData(layer.rect),
-      shape: shapeToData(layer.shape),
-      style: styleToData(layer.style)
-    }
-  } else {
-    return {
-      type: 'group',
-      name: layer.name,
-      children: layer.children.map(layerToData)
-    }
+  return {
+    name: layer.name,
+    rect: rectToData(layer.rect),
+    shape: shapeToData(layer.shape),
+    style: styleToData(layer.style),
+    children: layer.children.map(layerToData)
   }
 }
 

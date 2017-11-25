@@ -65,21 +65,13 @@ export interface StyleData {
   strokeAlignment: StrokeAlignmentData
 }
 
-export interface ShapeLayerData {
-  type: 'shape'
+export interface LayerData {
   name: string
   rect: RectData
   shape: ShapeData
   style: StyleData
-}
-
-export interface GroupLayerData {
-  type: 'group'
-  name: string
   children: LayerData[]
 }
-
-export type LayerData = ShapeLayerData | GroupLayerData
 
 export interface DocumentData {
   layers: LayerData[]

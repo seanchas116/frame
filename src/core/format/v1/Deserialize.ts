@@ -5,7 +5,7 @@ import { Brush, ColorBrush, LinearGradientBrush, GradientStop } from '../../docu
 import { Shape, RectShape, EllipseShape, TextShape, ImageShape } from '../../document/Shape'
 import { HSVColor } from '../../common/Color'
 import { Style } from '../../document/Style'
-import { Layer, ShapeLayer, GroupLayer } from '../../document/Layer'
+import { Layer } from '../../document/Layer'
 
 export function dataToVec2 (p: Vec2Data) {
   return new Vec2(p.x, p.y)
@@ -68,22 +68,13 @@ export function dataToStyle (data: StyleData): Style {
 }
 
 export async function dataToLayer (data: LayerData): Promise<Layer> {
-  switch (data.type) {
-    case 'shape': {
-      const layer = new ShapeLayer()
-      layer.name = data.name
-      layer.rect = dataToRect(data.rect)
-      layer.shape = await dataToShape(data.shape)
-      layer.style = dataToStyle(data.style)
-      return layer
-    }
-    case 'group': {
-      const layer = new GroupLayer()
-      layer.name = data.name
-      layer.children.replace(await Promise.all(data.children.map(dataToLayer)))
-      return layer
-    }
-  }
+  const layer = new Layer()
+  layer.name = data.name
+  layer.rect = dataToRect(data.rect)
+  layer.shape = await dataToShape(data.shape)
+  layer.style = dataToStyle(data.style)
+  layer.children.replace(await Promise.all(data.children.map(dataToLayer)))
+  return layer
 }
 
 export async function dataToDocument (data: DocumentData): Promise<Document> {

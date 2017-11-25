@@ -1,6 +1,6 @@
-import { GroupLayer } from './Layer'
+import { Layer } from './Layer'
 import { observable } from 'mobx'
 
 export class Document {
-  @observable rootGroup = new GroupLayer()
+  @observable rootGroup = new Layer()
 }
