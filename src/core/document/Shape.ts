@@ -30,4 +30,7 @@ export class ImageShape {
   }
 }
 
-export type Shape = RectShape | EllipseShape | TextShape | ImageShape
+export class GroupShape {
+}
+
+export type Shape = RectShape | EllipseShape | TextShape | ImageShape | GroupShape
