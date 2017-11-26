@@ -1,4 +1,32 @@
 .ToolBar {
   width: 40px;
   border-right: 2px solid var(--background-color);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 8px;
+}
+.ShapeToolIcon {
+  width: 32px;
+  height: 32px;
+  background-color: var(--text-color);
+  -webkit-mask: var(--icon) center no-repeat;
+}
+.ShapeToolIconSelected {
+  background-color: var(--primary-color);
+}
+.ShapeToolIcon.ShapeToolIconSelected:hover {
+  background-color: var(--primary-color);
+}
+.ShapeToolIcon:hover {
+  background-color: #2A2A2A;
+}
+.ShapeToolIconRect {
+  --icon: url(./icons/Rectangle20.svg)
+}
+.ShapeToolIconEllipse {
+  --icon: url(./icons/Circle20.svg)
+}
+.ShapeToolIconText {
+  --icon: url(./icons/Text20.svg)
 }

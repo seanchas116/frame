@@ -1,6 +1,7 @@
 :root {
   --background-color: #F3F3F3;
   --primary-color: #47ABFF;
+  --text-color: #4A4A4A;
 }
 body {
   margin: 0;
