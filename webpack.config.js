@@ -35,7 +35,10 @@ module.exports = {
       {
         test: /\.css$/,
         exclude: /node_modules/,
-        use: ['style-loader', 'css-loader?modules']
+        use: [
+          { loader: 'style-loader', options: { sourceMap: true } },
+          { loader: 'css-loader', options: { modules: true, sourceMap: true } }
+        ]
       },
       {
         test: /node_modules.*\.css$/,
