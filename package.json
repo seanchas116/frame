@@ -27,6 +27,7 @@
     "test": "electron-mocha --renderer public/assets/test.js"
   },
   "dependencies": {
+    "classnames": "^2.2.5",
     "jsondiffpatch": "^0.2.5",
     "minimist": "^1.2.0",
     "mobx": "^3.3.2",
@@ -39,6 +40,7 @@
   },
   "devDependencies": {
     "@types/chai": "^4.0.5",
+    "@types/classnames": "^2.2.3",
     "@types/minimist": "^1.2.0",
     "@types/mocha": "^2.2.44",
     "@types/msgpack-lite": "^0.1.6",
