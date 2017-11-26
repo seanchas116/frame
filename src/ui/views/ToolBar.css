@@ -1,0 +1,4 @@
+.ToolBar {
+  width: 40px;
+  border-right: 2px solid var(--background-color);
+}

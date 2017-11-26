@@ -1,4 +1,4 @@
 .DrawArea {
-  background-color: #F0F0F0;
+  background-color: var(--background-color);
   flex: 1;
 }
