@@ -7,3 +7,5 @@ export class App {
   @observable file = new File(new Document())
   @observable insertMode: ShapeType | undefined = undefined
 }
+
+export const app = new App()
