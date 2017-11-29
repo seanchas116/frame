@@ -9,6 +9,7 @@ let testWindow: BrowserWindow | undefined
 
 async function openWindow (filePath?: string) {
   const win = mainWindow = new BrowserWindow({
+    titleBarStyle: 'hidden',
     width: 1200,
     height: 768,
     show: false
