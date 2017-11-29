@@ -10,4 +10,13 @@ body {
   width: 100vw;
   height: 100vh;
   display: flex;
+  flex-direction: column;
+}
+.TitleBar {
+  height: 22px;
+  border-bottom: 2px solid var(--background-color);
+}
+.Columns {
+  display: flex;
+  flex: 1;
 }

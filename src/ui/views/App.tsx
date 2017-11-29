@@ -7,8 +7,11 @@ export class App extends React.Component {
 
   render () {
     return <div className={styles.App}>
-      <ToolBar />
-      <DrawArea />
+      <div className={styles.TitleBar} />
+      <div className={styles.Columns}>
+        <ToolBar />
+        <DrawArea />
+      </div>
     </div>
   }
 }
