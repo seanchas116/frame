@@ -22,6 +22,12 @@ export class Layer {
 
   private handleChildrenChange (change: IArrayChange<Layer> | IArraySplice<Layer>) {
     const onChildAdd = (layer: Layer) => {
+      if (layer._parent) {
+        const index = layer._parent.children.indexOf(layer)
+        if (0 <= index) {
+          layer._parent.children.splice(index, 1)
+        }
+      }
       layer._parent = this
     }
     const onChildRemove = (layer: Layer) => {
