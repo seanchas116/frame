@@ -5,6 +5,8 @@ import { PointerEvents } from '../common/PointerEvents'
 const styles = require('./InsertOverlay.css')
 
 export class InsertOverlay extends React.Component<{size: Vec2}> {
+  dragStartPos: Vec2 | undefined = undefined
+
   render () {
     const { width, height } = this.props.size
     const style = {
@@ -18,6 +20,8 @@ export class InsertOverlay extends React.Component<{size: Vec2}> {
 
   @action private handlePointerDown = (event: PointerEvent) => {
     (event.currentTarget as Element).setPointerCapture(event.pointerId)
+    const eventPos = new Vec2(event.offsetX, event.offsetY)
+    this.dragStartPos = eventPos
   }
 
   @action private handlePointerMove = (event: PointerEvent) => {
@@ -25,6 +29,6 @@ export class InsertOverlay extends React.Component<{size: Vec2}> {
   }
 
   @action private handlePointerUp = (event: PointerEvent) => {
-    // TODO
+    this.dragStartPos = undefined
   }
 }
