@@ -1,8 +1,7 @@
 import { Rect } from 'paintvec'
-import { observable } from 'mobx'
+import { observable, IArraySplice, IArrayChange } from 'mobx'
 import { Shape, RectShape } from './Shape'
 import { Style } from './Style'
-import { IArrayChange, IArraySplice } from 'mobx/lib/types/observablearray';
 
 export class Layer {
   @observable name = 'Layer'
