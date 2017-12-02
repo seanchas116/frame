@@ -17,7 +17,7 @@ export class Layer {
   get parent () { return this._parent }
 
   constructor () {
-    this.children.observe(change => this.handleChildrenChange(change))
+    this.children.observe(change => this.handleChildrenChange(change), true)
   }
 
   private handleChildrenChange (change: IArrayChange<Layer> | IArraySplice<Layer>) {
