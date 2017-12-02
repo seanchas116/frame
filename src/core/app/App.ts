@@ -3,6 +3,8 @@ import { Vec2, Transform } from 'paintvec'
 import { File } from './File'
 import { Document } from '../document/Document'
 import { ShapeType } from '../document/Shape'
+import { ObservableSet } from '../common/ObservableSet'
+import { Layer } from '../document/Layer'
 
 export class App {
   @observable file = new File(new Document())
@@ -16,6 +18,8 @@ export class App {
   @computed get transformDocumentToViewport () {
     return Transform.translate(this.scroll.neg())
   }
+
+  readonly selectedLayers = new ObservableSet<Layer>()
 }
 
 export const app = new App()
