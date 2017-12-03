@@ -8,6 +8,8 @@ import { Selection } from './Selection'
 export class App {
   @observable file = new File(new Document())
   @observable insertMode: ShapeType | undefined = undefined
+  get document () { return this.file.document }
+  get layers () { return this.file.document.rootGroup.children }
   readonly scroll = new Scroll()
   readonly selection = new Selection(this.file.document)
 }

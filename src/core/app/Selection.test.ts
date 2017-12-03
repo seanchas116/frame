@@ -14,7 +14,7 @@ describe('Selection', () => {
       const layer3 = new Layer()
       const leakedLayer = new Layer()
       layer2.children.push(layer3)
-      app.file.document.rootGroup.children.push(layer1, layer2)
+      app.layers.push(layer1, layer2)
 
       app.selection.add(layer3)
       app.selection.add(layer1)
