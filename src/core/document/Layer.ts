@@ -15,6 +15,14 @@ export class Layer {
   private _parent: Layer | undefined = undefined
   get parent () { return this._parent }
 
+  get descendants () {
+    const descendants: Layer[] = []
+    for (const child of this.children) {
+      descendants.push(child, ...child.descendants)
+    }
+    return descendants
+  }
+
   constructor () {
     this.children.observe(change => this.handleChildrenChange(change), true)
   }
