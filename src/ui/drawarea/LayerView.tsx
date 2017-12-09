@@ -1,7 +1,8 @@
 import * as React from 'react'
+import { observer } from 'mobx-react'
 import { Layer } from '../../core/document/Layer'
 
-export class LayerView extends React.Component<{layer: Layer}> {
+@observer export class LayerView extends React.Component<{layer: Layer}> {
 
   render () {
     const { layer } = this.props
