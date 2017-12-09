@@ -1,12 +1,12 @@
 import * as React from 'react'
 import { DrawArea } from '../drawarea/DrawArea'
 import { ToolBar } from './ToolBar'
-const styles = require('./App.css')
+const styles = require('./Root.css')
 
-export class App extends React.Component {
+export class Root extends React.Component {
 
   render () {
-    return <div className={styles.App}>
+    return <div className={styles.Root}>
       <div className={styles.TitleBar} />
       <div className={styles.Columns}>
         <ToolBar />
