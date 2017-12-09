@@ -4,17 +4,12 @@ import { action } from 'mobx'
 import { PointerEvents } from '../common/PointerEvents'
 const styles = require('./InsertOverlay.css')
 
-export class InsertOverlay extends React.Component<{size: Vec2}> {
+export class InsertOverlay extends React.Component {
   dragStartPos: Vec2 | undefined = undefined
 
   render () {
-    const { width, height } = this.props.size
-    const style = {
-      width: `${width}px`,
-      height: `${height}px`
-    }
     return <PointerEvents onPointerDown={this.handlePointerDown} onPointerMove={this.handlePointerMove} onPointerUp={this.handlePointerUp}>
-      return <div className={styles.InsertOverlay} style={style} />
+      <div className={styles.InsertOverlay} />
     </PointerEvents>
   }
 
