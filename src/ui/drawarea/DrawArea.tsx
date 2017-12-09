@@ -2,6 +2,8 @@ import * as React from 'react'
 import { observable } from 'mobx'
 import { observer } from 'mobx-react'
 import { Rect } from 'paintvec'
+import { app } from '../../core/app/App'
+import { LayerView } from './LayerView'
 const styles = require('./DrawArea.css')
 
 interface ResizeObserver {
@@ -33,7 +35,9 @@ declare var ResizeObserver: ResizeObserverStatic
   render () {
     const { width, height } = this.clientRect
     return <div className={styles.DrawArea} ref={e => this.element = e!}>
-      <svg width={width} height={height} />
+      <svg width={width} height={height}>
+        {app.document.rootGroup.children.map(layer => <LayerView layer={layer} />)}
+      </svg>
     </div>
   }
 

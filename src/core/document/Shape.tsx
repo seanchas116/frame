@@ -4,7 +4,7 @@ import { Vec2, Rect } from 'paintvec'
 
 interface IShape {
   readonly type: string
-  render? (rect: Rect): JSX.Element
+  render (rect: Rect): React.ReactNode | undefined
 }
 
 export class RectShape implements IShape {
@@ -30,6 +30,10 @@ export class EllipseShape implements IShape {
 export class TextShape implements IShape {
   readonly type = 'text'
   @observable text = ''
+
+  render (rect: Rect) {
+    return undefined
+  }
 }
 
 export class ImageShape implements IShape {
@@ -57,6 +61,10 @@ export class ImageShape implements IShape {
 
 export class GroupShape {
   readonly type = 'group'
+
+  render (rect: Rect) {
+    return undefined
+  }
 }
 
 export type Shape = RectShape | EllipseShape | TextShape | ImageShape | GroupShape
