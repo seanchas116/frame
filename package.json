@@ -36,6 +36,7 @@
     "paintvec": "^0.1.1",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
+    "react-draggable-tree": "github:sketchglass/react-draggable-tree",
     "uuid": "^3.1.0"
   },
   "devDependencies": {
