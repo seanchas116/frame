@@ -37,7 +37,7 @@ declare var ResizeObserver: ResizeObserverStatic
     const { width, height } = this.clientRect
     return <div className={styles.DrawArea} ref={e => this.element = e!}>
       {app.insertMode && <InsertOverlay />}
-      <svg width={width} height={height}>
+      <svg className={styles.SVG} width={width} height={height}>
         {app.document.rootGroup.children.map(layer => <LayerView layer={layer} />)}
       </svg>
     </div>

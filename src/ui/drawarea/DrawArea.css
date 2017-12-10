@@ -3,3 +3,6 @@
   flex: 1;
   position: relative;
 }
+.SVG {
+  position: absolute;
+}
