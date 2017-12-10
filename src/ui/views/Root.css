@@ -15,6 +15,7 @@ body {
 .TitleBar {
   height: 22px;
   border-bottom: 2px solid var(--background-color);
+  -webkit-app-region: drag;
 }
 .Columns {
   display: flex;
