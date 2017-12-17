@@ -33,7 +33,7 @@ export function dataToBrush (data: BrushData): Brush {
   }
 }
 
-export async function dataToShape (data: ShapeData): Promise<Shape> {
+export function dataToShape (data: ShapeData): Shape {
   switch (data.type) {
     case 'text': {
       const shape = new TextShape()
@@ -42,7 +42,8 @@ export async function dataToShape (data: ShapeData): Promise<Shape> {
     }
     case 'image': {
       const shape = new ImageShape()
-      await shape.loadDataURL(shape.dataURL)
+      shape.dataURL = data.dataURL
+      shape.originalSize = dataToVec2(data.originalSize)
       return shape
     }
     case 'rect': {
@@ -67,18 +68,18 @@ export function dataToStyle (data: StyleData): Style {
   return style
 }
 
-export async function dataToLayer (data: LayerData): Promise<Layer> {
+export function dataToLayer (data: LayerData): Layer {
   const layer = new Layer()
   layer.name = data.name
   layer.rect = dataToRect(data.rect)
-  layer.shape = await dataToShape(data.shape)
+  layer.shape = dataToShape(data.shape)
   layer.style = dataToStyle(data.style)
-  layer.children.replace(await Promise.all(data.children.map(dataToLayer)))
+  layer.children.replace(data.children.map(dataToLayer))
   return layer
 }
 
-export async function dataToDocument (data: DocumentData): Promise<Document> {
+export function dataToDocument (data: DocumentData): Document {
   const document = new Document()
-  document.rootGroup.children.replace(await Promise.all(data.layers.map(dataToLayer)))
+  document.rootGroup.children.replace(data.layers.map(dataToLayer))
   return document
 }

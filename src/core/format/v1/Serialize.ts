@@ -47,7 +47,8 @@ export function shapeToData (shape: Shape): ShapeData {
   } else if (shape instanceof ImageShape) {
     return {
       type: 'image',
-      dataURL: shape.dataURL
+      dataURL: shape.dataURL,
+      originalSize: vec2ToData(shape.originalSize)
     }
   } else if (shape instanceof RectShape) {
     return {

@@ -50,6 +50,7 @@ export interface TextShapeData {
 export interface ImageShapeData {
   type: 'image'
   dataURL: string
+  originalSize: Vec2Data
 }
 
 export type ShapeData = RectShapeData | EllipseShapeData | TextShapeData | ImageShapeData
