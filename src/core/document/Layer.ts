@@ -2,6 +2,8 @@ import { Rect } from 'paintvec'
 import { observable, IArraySplice, IArrayChange } from 'mobx'
 import { Shape, RectShape } from './Shape'
 import { Style } from './Style'
+import { dataToLayer } from '../format/v1/Deserialize';
+import { layerToData } from '../format/v1/Serialize';
 
 export class Layer {
   private static maxKey = 0
@@ -35,6 +37,10 @@ export class Layer {
       return this
     }
     return this.children[indexPath[0]].ancestor(indexPath.slice(1, -1))
+  }
+
+  clone () {
+    return dataToLayer(layerToData(this))
   }
 
   private handleChildrenChange (change: IArrayChange<Layer> | IArraySplice<Layer>) {
