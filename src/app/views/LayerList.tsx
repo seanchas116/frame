@@ -4,6 +4,7 @@ import { observer } from 'mobx-react'
 import { TreeView, TreeRowInfo, TreeNode } from 'react-draggable-tree'
 import { editor } from '../../editor/state/Editor'
 import { Layer } from '../../core/document/Layer'
+import { ClickToEdit } from './ClickToEdit';
 require('react-draggable-tree/lib/index.css')
 const styles = require('./LayerList.css')
 
@@ -43,7 +44,12 @@ export class LayerList extends React.Component {
 
   private renderRow = (info: TreeRowInfo) => {
     const layer = layerForPath(info.path)
-    return <div>{layer.name}</div>
+    const onChange = action((text: string) => {
+      layer.name = text
+    })
+    return <div className={styles.LayerListRowContent}>
+      <ClickToEdit text={layer.name} onChange={onChange} editable={true} />
+    </div>
   }
 
   @action private handleContextMenu = (info: TreeRowInfo | undefined, ev: React.MouseEvent<Element>) => {
