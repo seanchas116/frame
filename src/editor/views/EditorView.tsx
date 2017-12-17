@@ -37,7 +37,7 @@ declare var ResizeObserver: ResizeObserverStatic
     const { width, height } = this.clientRect
     return <div className={styles.EditorView} ref={e => this.element = e!}>
       <svg className={styles.SVG} width={width} height={height}>
-        {editor.document.rootGroup.children.map(layer => <LayerView layer={layer} />)}
+        {editor.document.rootGroup.children.map(layer => <LayerView key={layer.key} layer={layer} />)}
       </svg>
       {editor.insertMode && <InsertOverlay />}
     </div>
