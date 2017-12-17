@@ -31,16 +31,16 @@ export class ClickToEdit extends React.Component<ClickToEditProps, ClickToEditSt
     const { isEditing } = this.state
     return (
       <div className={styles.ClickToEdit}>
-        <div style={{ visibility: isEditing ? 'hidden' : 'visible' }} className={styles.ClickToEditText} onClick={this.onTextClick.bind(this)}>{text}</div>
+        <div style={{ visibility: isEditing ? 'hidden' : 'visible' }} className={styles.ClickToEditText} onClick={this.handleTextClick}>{text}</div>
         <input ref={e => this.inputElement = e!} type='text' hidden={!isEditing} className={styles.ClickToEditInput} defaultValue={text}
-          onBlur={this.onInputBlur.bind(this)}
-          onKeyPress={this.onInputKeyPress.bind(this)}
+          onBlur={this.handleInputBlur}
+          onKeyPress={this.handleInputKeyPress}
         />
       </div>
     )
   }
 
-  private onTextClick () {
+  private handleTextClick = () => {
     if (!this.props.editable) {
       return
     }
@@ -50,22 +50,22 @@ export class ClickToEdit extends React.Component<ClickToEditProps, ClickToEditSt
     this.inputElement.setSelectionRange(0, this.inputElement.value.length)
   }
 
-  private onEditFinish (text: string) {
+  private handleEditFinish = (text: string) => {
     this.setState({
       isEditing: false
     })
     this.props.onChange(text)
   }
 
-  private onInputBlur (event: React.FocusEvent<HTMLInputElement>) {
+  private handleInputBlur = (event: React.FocusEvent<HTMLInputElement>) => {
     const text = this.inputElement.value
-    this.onEditFinish(text)
+    this.handleEditFinish(text)
   }
 
-  private onInputKeyPress (event: React.KeyboardEvent<HTMLInputElement>) {
+  private handleInputKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter') {
       const text = this.inputElement.value
-      this.onEditFinish(text)
+      this.handleEditFinish(text)
       event.preventDefault()
     }
   }
