@@ -20,7 +20,7 @@ export class Selection {
         layers.push(layer)
       }
     }
-    this.set.replace(layers)
+    // this.set.replace(layers)
     return layers
   }
 
@@ -30,5 +30,9 @@ export class Selection {
 
   delete (layer: Layer) {
     this.set.delete(layer)
+  }
+
+  replace (layers: Iterable<Layer>) {
+    this.set.replace(layers)
   }
 }

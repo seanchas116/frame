@@ -14,19 +14,22 @@ const toTreeNode = (layer: Layer): TreeNode => {
   }
 }
 
+const layerFromInfo = (info: TreeRowInfo) => {
+  return editor.document.rootGroup.ancestor(info.path)
+}
+
 @observer
 export class LayerList extends React.Component {
   render () {
-    // const selectedKeys = editor.selection.layers.map(l => l.key)
+    const selectedKeys = editor.selection.layers.map(l => l.key)
     const root = toTreeNode(editor.document.rootGroup)
-    console.log(root)
 
     return <TreeView
       className={styles.LayerList}
       rowHeight={40}
       rowContent={this.renderRow}
       root={root}
-      selectedKeys={new Set([])}
+      selectedKeys={new Set(selectedKeys)}
       onContextMenu={this.handleContextMenu}
       onSelectedKeysChange={this.handleSelectedKeysChange}
       onCollapsedChange={this.handleCollapsedChange}
@@ -36,7 +39,7 @@ export class LayerList extends React.Component {
   }
 
   private renderRow = (info: TreeRowInfo) => {
-    const layer = editor.document.rootGroup.ancestor(info.path)
+    const layer = layerFromInfo(info)
     return <div>{layer.name}</div>
   }
 
@@ -47,8 +50,8 @@ export class LayerList extends React.Component {
       console.log(`Context menu at blank space`)
     }
   }
-  private handleSelectedKeysChange = (selectedKeys: Set<number>) => {
-    // TODO
+  private handleSelectedKeysChange = (selectedKeys: Set<number>, selectedInfos: TreeRowInfo[]) => {
+    editor.selection.replace(selectedInfos.map(layerFromInfo))
   }
   private handleCollapsedChange = (info: TreeRowInfo, collapsed: boolean) => {
     // TODO
