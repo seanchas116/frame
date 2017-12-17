@@ -1,5 +1,5 @@
 import * as React from 'react'
 import * as ReactDOM from 'react-dom'
-import { Root } from './app/views/Root'
+import { AppView } from './app/views/AppView'
 
-ReactDOM.render(<Root />, document.getElementById('root'))
+ReactDOM.render(<AppView />, document.getElementById('root'))
