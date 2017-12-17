@@ -6,7 +6,7 @@ import { Selection } from './Selection'
 import { Layer } from '../../core/document/Layer'
 import { Rect } from 'paintvec'
 
-export class App {
+export class Editor {
   @observable document = new Document()
   @observable insertMode: ShapeType | undefined = undefined
   get layers () { return this.document.rootGroup.children }
@@ -23,4 +23,4 @@ export class App {
   }
 }
 
-export const app = new App()
+export const editor = new Editor()

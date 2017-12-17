@@ -2,7 +2,7 @@ import * as React from 'react'
 import { observable } from 'mobx'
 import { observer } from 'mobx-react'
 import { Rect } from 'paintvec'
-import { app } from '../state/App'
+import { editor } from '../state/Editor'
 import { LayerView } from './LayerView'
 import { InsertOverlay } from './InsertOverlay'
 const styles = require('./EditorView.css')
@@ -37,9 +37,9 @@ declare var ResizeObserver: ResizeObserverStatic
     const { width, height } = this.clientRect
     return <div className={styles.EditorView} ref={e => this.element = e!}>
       <svg className={styles.SVG} width={width} height={height}>
-        {app.document.rootGroup.children.map(layer => <LayerView layer={layer} />)}
+        {editor.document.rootGroup.children.map(layer => <LayerView layer={layer} />)}
       </svg>
-      {app.insertMode && <InsertOverlay />}
+      {editor.insertMode && <InsertOverlay />}
     </div>
   }
 
