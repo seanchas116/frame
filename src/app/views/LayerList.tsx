@@ -4,7 +4,7 @@ import { observer } from 'mobx-react'
 import { TreeView, TreeRowInfo, TreeNode } from 'react-draggable-tree'
 import { editor } from '../../editor/state/Editor'
 import { Layer } from '../../core/document/Layer'
-import { ClickToEdit } from './ClickToEdit';
+import { ClickToEdit } from '../components/ClickToEdit'
 require('react-draggable-tree/lib/index.css')
 const styles = require('./LayerList.css')
 
