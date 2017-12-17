@@ -1,5 +1,4 @@
 import { observable } from 'mobx'
-import { File } from './File'
 import { Document } from '../../core/document/Document'
 import { ShapeType, RectShape } from '../../core/document/Shape'
 import { Scroll } from './Scroll'
@@ -8,12 +7,11 @@ import { Layer } from '../../core/document/Layer'
 import { Rect } from 'paintvec'
 
 export class App {
-  @observable file = new File(new Document())
+  @observable document = new Document()
   @observable insertMode: ShapeType | undefined = undefined
-  get document () { return this.file.document }
-  get layers () { return this.file.document.rootGroup.children }
+  get layers () { return this.document.rootGroup.children }
   readonly scroll = new Scroll()
-  readonly selection = new Selection(this.file.document)
+  readonly selection = new Selection(this.document)
 
   constructor () {
     // TODO: remove later
