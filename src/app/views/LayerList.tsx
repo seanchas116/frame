@@ -26,6 +26,8 @@ export class LayerList extends React.Component {
 
     return <TreeView
       className={styles.LayerList}
+      rowClassName={styles.LayerListRow}
+      rowSelectedClassName={styles.LayerListRowSelected}
       rowHeight={24}
       rowContent={this.renderRow}
       root={root}

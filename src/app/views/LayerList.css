@@ -1,3 +1,14 @@
 .LayerList {
   width: 200px;
+  height: 100%;
+  overflow-y: scroll;
+}
+.LayerListRow {
+  font-size: 13px;
+  height: 24px;
+  min-height: 24px; /* FIXME: <- is really needed?? */
+}
+.LayerListRowSelected {
+  background-color: var(--primary-color);
+  color: white;
 }
