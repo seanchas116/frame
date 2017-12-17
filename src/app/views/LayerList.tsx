@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { action } from 'mobx'
 import { observer } from 'mobx-react'
 import { TreeView, TreeRowInfo, TreeNode } from 'react-draggable-tree'
 import { editor } from '../../editor/state/Editor'
@@ -14,8 +15,8 @@ const toTreeNode = (layer: Layer): TreeNode => {
   }
 }
 
-const layerFromInfo = (info: TreeRowInfo) => {
-  return editor.document.rootGroup.ancestor(info.path)
+const layerForPath = (path: number[]) => {
+  return editor.document.rootGroup.ancestor(path)
 }
 
 @observer
@@ -41,27 +42,37 @@ export class LayerList extends React.Component {
   }
 
   private renderRow = (info: TreeRowInfo) => {
-    const layer = layerFromInfo(info)
+    const layer = layerForPath(info.path)
     return <div>{layer.name}</div>
   }
 
-  private handleContextMenu = (info: TreeRowInfo | undefined, ev: React.MouseEvent<Element>) => {
+  @action private handleContextMenu = (info: TreeRowInfo | undefined, ev: React.MouseEvent<Element>) => {
     if (info) {
       console.log(`Context menu at ${info.path}`)
     } else {
       console.log(`Context menu at blank space`)
     }
   }
-  private handleSelectedKeysChange = (selectedKeys: Set<number>, selectedInfos: TreeRowInfo[]) => {
-    editor.selection.replace(selectedInfos.map(layerFromInfo))
+  @action private handleSelectedKeysChange = (selectedKeys: Set<number>, selectedInfos: TreeRowInfo[]) => {
+    editor.selection.replace(selectedInfos.map(info => layerForPath(info.path)))
   }
-  private handleCollapsedChange = (info: TreeRowInfo, collapsed: boolean) => {
-    // TODO
+  @action private handleCollapsedChange = (info: TreeRowInfo, collapsed: boolean) => {
+    layerForPath(info.path).collapsed = collapsed
   }
-  private handleMove = (src: TreeRowInfo[], dest: TreeRowInfo, destIndex: number, destPathAfterMove: number[]) => {
-    // TODO
+  @action private handleMove = (src: TreeRowInfo[], dest: TreeRowInfo, destIndex: number, destPathAfterMove: number[]) => {
+    const items: Layer[] = []
+    for (let i = src.length - 1; i >= 0; --i) {
+      const { path } = src[i]
+      const index = path[path.length - 1]
+      const parent = layerForPath(path.slice(0, -1))
+      const [item] = parent.children!.splice(index, 1)
+      items.unshift(item)
+    }
+    const destItem = layerForPath(destPathAfterMove.slice(0, -1))!
+    destItem.children!.splice(destPathAfterMove[destPathAfterMove.length - 1], 0, ...items)
+    destItem.collapsed = false
   }
-  private handleCopy = (src: TreeRowInfo[], dest: TreeRowInfo, destIndex: number) => {
+  @action private handleCopy = (src: TreeRowInfo[], dest: TreeRowInfo, destIndex: number) => {
     // TODO
   }
 }
