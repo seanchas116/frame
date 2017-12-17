@@ -65,14 +65,24 @@ export class LayerList extends React.Component {
       const { path } = src[i]
       const index = path[path.length - 1]
       const parent = layerForPath(path.slice(0, -1))
-      const [item] = parent.children!.splice(index, 1)
+      const [item] = parent.children.splice(index, 1)
       items.unshift(item)
     }
-    const destItem = layerForPath(destPathAfterMove.slice(0, -1))!
-    destItem.children!.splice(destPathAfterMove[destPathAfterMove.length - 1], 0, ...items)
+    const destItem = layerForPath(destPathAfterMove.slice(0, -1))
+    destItem.children.splice(destPathAfterMove[destPathAfterMove.length - 1], 0, ...items)
     destItem.collapsed = false
   }
   @action private handleCopy = (src: TreeRowInfo[], dest: TreeRowInfo, destIndex: number) => {
-    // TODO
+    const items: Layer[] = []
+    for (let i = src.length - 1; i >= 0; --i) {
+      const { path } = src[i]
+      const index = path[path.length - 1]
+      const parent = layerForPath(path.slice(0, -1))
+      const item = parent.children[index].clone()
+      items.unshift(item)
+    }
+    const destItem = layerForPath(dest.path)
+    destItem.children.splice(destIndex, 0, ...items)
+    destItem.collapsed = false
   }
 }
