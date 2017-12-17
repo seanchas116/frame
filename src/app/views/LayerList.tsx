@@ -21,6 +21,19 @@ const layerForPath = (path: number[]) => {
 }
 
 @observer
+class LayerRowContent extends React.Component<TreeRowInfo> {
+  render () {
+    const layer = layerForPath(this.props.path)
+    const onChange = action((text: string) => {
+      layer.name = text
+    })
+    return <div className={styles.LayerListRowContent}>
+      <ClickToEdit text={layer.name} onChange={onChange} editable={true} />
+    </div>
+  }
+}
+
+@observer
 export class LayerList extends React.Component {
   render () {
     const selectedKeys = editor.selection.layers.map(l => l.key)
@@ -31,7 +44,7 @@ export class LayerList extends React.Component {
       rowClassName={styles.LayerListRow}
       rowSelectedClassName={styles.LayerListRowSelected}
       rowHeight={24}
-      rowContent={this.renderRow}
+      rowContent={LayerRowContent}
       root={root}
       selectedKeys={new Set(selectedKeys)}
       onContextMenu={this.handleContextMenu}
@@ -40,16 +53,6 @@ export class LayerList extends React.Component {
       onMove={this.handleMove}
       onCopy={this.handleCopy}
     />
-  }
-
-  private renderRow = (info: TreeRowInfo) => {
-    const layer = layerForPath(info.path)
-    const onChange = action((text: string) => {
-      layer.name = text
-    })
-    return <div className={styles.LayerListRowContent}>
-      <ClickToEdit text={layer.name} onChange={onChange} editable={true} />
-    </div>
   }
 
   @action private handleContextMenu = (info: TreeRowInfo | undefined, ev: React.MouseEvent<Element>) => {
