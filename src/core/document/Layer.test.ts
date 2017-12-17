@@ -1,5 +1,6 @@
 import { assert } from 'chai'
 import { Layer } from './Layer'
+import { createShapeLayer } from './test/Fixture'
 
 describe('Layer', () => {
   describe('parent', () => {
@@ -26,6 +27,15 @@ describe('Layer', () => {
       parent2.children.push(child)
       assert.deepEqual([...parent1.children], [])
       assert.deepEqual([...parent2.children], [child])
+    })
+  })
+  describe('clone', () => {
+    it('clones layer', () => {
+      const layer = createShapeLayer()
+      const cloned = layer.clone()
+      const layerWithoutKey = { ...layer, key: -1 }
+      const clonedWithoutKey = { ...cloned, key: -1 }
+      assert.deepEqual(layerWithoutKey, clonedWithoutKey)
     })
   })
 })
