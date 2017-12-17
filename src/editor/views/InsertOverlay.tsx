@@ -5,6 +5,7 @@ import { PointerEvents } from '../common/PointerEvents'
 import { Layer } from '../../core/document/Layer'
 import { editor } from '../state/Editor'
 import { Shape, ShapeType, RectShape, EllipseShape, TextShape } from '../../core/document/Shape'
+import { ColorBrush } from '../../core/document/Brush';
 const styles = require('./InsertOverlay.css')
 
 function createShape (type: ShapeType): Shape {
@@ -44,6 +45,8 @@ export class InsertOverlay extends React.Component {
     const layer = new Layer()
     layer.shape = createShape(editor.insertMode)
     layer.rect = new Rect(docPos, docPos)
+    layer.style.fill = ColorBrush.fromString('#CCC')
+    layer.style.stroke = ColorBrush.fromString('#000')
     // TODO: insert after selected layer
     editor.document.rootGroup.children.push(layer)
 

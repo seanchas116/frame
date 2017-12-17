@@ -1,3 +1,5 @@
+import * as colorString from 'color-string'
+
 // http://www.rapidtables.com/convert/color/hsv-to-rgb.htm
 function hsv2rgb (h: number, s: number, v: number) {
   while (h >= 360) {
@@ -69,6 +71,14 @@ function rgb2hsv (r: number, g: number, b: number) {
 
 export class RGBColor {
   constructor (public readonly r: number, public readonly g: number, public readonly b: number, public readonly a: number) {
+  }
+
+  static fromString (str: string) {
+    const rgb = colorString.get.rgb(str)
+    if (!rgb) {
+      throw new Error('invalid color string')
+    }
+    return new RGBColor(rgb[0] / 255, rgb[1] / 255, rgb[2] / 255, rgb[3])
   }
 
   members () {

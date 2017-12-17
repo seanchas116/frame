@@ -1,6 +1,16 @@
 import * as React from 'react'
 import { observer } from 'mobx-react'
 import { Layer } from '../../core/document/Layer'
+import { Brush, ColorBrush } from '../../core/document/Brush'
+
+function brushToCSS (brush: Brush) {
+  if (brush instanceof ColorBrush) {
+    return brush.color.toRGB().toString()
+  } else {
+    // TODO
+    return 'black'
+  }
+}
 
 @observer export class LayerView extends React.Component<{layer: Layer}> {
 
@@ -10,9 +20,11 @@ import { Layer } from '../../core/document/Layer'
     if (!shape) {
       return
     }
-    const styled = React.cloneElement(shape as React.ReactSVGElement, {
-      // TODO
-    })
-    return styled
+    const style: React.SVGAttributes<SVGElement> = {
+      fill: layer.style.fillEnabled ? brushToCSS(layer.style.fill) : 'none',
+      stroke: layer.style.strokeEnabled ? brushToCSS(layer.style.stroke) : 'none',
+      strokeWidth: layer.style.strokeWidth
+    }
+    return React.cloneElement(shape as React.ReactSVGElement, style)
   }
 }

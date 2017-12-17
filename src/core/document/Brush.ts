@@ -1,11 +1,14 @@
 import { observable } from 'mobx'
 import { Vec2 } from 'paintvec'
-import { HSVColor } from '../common/Color'
+import { HSVColor, RGBColor } from '../common/Color'
 
 export class ColorBrush {
   @observable color: HSVColor
   constructor (color: HSVColor) {
     this.color = color
+  }
+  static fromString (str: string) {
+    return new ColorBrush(RGBColor.fromString(str).toHSV())
   }
 }
 
