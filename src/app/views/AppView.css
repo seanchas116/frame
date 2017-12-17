@@ -2,9 +2,11 @@
   --background-color: #F3F3F3;
   --primary-color: #47ABFF;
   --text-color: #4A4A4A;
+  --default-font-family: BlinkMacSystemFont, "Segoe UI";
 }
 body {
   margin: 0;
+  font-family: var(--default-font-family);
 }
 .AppView {
   width: 100vw;
