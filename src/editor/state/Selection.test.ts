@@ -1,11 +1,11 @@
 import { assert } from 'chai'
-import { App } from './App'
-import { Layer } from '../document/Layer'
+import { Editor } from './Editor'
+import { Layer } from '../../core/document/Layer'
 
 describe('Selection', () => {
-  let app: App
+  let editor: Editor
   beforeEach(() => {
-    app = new App()
+    editor = new Editor()
   })
   describe('layers', () => {
     it('returns selected layers sorted', () => {
@@ -14,13 +14,13 @@ describe('Selection', () => {
       const layer3 = new Layer()
       const leakedLayer = new Layer()
       layer2.children.push(layer3)
-      app.layers.push(layer1, layer2)
+      editor.layers.push(layer1, layer2)
 
-      app.selection.add(layer3)
-      app.selection.add(layer1)
-      app.selection.add(leakedLayer)
+      editor.selection.add(layer3)
+      editor.selection.add(layer1)
+      editor.selection.add(leakedLayer)
 
-      assert.deepEqual(app.selection.layers, [layer1, layer3])
+      assert.deepEqual(editor.selection.layers, [layer1, layer3])
     })
   })
 })

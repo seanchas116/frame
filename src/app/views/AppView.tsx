@@ -1,18 +1,18 @@
 import * as React from 'react'
-import { DrawArea } from '../drawarea/DrawArea'
+import { EditorView } from '../../editor/views/EditorView'
 import { ToolBar } from './ToolBar'
-import { LayerList } from './LayerList';
-const styles = require('./Root.css')
+import { LayerList } from './LayerList'
+const styles = require('./AppView.css')
 
-export class Root extends React.Component {
+export class AppView extends React.Component {
 
   render () {
-    return <div className={styles.Root}>
+    return <div className={styles.AppView}>
       <div className={styles.TitleBar} />
       <div className={styles.Columns}>
         <ToolBar />
         <LayerList />
-        <DrawArea />
+        <EditorView />
       </div>
     </div>
   }
