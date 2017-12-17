@@ -27,8 +27,9 @@ class LayerRowContent extends React.Component<TreeRowInfo> {
     const onChange = action((text: string) => {
       layer.name = text
     })
+    const editable = editor.selection.has(layer)
     return <div className={styles.LayerListRowContent}>
-      <ClickToEdit text={layer.name} onChange={onChange} editable={true} />
+      <ClickToEdit text={layer.name} onChange={onChange} editable={editable} />
     </div>
   }
 }

@@ -32,6 +32,10 @@ export class Selection {
     this.set.delete(layer)
   }
 
+  has (layer: Layer) {
+    return this.set.has(layer)
+  }
+
   replace (layers: Iterable<Layer>) {
     this.set.replace(layers)
   }
