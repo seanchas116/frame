@@ -3,26 +3,30 @@ import { observer } from 'mobx-react'
 import { TreeView, TreeRowInfo, TreeNode } from 'react-draggable-tree'
 import { editor } from '../../editor/state/Editor'
 import { Layer } from '../../core/document/Layer'
-require('react-draggable-tree/index.css')
+require('react-draggable-tree/lib/index.css')
 const styles = require('./LayerList.css')
 
 const toTreeNode = (layer: Layer): TreeNode => {
   return {
-    children: layer.shape.type === 'group' ? layer.children : undefined,
-    key: generateKey(layer),
-    collapsed: item.collapsed
+    children: layer.shape.type === 'group' ? layer.children.map(toTreeNode) : undefined,
+    key: layer.key,
+    collapsed: layer.collapsed
   }
 }
 
 @observer
 export class LayerList extends React.Component {
   render () {
+    // const selectedKeys = editor.selection.layers.map(l => l.key)
+    const root = toTreeNode(editor.document.rootGroup)
+    console.log(root)
+
     return <TreeView
       className={styles.LayerList}
       rowHeight={40}
       rowContent={this.renderRow}
-      root={toTreeNode(editor.document.rootGroup)}
-      selectedKeys={selectedKeys}
+      root={root}
+      selectedKeys={new Set([])}
       onContextMenu={this.handleContextMenu}
       onSelectedKeysChange={this.handleSelectedKeysChange}
       onCollapsedChange={this.handleCollapsedChange}
@@ -32,7 +36,8 @@ export class LayerList extends React.Component {
   }
 
   private renderRow = (info: TreeRowInfo) => {
-    return <div>row</div>
+    const layer = editor.document.rootGroup.ancestor(info.path)
+    return <div>{layer.name}</div>
   }
 
   private handleContextMenu = (info: TreeRowInfo | undefined, ev: React.MouseEvent<Element>) => {

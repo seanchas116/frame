@@ -4,6 +4,9 @@ import { Shape, RectShape } from './Shape'
 import { Style } from './Style'
 
 export class Layer {
+  private static maxKey = 0
+  readonly key = Layer.maxKey++
+
   @observable name = 'Layer'
   @observable rect = new Rect()
   @observable shape: Shape = new RectShape()
@@ -25,6 +28,13 @@ export class Layer {
 
   constructor () {
     this.children.observe(change => this.handleChildrenChange(change), true)
+  }
+
+  ancestor (indexPath: number[]): Layer {
+    if (indexPath.length === 0) {
+      return this
+    }
+    return this.children[indexPath[0]].ancestor(indexPath.slice(1, -1))
   }
 
   private handleChildrenChange (change: IArrayChange<Layer> | IArraySplice<Layer>) {
