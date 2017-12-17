@@ -1,10 +1,10 @@
 import { observable } from 'mobx'
 import { File } from './File'
-import { Document } from '../document/Document'
-import { ShapeType, RectShape } from '../document/Shape'
+import { Document } from '../../core/document/Document'
+import { ShapeType, RectShape } from '../../core/document/Shape'
 import { Scroll } from './Scroll'
 import { Selection } from './Selection'
-import { Layer } from '../document/Layer'
+import { Layer } from '../../core/document/Layer'
 import { Rect } from 'paintvec'
 
 export class App {

@@ -1,6 +1,6 @@
 import { assert } from 'chai'
 import { App } from './App'
-import { Layer } from '../document/Layer'
+import { Layer } from '../../core/document/Layer'
 
 describe('Selection', () => {
   let app: App

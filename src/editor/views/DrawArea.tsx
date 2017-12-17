@@ -2,9 +2,9 @@ import * as React from 'react'
 import { observable } from 'mobx'
 import { observer } from 'mobx-react'
 import { Rect } from 'paintvec'
-import { app } from '../../core/app/App'
+import { app } from '../state/App'
 import { LayerView } from './LayerView'
-import { InsertOverlay } from './InsertOverlay';
+import { InsertOverlay } from './InsertOverlay'
 const styles = require('./DrawArea.css')
 
 interface ResizeObserver {

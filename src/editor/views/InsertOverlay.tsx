@@ -3,7 +3,7 @@ import { Vec2, Rect } from 'paintvec'
 import { action } from 'mobx'
 import { PointerEvents } from '../common/PointerEvents'
 import { Layer } from '../../core/document/Layer'
-import { app } from '../../core/app/App'
+import { app } from '../state/App'
 import { Shape, ShapeType, RectShape, EllipseShape, TextShape } from '../../core/document/Shape'
 const styles = require('./InsertOverlay.css')
 

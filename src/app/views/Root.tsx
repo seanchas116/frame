@@ -1,7 +1,7 @@
 import * as React from 'react'
-import { DrawArea } from '../drawarea/DrawArea'
+import { DrawArea } from '../../editor/views/DrawArea'
 import { ToolBar } from './ToolBar'
-import { LayerList } from './LayerList';
+import { LayerList } from './LayerList'
 const styles = require('./Root.css')
 
 export class Root extends React.Component {
