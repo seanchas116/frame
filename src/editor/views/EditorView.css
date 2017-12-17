@@ -1,4 +1,4 @@
-.DrawArea {
+.EditorView {
   background-color: var(--background-color);
   flex: 1;
   position: relative;

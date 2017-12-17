@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { DrawArea } from '../../editor/views/DrawArea'
+import { EditorView } from '../../editor/views/EditorView'
 import { ToolBar } from './ToolBar'
 import { LayerList } from './LayerList'
 const styles = require('./Root.css')
@@ -12,7 +12,7 @@ export class Root extends React.Component {
       <div className={styles.Columns}>
         <ToolBar />
         <LayerList />
-        <DrawArea />
+        <EditorView />
       </div>
     </div>
   }

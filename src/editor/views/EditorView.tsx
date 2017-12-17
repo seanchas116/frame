@@ -5,7 +5,7 @@ import { Rect } from 'paintvec'
 import { app } from '../state/App'
 import { LayerView } from './LayerView'
 import { InsertOverlay } from './InsertOverlay'
-const styles = require('./DrawArea.css')
+const styles = require('./EditorView.css')
 
 interface ResizeObserver {
   observe (e: Element): void
@@ -17,7 +17,7 @@ interface ResizeObserverStatic {
 }
 declare var ResizeObserver: ResizeObserverStatic
 
-@observer export class DrawArea extends React.Component {
+@observer export class EditorView extends React.Component {
   @observable clientRect = new Rect()
 
   private element: HTMLElement
@@ -35,7 +35,7 @@ declare var ResizeObserver: ResizeObserverStatic
 
   render () {
     const { width, height } = this.clientRect
-    return <div className={styles.DrawArea} ref={e => this.element = e!}>
+    return <div className={styles.EditorView} ref={e => this.element = e!}>
       <svg className={styles.SVG} width={width} height={height}>
         {app.document.rootGroup.children.map(layer => <LayerView layer={layer} />)}
       </svg>
