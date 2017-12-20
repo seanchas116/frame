@@ -7,7 +7,7 @@ import { layerSnapper } from './LayerSnapper'
 import { editor } from '../state/Editor'
 
 export
-class Movable extends React.Component<{item: Layer, movable?: boolean}, {}> {
+class Movable extends React.Component<{layer: Layer, movable?: boolean}, {}> {
   private dragOrigin = new Vec2()
   private dragging = false
   private items = new Set<Layer>()
@@ -15,13 +15,13 @@ class Movable extends React.Component<{item: Layer, movable?: boolean}, {}> {
   private originalRect: Rect | undefined
 
   @computed get clickThrough () {
-    const { item } = this.props
-    return editor.selection.layers.some(selected => item.children.includes(selected))
+    const { layer } = this.props
+    return editor.selection.layers.some(selected => layer.children.includes(selected))
   }
 
   render () {
     const child = React.Children.only(this.props.children)
-    const clickableBorder = this.props.item.style.strokeEnabled && React.cloneElement(child, {
+    const clickableBorder = this.props.layer.style.strokeEnabled && React.cloneElement(child, {
       fill: 'none',
       stroke: 'transparent',
       strokeWidth: 6
@@ -43,9 +43,9 @@ class Movable extends React.Component<{item: Layer, movable?: boolean}, {}> {
       return
     }
     this.cancel()
-    const { item } = this.props
-    editor.selection.replace([item])
-    editor.focusedLayer = item
+    const { layer } = this.props
+    editor.selection.replace([layer])
+    editor.focusedLayer = layer
     event.stopPropagation()
   }
 
@@ -55,9 +55,9 @@ class Movable extends React.Component<{item: Layer, movable?: boolean}, {}> {
     }
     event.stopPropagation()
     if (event.shiftKey) {
-      editor.selection.add(this.props.item)
+      editor.selection.add(this.props.layer)
     } else {
-      editor.selection.replace([this.props.item])
+      editor.selection.replace([this.props.layer])
     }
     this.items = new Set(editor.selection.layers)
     for (const item of this.items) {
@@ -71,7 +71,7 @@ class Movable extends React.Component<{item: Layer, movable?: boolean}, {}> {
       target.setPointerCapture(event.pointerId)
       this.dragOrigin = new Vec2(event.clientX, event.clientY)
       this.dragging = true
-      layerSnapper.setTargetLayers([this.props.item])
+      layerSnapper.setTargetLayers([this.props.layer])
     }
   }
   @action private onPointerMove = (event: PointerEvent) => {

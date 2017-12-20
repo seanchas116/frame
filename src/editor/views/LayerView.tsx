@@ -27,7 +27,7 @@ function brushToCSS (brush: Brush) {
       strokeWidth: layer.style.strokeWidth
     }
     const styledElem = React.cloneElement(shape as React.ReactSVGElement, style)
-    return <Movable item={this.props.layer}>
+    return <Movable layer={this.props.layer}>
       {styledElem}
     </Movable>
   }
