@@ -5,6 +5,8 @@ import { Rect } from 'paintvec'
 import { editor } from '../state/Editor'
 import { LayerView } from './LayerView'
 import { InsertOverlay } from './InsertOverlay'
+import { SnapLines } from './SnapLines'
+import { layerSnapper } from './LayerSnapper'
 const styles = require('./EditorView.css')
 
 interface ResizeObserver {
@@ -38,6 +40,7 @@ declare var ResizeObserver: ResizeObserverStatic
     return <div className={styles.EditorView} ref={e => this.element = e!}>
       <svg className={styles.SVG} width={width} height={height}>
         {editor.document.rootGroup.children.map(layer => <LayerView key={layer.key} layer={layer} />)}
+        <SnapLines snapper={layerSnapper} />
       </svg>
       {editor.insertMode && <InsertOverlay />}
     </div>
