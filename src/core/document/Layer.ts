@@ -28,6 +28,10 @@ export class Layer {
     return descendants
   }
 
+  get siblings () {
+    return this.parent ? this.parent.children : []
+  }
+
   constructor () {
     this.children.observe(change => this.handleChildrenChange(change), true)
   }
