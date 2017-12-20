@@ -7,6 +7,7 @@ import { LayerView } from './LayerView'
 import { InsertOverlay } from './InsertOverlay'
 import { SnapLines } from './SnapLines'
 import { layerSnapper } from './LayerSnapper'
+import { LayerResizeHandles } from './LayerResizeHandles';
 const styles = require('./EditorView.css')
 
 interface ResizeObserver {
@@ -37,10 +38,12 @@ declare var ResizeObserver: ResizeObserverStatic
 
   render () {
     const { width, height } = this.clientRect
+    const selectedLayers = editor.selection.layers
     return <div className={styles.EditorView} ref={e => this.element = e!}>
       <svg className={styles.SVG} width={width} height={height}>
         {editor.document.rootGroup.children.map(layer => <LayerView key={layer.key} layer={layer} />)}
         <SnapLines snapper={layerSnapper} />
+        {selectedLayers.length > 0 && <LayerResizeHandles items={selectedLayers} />}
       </svg>
       {editor.insertMode && <InsertOverlay />}
     </div>
