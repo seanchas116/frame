@@ -12,6 +12,7 @@ export class Editor {
   get layers () { return this.document.rootGroup.children }
   readonly scroll = new Scroll()
   readonly selection = new Selection(this.document)
+  @observable focusedLayer: Layer | undefined = undefined
 
   constructor () {
     // TODO: remove later
