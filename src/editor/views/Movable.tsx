@@ -10,7 +10,7 @@ export
 class Movable extends React.Component<{layer: Layer, movable?: boolean}, {}> {
   private dragOrigin = new Vec2()
   private dragging = false
-  private items = new Set<Layer>()
+  private layers = new Set<Layer>()
   private originalRects = new Map<Layer, Rect>()
   private originalRect: Rect | undefined
 
@@ -59,9 +59,9 @@ class Movable extends React.Component<{layer: Layer, movable?: boolean}, {}> {
     } else {
       editor.selection.replace([this.props.layer])
     }
-    this.items = new Set(editor.selection.layers)
-    for (const item of this.items) {
-      this.originalRects.set(item, item.rect)
+    this.layers = new Set(editor.selection.layers)
+    for (const layer of this.layers) {
+      this.originalRects.set(layer, layer.rect)
     }
     this.originalRect = Rect.union(...this.originalRects.values())
 
@@ -86,9 +86,9 @@ class Movable extends React.Component<{layer: Layer, movable?: boolean}, {}> {
     const offset = pos.sub(this.dragOrigin)
     const snappedRect = layerSnapper.snapRect(this.originalRect.translate(offset))
     const snappedOffset = snappedRect.topLeft.sub(this.originalRect.topLeft)
-    for (const item of this.items) {
-      const origRect = this.originalRects.get(item)!
-      item.rect = origRect.translate(snappedOffset)
+    for (const layer of this.layers) {
+      const origRect = this.originalRects.get(layer)!
+      layer.rect = origRect.translate(snappedOffset)
     }
   }
   @action private onPointerUp = (event: PointerEvent) => {
@@ -105,7 +105,7 @@ class Movable extends React.Component<{layer: Layer, movable?: boolean}, {}> {
 
   private cancel () {
     this.dragging = false
-    this.items = new Set()
+    this.layers = new Set()
     this.originalRects = new Map()
     this.originalRect = undefined
     layerSnapper.clear()
