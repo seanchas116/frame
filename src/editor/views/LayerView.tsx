@@ -2,6 +2,7 @@ import * as React from 'react'
 import { observer } from 'mobx-react'
 import { Layer } from '../../core/document/Layer'
 import { Brush, ColorBrush } from '../../core/document/Brush'
+import { Movable } from './Movable'
 
 function brushToCSS (brush: Brush) {
   if (brush instanceof ColorBrush) {
@@ -25,6 +26,9 @@ function brushToCSS (brush: Brush) {
       stroke: layer.style.strokeEnabled ? brushToCSS(layer.style.stroke) : 'none',
       strokeWidth: layer.style.strokeWidth
     }
-    return React.cloneElement(shape as React.ReactSVGElement, style)
+    const styledElem = React.cloneElement(shape as React.ReactSVGElement, style)
+    return <Movable item={this.props.layer}>
+      {styledElem}
+    </Movable>
   }
 }
