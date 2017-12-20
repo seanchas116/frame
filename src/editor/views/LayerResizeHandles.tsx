@@ -9,16 +9,16 @@ import { layerSnapper } from './LayerSnapper'
 
 @observer
 export
-class LayerResizeHandles extends React.Component<{items: Layer[]}, {}> {
+class LayerResizeHandles extends React.Component<{layers: Layer[]}, {}> {
   private dragging = false
   private disposers: (() => void)[] = []
-  private items: Layer[] = []
+  private layers: Layer[] = []
   @observable private positions: [Vec2, Vec2] | undefined
   private originalPositions: [Vec2, Vec2] | undefined
   private originalRects = new Map<Layer, Rect>()
 
   @computed get rect () {
-    return Rect.union(...this.props.items.map(i => i.rect))
+    return Rect.union(...this.props.layers.map(i => i.rect))
   }
 
   componentDidMount () {
@@ -62,25 +62,25 @@ class LayerResizeHandles extends React.Component<{items: Layer[]}, {}> {
   @action private onChangeBegin = () => {
     this.dragging = true
     this.originalPositions = this.positions
-    this.items = this.props.items
-    for (const item of this.items) {
-      this.originalRects.set(item, item.rect)
+    this.layers = this.props.layers
+    for (const layer of this.layers) {
+      this.originalRects.set(layer, layer.rect)
     }
-    layerSnapper.setTargetLayers(this.items)
+    layerSnapper.setTargetLayers(this.layers)
   }
 
   @action private onChange = (p1: Vec2, p2: Vec2) => {
     if (!this.originalPositions) {
       return
     }
-    for (const item of this.items) {
-      const origRect = this.originalRects.get(item)!
+    for (const layer of this.layers) {
+      const origRect = this.originalRects.get(layer)!
       const [origP1, origP2] = this.originalPositions
       const ratio = p2.sub(p1).div(origP2.sub(origP1))
       const topLeft = origRect.topLeft.sub(origP1).mul(ratio).add(p1)
       const bottomRight = origRect.bottomRight.sub(origP1).mul(ratio).add(p1)
       const rect = Rect.fromTwoPoints(topLeft, bottomRight)
-      item.rect = rect
+      layer.rect = rect
     }
 
     this.positions = [p1, p2]
@@ -90,7 +90,7 @@ class LayerResizeHandles extends React.Component<{items: Layer[]}, {}> {
     // TODO: commit
 
     this.dragging = false
-    this.items = []
+    this.layers = []
     this.originalPositions = undefined
     this.originalRects = new Map()
 

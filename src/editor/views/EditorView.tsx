@@ -43,7 +43,7 @@ declare var ResizeObserver: ResizeObserverStatic
       <svg className={styles.SVG} width={width} height={height}>
         {editor.document.rootGroup.children.map(layer => <LayerView key={layer.key} layer={layer} />)}
         <SnapLines snapper={layerSnapper} />
-        {selectedLayers.length > 0 && <LayerResizeHandles items={selectedLayers} />}
+        {selectedLayers.length > 0 && <LayerResizeHandles layers={selectedLayers} />}
       </svg>
       {editor.insertMode && <InsertOverlay />}
     </div>
