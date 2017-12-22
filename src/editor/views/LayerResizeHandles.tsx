@@ -12,7 +12,6 @@ export
 class LayerResizeHandles extends React.Component<{layers: Layer[]}, {}> {
   private dragging = false
   private disposers: (() => void)[] = []
-  private layers: Layer[] = []
   @observable private positions: [Vec2, Vec2] | undefined
   private originalPositions: [Vec2, Vec2] | undefined
   private originalRects = new Map<Layer, Rect>()
@@ -62,19 +61,17 @@ class LayerResizeHandles extends React.Component<{layers: Layer[]}, {}> {
   @action private onChangeBegin = () => {
     this.dragging = true
     this.originalPositions = this.positions
-    this.layers = this.props.layers
-    for (const layer of this.layers) {
+    for (const layer of this.props.layers) {
       this.originalRects.set(layer, layer.rect)
     }
-    layerSnapper.setTargetLayers(this.layers)
+    layerSnapper.setTargetLayers(this.props.layers)
   }
 
   @action private onChange = (p1: Vec2, p2: Vec2) => {
     if (!this.originalPositions) {
       return
     }
-    for (const layer of this.layers) {
-      const origRect = this.originalRects.get(layer)!
+    for (const [layer, origRect] of this.originalRects) {
       const [origP1, origP2] = this.originalPositions
       const ratio = p2.sub(p1).div(origP2.sub(origP1))
       const topLeft = origRect.topLeft.sub(origP1).mul(ratio).add(p1)
@@ -90,7 +87,6 @@ class LayerResizeHandles extends React.Component<{layers: Layer[]}, {}> {
     // TODO: commit
 
     this.dragging = false
-    this.layers = []
     this.originalPositions = undefined
     this.originalRects = new Map()
 
