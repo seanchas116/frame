@@ -38,7 +38,7 @@ class ResizeHandle extends React.Component<ResizeHandleProps, {}> {
   private origClientX = 0
   private origClientY = 0
 
-  get pos () {
+  private get pos () {
     const x = coordForAlign(this.props.p1.x, this.props.p2.x, this.props.xAlign)
     const y = coordForAlign(this.props.p1.y, this.props.p2.y, this.props.yAlign)
     return new Vec2(x, y)
