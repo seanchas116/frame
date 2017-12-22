@@ -11,7 +11,8 @@ const handleSize = 6
 interface ResizeHandleProps {
   p1: Vec2
   p2: Vec2
-  align: [Alignment, Alignment]
+  xAlign: Alignment
+  yAlign: Alignment
   cursor: string
   snap: (pos: Vec2) => Vec2
   onChangeBegin: () => void
@@ -38,8 +39,8 @@ class ResizeHandle extends React.Component<ResizeHandleProps, {}> {
   private origClientY = 0
 
   get pos () {
-    const x = coordForAlign(this.props.p1.x, this.props.p2.x, this.props.align[0])
-    const y = coordForAlign(this.props.p1.y, this.props.p2.y, this.props.align[1])
+    const x = coordForAlign(this.props.p1.x, this.props.p2.x, this.props.xAlign)
+    const y = coordForAlign(this.props.p1.y, this.props.p2.y, this.props.yAlign)
     return new Vec2(x, y)
   }
 
@@ -78,10 +79,10 @@ class ResizeHandle extends React.Component<ResizeHandleProps, {}> {
     const y = e.clientY - this.origClientY + this.origY
     const snapped = this.props.snap(new Vec2(x, y))
 
-    const x1 = this.props.align[0] === 'begin' ? snapped.x : this.props.p1.x
-    const x2 = this.props.align[0] === 'end' ? snapped.x : this.props.p2.x
-    const y1 = this.props.align[1] === 'begin' ? snapped.y : this.props.p1.y
-    const y2 = this.props.align[1] === 'end' ? snapped.y : this.props.p2.y
+    const x1 = this.props.xAlign === 'begin' ? snapped.x : this.props.p1.x
+    const x2 = this.props.xAlign === 'end' ? snapped.x : this.props.p2.x
+    const y1 = this.props.yAlign === 'begin' ? snapped.y : this.props.p1.y
+    const y2 = this.props.yAlign === 'end' ? snapped.y : this.props.p2.y
 
     this.props.onChange(new Vec2(x1, y1), new Vec2(x2, y2))
   }
@@ -136,7 +137,8 @@ class ResizeHandles extends React.Component<ResizeHandlesProps, {}> {
             cursor={cursor}
             p1={this.props.p1}
             p2={this.props.p2}
-            align={align}
+            xAlign={align[0]}
+            yAlign={align[1]}
             snap={pos => this.props.snap(pos, align[0], align[1])}
             onChange={(p1, p2) => this.props.onChange(p1, p2)}
             onChangeBegin={this.onChangeBegin}
