@@ -9,15 +9,25 @@ import { SizeLabel } from './SizeLabel'
 const handleSize = 6
 
 interface ResizeHandleProps {
-  x: number
-  y: number
-  xAlign: Alignment
-  yAlign: Alignment
+  p1: Vec2
+  p2: Vec2
+  align: [Alignment, Alignment]
   cursor: string
-  snap: (pos: Vec2, xAlign: Alignment, yAlign: Alignment) => Vec2
-  onChangeBegin: (xAlign: Alignment, yAlign: Alignment) => void
-  onChange: (x: number, y: number, xAlign: Alignment, yAlign: Alignment) => void
-  onChangeEnd: (xAlign: Alignment, yAlign: Alignment) => void
+  snap: (pos: Vec2) => Vec2
+  onChangeBegin: () => void
+  onChange: (p1: Vec2, p2: Vec2) => void
+  onChangeEnd: () => void
+}
+
+function coordForAlign (begin: number, end: number, align: Alignment) {
+  switch (align) {
+    case 'begin':
+      return begin
+    case 'center':
+      return (begin + end) / 2
+    case 'end':
+      return end
+  }
 }
 
 class ResizeHandle extends React.Component<ResizeHandleProps, {}> {
@@ -27,8 +37,14 @@ class ResizeHandle extends React.Component<ResizeHandleProps, {}> {
   private origClientX = 0
   private origClientY = 0
 
+  get pos () {
+    const x = coordForAlign(this.props.p1.x, this.props.p2.x, this.props.align[0])
+    const y = coordForAlign(this.props.p1.y, this.props.p2.y, this.props.align[1])
+    return new Vec2(x, y)
+  }
+
   render () {
-    const { x, y } = this.props
+    const { x, y } = this.pos
     return <PointerEvents
       onPointerDown={this.onPointerDown}
       onPointerMove={this.onPointerMove}
@@ -46,12 +62,13 @@ class ResizeHandle extends React.Component<ResizeHandleProps, {}> {
 
   private onPointerDown = (e: PointerEvent) => {
     this.dragged = true
-    this.origX = this.props.x
-    this.origY = this.props.y
+    const origPos = this.pos
+    this.origX = origPos.x
+    this.origY = origPos.y
     this.origClientX = e.clientX
     this.origClientY = e.clientY
     ;(e.currentTarget as Element).setPointerCapture(e.pointerId)
-    this.props.onChangeBegin(this.props.xAlign, this.props.yAlign)
+    this.props.onChangeBegin()
   }
   private onPointerMove = (e: PointerEvent) => {
     if (!this.dragged) {
@@ -59,14 +76,31 @@ class ResizeHandle extends React.Component<ResizeHandleProps, {}> {
     }
     const x = e.clientX - this.origClientX + this.origX
     const y = e.clientY - this.origClientY + this.origY
-    const snapped = this.props.snap(new Vec2(x, y), this.props.xAlign, this.props.yAlign)
-    this.props.onChange(snapped.x, snapped.y, this.props.xAlign, this.props.yAlign)
+    const snapped = this.props.snap(new Vec2(x, y))
+
+    const x1 = this.props.align[0] === 'begin' ? snapped.x : this.props.p1.x
+    const x2 = this.props.align[0] === 'end' ? snapped.x : this.props.p2.x
+    const y1 = this.props.align[1] === 'begin' ? snapped.y : this.props.p1.y
+    const y2 = this.props.align[1] === 'end' ? snapped.y : this.props.p2.y
+
+    this.props.onChange(new Vec2(x1, y1), new Vec2(x2, y2))
   }
   private onPointerUp = (e: PointerEvent) => {
     this.dragged = false
-    this.props.onChangeEnd(this.props.xAlign, this.props.yAlign)
+    this.props.onChangeEnd()
   }
 }
+
+const handles: { align: [Alignment, Alignment], cursor: string }[] = [
+  { align: ['begin', 'begin'], cursor: 'nwse-resize' },
+  { align: ['center', 'begin'], cursor: 'ns-resize' },
+  { align: ['end', 'begin'], cursor: 'nesw-resize' },
+  { align: ['end', 'center'], cursor: 'ew-resize' },
+  { align: ['end', 'end'], cursor: 'nwse-resize' },
+  { align: ['center', 'end'], cursor: 'ns-resize' },
+  { align: ['begin', 'end'], cursor: 'nesw-resize' },
+  { align: ['begin', 'center'], cursor: 'ew-resize' }
+]
 
 interface ResizeHandlesProps {
   p1: Vec2
@@ -91,76 +125,25 @@ class ResizeHandles extends React.Component<ResizeHandlesProps, {}> {
     const width = Math.max(x1, x2) - x
     const y = Math.min(y1, y2)
     const height = Math.max(y1, y2) - y
-    const { onChangeBegin, onChangeEnd } = this
-    const { onChange, snap } = this.props
     const rect = Rect.fromWidthHeight(x, y, width, height)
 
     return <g>
       <rect x={x + 0.5} y={y + 0.5} width={width - 1} height={height - 1} stroke='lightgray' fill='transparent' pointerEvents='none' />
-      <ResizeHandle
-        cursor='nwse-resize'
-        x={x1} y={y1}
-        xAlign='begin' yAlign='begin'
-        snap={snap}
-        onChange={(x1, y1) => onChange(new Vec2(x1, y1), new Vec2(x2, y2))}
-        onChangeBegin={onChangeBegin} onChangeEnd={onChangeEnd}
-      />
-      <ResizeHandle
-        cursor='ns-resize'
-        x={(x1 + x2) / 2} y={y1}
-        xAlign='center' yAlign='begin'
-        snap={snap}
-        onChange={(_, y1) => onChange(new Vec2(x1, y1), new Vec2(x2, y2))}
-        onChangeBegin={onChangeBegin} onChangeEnd={onChangeEnd}
-      />
-      <ResizeHandle
-        cursor='nesw-resize'
-        x={x2} y={y1}
-        xAlign='end' yAlign='begin'
-        snap={snap}
-        onChange={(x2, y1) => onChange(new Vec2(x1, y1), new Vec2(x2, y2))}
-        onChangeBegin={onChangeBegin} onChangeEnd={onChangeEnd}
-      />
-      <ResizeHandle
-        cursor='ew-resize'
-        x={x2} y={(y1 + y2) / 2}
-        xAlign='end' yAlign='center'
-        snap={snap}
-        onChange={(x2, _) => onChange(new Vec2(x1, y1), new Vec2(x2, y2))}
-        onChangeBegin={onChangeBegin} onChangeEnd={onChangeEnd}
-      />
-      <ResizeHandle
-        cursor='nwse-resize'
-        x={x2} y={y2}
-        xAlign='end' yAlign='end'
-        snap={snap}
-        onChange={(x2, y2) => onChange(new Vec2(x1, y1), new Vec2(x2, y2))}
-        onChangeBegin={onChangeBegin} onChangeEnd={onChangeEnd}
-      />
-      <ResizeHandle
-        cursor='ns-resize'
-        x={(x1 + x2) / 2} y={y2}
-        xAlign='center' yAlign='end'
-        snap={snap}
-        onChange={(_, y2) => onChange(new Vec2(x1, y1), new Vec2(x2, y2))}
-        onChangeBegin={onChangeBegin} onChangeEnd={onChangeEnd}
-      />
-      <ResizeHandle
-        cursor='nesw-resize'
-        x={x1} y={y2}
-        xAlign='begin' yAlign='end'
-        snap={snap}
-        onChange={(x1, y2) => onChange(new Vec2(x1, y1), new Vec2(x2, y2))}
-        onChangeBegin={onChangeBegin} onChangeEnd={onChangeEnd}
-      />
-      <ResizeHandle
-        cursor='ew-resize'
-        x={x1} y={(y1 + y2) / 2}
-        xAlign='begin' yAlign='center'
-        snap={snap}
-        onChange={(x1, _) => onChange(new Vec2(x1, y1), new Vec2(x2, y2))}
-        onChangeBegin={onChangeBegin} onChangeEnd={onChangeEnd}
-      />
+      {
+        handles.map(({ cursor, align }, i) =>
+          <ResizeHandle
+            key={i}
+            cursor={cursor}
+            p1={this.props.p1}
+            p2={this.props.p2}
+            align={align}
+            snap={pos => this.props.snap(pos, align[0], align[1])}
+            onChange={(p1, p2) => this.props.onChange(p1, p2)}
+            onChangeBegin={this.onChangeBegin}
+            onChangeEnd={this.onChangeEnd}
+          />
+        )
+      }
       {this.dragged && <SizeLabel rect={rect} />}
     </g>
   }
