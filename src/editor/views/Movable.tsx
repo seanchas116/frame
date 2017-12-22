@@ -10,9 +10,8 @@ export
 class Movable extends React.Component<{layer: Layer, movable?: boolean}, {}> {
   private dragOrigin = new Vec2()
   private dragging = false
-  private layers = new Set<Layer>()
   private originalRects = new Map<Layer, Rect>()
-  private originalRect: Rect | undefined
+  private originalRect: Rect | undefined = undefined
 
   @computed get clickThrough () {
     const { layer } = this.props
@@ -59,8 +58,8 @@ class Movable extends React.Component<{layer: Layer, movable?: boolean}, {}> {
     } else {
       editor.selection.replace([this.props.layer])
     }
-    this.layers = new Set(editor.selection.layers)
-    for (const layer of this.layers) {
+    const layers = editor.selection.layers
+    for (const layer of layers) {
       this.originalRects.set(layer, layer.rect)
     }
     this.originalRect = Rect.union(...this.originalRects.values())
@@ -86,8 +85,7 @@ class Movable extends React.Component<{layer: Layer, movable?: boolean}, {}> {
     const offset = pos.sub(this.dragOrigin)
     const snappedRect = layerSnapper.snapRect(this.originalRect.translate(offset))
     const snappedOffset = snappedRect.topLeft.sub(this.originalRect.topLeft)
-    for (const layer of this.layers) {
-      const origRect = this.originalRects.get(layer)!
+    for (const [layer, origRect] of this.originalRects.entries()) {
       layer.rect = origRect.translate(snappedOffset)
     }
   }
@@ -105,7 +103,6 @@ class Movable extends React.Component<{layer: Layer, movable?: boolean}, {}> {
 
   private cancel () {
     this.dragging = false
-    this.layers = new Set()
     this.originalRects = new Map()
     this.originalRect = undefined
     layerSnapper.clear()
