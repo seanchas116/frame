@@ -33,10 +33,8 @@ function coordForAlign (begin: number, end: number, align: Alignment) {
 
 class ResizeHandle extends React.Component<ResizeHandleProps, {}> {
   private dragged = false
-  private origX = 0
-  private origY = 0
-  private origClientX = 0
-  private origClientY = 0
+  private origPos = new Vec2()
+  private dragStartPos = new Vec2()
 
   private get pos () {
     const x = coordForAlign(this.props.p1.x, this.props.p2.x, this.props.xAlign)
@@ -63,11 +61,8 @@ class ResizeHandle extends React.Component<ResizeHandleProps, {}> {
 
   private onPointerDown = (e: PointerEvent) => {
     this.dragged = true
-    const origPos = this.pos
-    this.origX = origPos.x
-    this.origY = origPos.y
-    this.origClientX = e.clientX
-    this.origClientY = e.clientY
+    this.origPos = this.pos
+    this.dragStartPos = new Vec2(e.clientX, e.clientY)
     ;(e.currentTarget as Element).setPointerCapture(e.pointerId)
     this.props.onChangeBegin()
   }
@@ -75,9 +70,9 @@ class ResizeHandle extends React.Component<ResizeHandleProps, {}> {
     if (!this.dragged) {
       return
     }
-    const x = e.clientX - this.origClientX + this.origX
-    const y = e.clientY - this.origClientY + this.origY
-    const snapped = this.props.snap(new Vec2(x, y))
+    const eventPos = new Vec2(e.clientX, e.clientY)
+    const pos = eventPos.sub(this.dragStartPos).add(this.origPos)
+    const snapped = this.props.snap(pos)
 
     const x1 = this.props.xAlign === 'begin' ? snapped.x : this.props.p1.x
     const x2 = this.props.xAlign === 'end' ? snapped.x : this.props.p2.x
@@ -118,18 +113,10 @@ class ResizeHandles extends React.Component<ResizeHandlesProps, {}> {
   @observable private dragged = false
 
   render () {
-    const x1 = this.props.p1.x
-    const y1 = this.props.p1.y
-    const x2 = this.props.p2.x
-    const y2 = this.props.p2.y
-    const x = Math.min(x1, x2)
-    const width = Math.max(x1, x2) - x
-    const y = Math.min(y1, y2)
-    const height = Math.max(y1, y2) - y
-    const rect = Rect.fromWidthHeight(x, y, width, height)
+    const rect = Rect.fromTwoPoints(this.props.p1, this.props.p2)
 
     return <g>
-      <rect x={x + 0.5} y={y + 0.5} width={width - 1} height={height - 1} stroke='lightgray' fill='transparent' pointerEvents='none' />
+      <rect x={rect.left + 0.5} y={rect.top + 0.5} width={rect.width - 1} height={rect.height - 1} stroke='lightgray' fill='transparent' pointerEvents='none' />
       {
         handles.map(({ cursor, align }, i) =>
           <ResizeHandle
