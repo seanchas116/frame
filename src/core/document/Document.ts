@@ -8,4 +8,8 @@ export class Document {
   constructor () {
     this.rootGroup.shape = new GroupShape()
   }
+
+  commit (message: string) {
+    // TODO
+  }
 }
