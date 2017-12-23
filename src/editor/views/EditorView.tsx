@@ -8,6 +8,7 @@ import { InsertOverlay } from './InsertOverlay'
 import { SnapLines } from './SnapLines'
 import { layerSnapper } from './LayerSnapper'
 import { LayerResizeHandles } from './LayerResizeHandles';
+import { isTextInput } from '../common/isTextInput';
 const styles = require('./EditorView.css')
 
 interface ResizeObserver {
@@ -30,10 +31,12 @@ declare var ResizeObserver: ResizeObserverStatic
     this.handleResize()
     this.resizeObserver = new ResizeObserver(this.handleResize)
     this.resizeObserver.observe(this.element)
+    document.addEventListener('keydown', this.handleDocumentKeyDown)
   }
 
   componentWillUnmount () {
     this.resizeObserver.unobserve(this.element)
+    document.removeEventListener('keydown', this.handleDocumentKeyDown)
   }
 
   render () {
@@ -58,6 +61,20 @@ declare var ResizeObserver: ResizeObserverStatic
   private handleClickBackground = (e: React.MouseEvent<SVGRectElement>) => {
     if (!e.shiftKey) {
       editor.selection.clear()
+    }
+  }
+
+  private handleDocumentKeyDown = (e: KeyboardEvent) => {
+    if (e.key === 'Backspace' || e.key === 'Delete') {
+      if (!isTextInput(e.target)) {
+        for (const selection of editor.selection.layers) {
+          const parent = selection.parent
+          if (parent) {
+            parent.children.splice(parent.children.indexOf(selection), 1)
+          }
+        }
+        editor.document.commit('Delete Layers')
+      }
     }
   }
 }
