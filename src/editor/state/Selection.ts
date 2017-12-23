@@ -39,4 +39,8 @@ export class Selection {
   replace (layers: Iterable<Layer>) {
     this.set.replace(layers)
   }
+
+  clear () {
+    this.replace([])
+  }
 }

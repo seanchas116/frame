@@ -6,3 +6,6 @@
 .SVG {
   position: absolute;
 }
+.SVGBackground {
+  fill: var(--background-color);
+}
