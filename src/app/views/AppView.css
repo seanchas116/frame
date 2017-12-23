@@ -6,6 +6,10 @@
 }
 body {
   margin: 0;
+  background-color: white;
+}
+* {
+  user-select: none;
   font-family: var(--default-font-family);
   color: var(--text-color);
 }
