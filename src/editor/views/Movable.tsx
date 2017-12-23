@@ -98,7 +98,8 @@ class Movable extends React.Component<{layer: Layer, movable?: boolean}, {}> {
       return
     }
     this.cancel()
-    // TODO: commit
+
+    editor.document.commit('Move Layers')
   }
 
   private cancel () {

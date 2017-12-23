@@ -65,6 +65,6 @@ export class InsertOverlay extends React.Component {
   @action private handlePointerUp = (event: PointerEvent) => {
     this.layer = undefined
     editor.insertMode = undefined
-    // TODO: commit
+    editor.document.commit('Insert Layer')
   }
 }
