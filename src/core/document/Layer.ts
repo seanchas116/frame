@@ -79,13 +79,20 @@ export class Layer {
         }
       }
       layer._parent = this
-      this.history.add(layer, new LayerInsert(layer.path, layer.data))
+
+      if (this.root === this.document.rootGroup) {
+        this.history.add(layer, new LayerInsert(layer.path, layer.data))
+      }
     }
     const onChildRemove = (index: number, layer: Layer) => {
       const parent = layer._parent
       const path = [...parent ? parent.path : [], index]
+
       layer._parent = undefined
-      this.history.add(layer, new LayerRemove(path, layer.data))
+
+      if (this.root === this.document.rootGroup) {
+        this.history.add(layer, new LayerRemove(path, layer.data))
+      }
     }
     if (change.type === 'update') {
       onChildRemove(change.index, change.oldValue)
