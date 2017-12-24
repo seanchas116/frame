@@ -1,9 +1,10 @@
 import { Rect } from 'paintvec'
-import { observable, IArraySplice, IArrayChange } from 'mobx'
+import { observable, computed, observe, IArraySplice, IArrayChange, IValueDidChange } from 'mobx'
 import { Shape, RectShape } from './Shape'
 import { Style } from './Style'
 import { dataToLayer } from '../format/v1/Deserialize'
 import { layerToData } from '../format/v1/Serialize'
+import { LayerData } from '../format/v1/Schema'
 
 export class Layer {
   private static maxKey = 0
@@ -32,8 +33,13 @@ export class Layer {
     return this.parent ? this.parent.children : []
   }
 
+  @computed private get data () {
+    return layerToData(this)
+  }
+
   constructor () {
     this.children.observe(change => this.handleChildrenChange(change), true)
+    observe(this, 'data', change => this.handleDataChange(change), true)
   }
 
   ancestor (indexPath: number[]): Layer {
@@ -67,5 +73,9 @@ export class Layer {
       change.removed.forEach(onChildRemove)
       change.added.forEach(onChildAdd)
     }
+  }
+
+  private handleDataChange (change: IValueDidChange<LayerData>) {
+    console.log(change)
   }
 }
