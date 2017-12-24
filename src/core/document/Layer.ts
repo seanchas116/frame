@@ -30,6 +30,10 @@ export class Layer {
     return descendants
   }
 
+  get root () {
+    return this.parent || this
+  }
+
   get siblings () {
     return this.parent ? this.parent.children : []
   }
