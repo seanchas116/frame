@@ -66,6 +66,7 @@ export type LayerUpdate = LayerChange | LayerMove | LayerInsert | LayerRemove
 
 export class HistoryUndoCommand implements UndoCommand {
   constructor (public title: string, private document: Document, private updates: LayerUpdate[]) {
+    console.log(updates)
   }
 
   undo () {
