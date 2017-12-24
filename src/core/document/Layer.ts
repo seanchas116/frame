@@ -80,7 +80,7 @@ export class Layer {
       }
       layer._parent = this
 
-      if (this.root === this.document.rootGroup) {
+      if (this.document.includes(this)) {
         this.history.add(layer, new LayerInsert(layer.path, layer.data))
       }
     }
@@ -90,7 +90,7 @@ export class Layer {
 
       layer._parent = undefined
 
-      if (this.root === this.document.rootGroup) {
+      if (this.document.includes(this)) {
         this.history.add(layer, new LayerRemove(path, layer.data))
       }
     }
