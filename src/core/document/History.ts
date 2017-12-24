@@ -87,7 +87,7 @@ export class HistoryUndoCommand implements UndoCommand {
   }
 }
 
-export class HistoryRecorder {
+export class History {
   undoStack = new UndoStack<HistoryUndoCommand>()
   private updates: LayerUpdate[] = []
 
