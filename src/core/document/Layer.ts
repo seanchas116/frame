@@ -38,6 +38,14 @@ export class Layer {
     return this.history.document
   }
 
+  get path (): number[] {
+    if (this.parent) {
+      return this.parent.path.concat(this.parent.children.indexOf(this))
+    } else {
+      return []
+    }
+  }
+
   @computed private get data () {
     return layerToData(this)
   }
