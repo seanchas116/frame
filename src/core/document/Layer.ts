@@ -5,7 +5,7 @@ import { Style } from './Style'
 import { dataToLayer } from '../format/v1/Deserialize'
 import { layerToData } from '../format/v1/Serialize'
 import { LayerData } from '../format/v1/Schema'
-import { History } from './History'
+import { History, LayerChange } from './History'
 
 export class Layer {
   private static maxKey = 0
@@ -90,6 +90,8 @@ export class Layer {
   }
 
   private handleDataChange (change: IValueDidChange<LayerData>) {
-    console.log(change)
+    if (change.oldValue) {
+      this.history.add(new LayerChange(this.path, change.oldValue, change.newValue))
+    }
   }
 }
