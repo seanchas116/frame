@@ -2,7 +2,7 @@ import { Vec2, Rect } from 'paintvec'
 import { Document } from '../../document/Document'
 import { DocumentData, BrushData, HSVColorData, Vec2Data, GradientStopData, ShapeData, RectData, LayerData, DeepLayerData } from './Schema'
 import { Brush, ColorBrush } from '../../document/Brush'
-import { Shape, RectShape, EllipseShape, TextShape, ImageShape } from '../../document/Shape'
+import { Shape, RectShape, EllipseShape, TextShape, ImageShape, GroupShape } from '../../document/Shape'
 import { HSVColor } from '../../common/Color'
 import { Style } from '../../document/Style'
 import { Layer } from '../../document/Layer'
@@ -58,6 +58,10 @@ export function shapeToData (shape: Shape): ShapeData {
   } else if (shape instanceof EllipseShape) {
     return {
       type: 'ellipse'
+    }
+  } else if (shape instanceof GroupShape) {
+    return {
+      type: 'group'
     }
   }
   throw new Error(`Unknown shape: ${(shape as Object).constructor.name}`)

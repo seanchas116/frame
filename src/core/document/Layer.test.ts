@@ -1,13 +1,17 @@
 import { assert } from 'chai'
-import { Layer } from './Layer'
 import { createShapeLayer } from './test/Fixture'
+import { Document } from './Document'
 
 describe('Layer', () => {
+  let document: Document
+  beforeEach(() => {
+    document = new Document()
+  })
   describe('parent', () => {
     it('is automatically set when inserted to new parent', () => {
-      const parent = new Layer()
-      const child1 = new Layer()
-      const child2 = new Layer()
+      const parent = document.createLayer()
+      const child1 = document.createLayer()
+      const child2 = document.createLayer()
       parent.children.push(child1)
       assert.equal(child1.parent, parent)
       parent.children[0] = child2
@@ -19,9 +23,9 @@ describe('Layer', () => {
   })
   describe('children', () => {
     it('removes child automatically when child is inserted to another parent', () => {
-      const parent1 = new Layer()
-      const parent2 = new Layer()
-      const child = new Layer()
+      const parent1 = document.createLayer()
+      const parent2 = document.createLayer()
+      const child = document.createLayer()
       parent1.children.push(child)
       assert.deepEqual([...parent1.children], [child])
       parent2.children.push(child)
@@ -31,7 +35,7 @@ describe('Layer', () => {
   })
   describe('clone', () => {
     it('clones layer', () => {
-      const layer = createShapeLayer()
+      const layer = createShapeLayer(document)
       const cloned = layer.clone()
       const layerWithoutKey = { ...layer, key: -1 }
       const clonedWithoutKey = { ...cloned, key: -1 }

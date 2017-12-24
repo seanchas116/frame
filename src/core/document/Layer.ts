@@ -5,6 +5,7 @@ import { Style } from './Style'
 import { dataToLayer } from '../format/v1/Deserialize'
 import { layerToData } from '../format/v1/Serialize'
 import { LayerData } from '../format/v1/Schema'
+import { History } from './History'
 
 export class Layer {
   private static maxKey = 0
@@ -33,13 +34,18 @@ export class Layer {
     return this.parent ? this.parent.children : []
   }
 
+  get document () {
+    return this.history.document
+  }
+
   @computed private get data () {
     return layerToData(this)
   }
 
-  constructor () {
+  constructor (private history: History) {
     this.children.observe(change => this.handleChildrenChange(change), true)
     observe(this, 'data', change => this.handleDataChange(change), true)
+    console.log(this.history)
   }
 
   ancestor (indexPath: number[]): Layer {
@@ -50,7 +56,7 @@ export class Layer {
   }
 
   clone () {
-    return dataToLayer(layerToData(this))
+    return dataToLayer(this.document, layerToData(this))
   }
 
   private handleChildrenChange (change: IArrayChange<Layer> | IArraySplice<Layer>) {

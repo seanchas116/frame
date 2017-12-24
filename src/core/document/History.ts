@@ -45,7 +45,7 @@ export class LayerInsert {
   }
 
   apply (document: Document) {
-    const layer = dataToLayer(this.data)
+    const layer = dataToLayer(document, this.data)
     const newParent = document.rootGroup.ancestor(this.path.slice(0, -1))
     newParent.children.splice(_.last(this.path)!, 0, layer)
   }

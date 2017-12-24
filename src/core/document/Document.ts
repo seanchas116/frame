@@ -4,7 +4,7 @@ import { GroupShape } from './Shape'
 import { History } from './History'
 
 export class Document {
-  @observable rootGroup = new Layer()
+  @observable rootGroup: Layer
   private readonly history = new History(this)
 
   get undoStack () {
@@ -12,7 +12,12 @@ export class Document {
   }
 
   constructor () {
+    this.rootGroup = this.createLayer()
     this.rootGroup.shape = new GroupShape()
+  }
+
+  createLayer () {
+    return new Layer(this.history)
   }
 
   commit (message: string) {

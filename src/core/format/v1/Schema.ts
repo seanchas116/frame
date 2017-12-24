@@ -53,7 +53,11 @@ export interface ImageShapeData {
   originalSize: Vec2Data
 }
 
-export type ShapeData = RectShapeData | EllipseShapeData | TextShapeData | ImageShapeData
+export interface GroupShapeData {
+  type: 'group'
+}
+
+export type ShapeData = RectShapeData | EllipseShapeData | TextShapeData | ImageShapeData | GroupShapeData
 
 export type StrokeAlignmentData = 'center' | 'inner' | 'outer'
 
@@ -74,7 +78,7 @@ export interface LayerData {
 }
 
 export interface DeepLayerData extends LayerData {
-  children: LayerData[]
+  children: DeepLayerData[]
 }
 
 export interface DocumentData {
