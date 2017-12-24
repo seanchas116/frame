@@ -70,12 +70,16 @@ export function dataToStyle (data: StyleData): Style {
 
 export function dataToLayer (data: LayerData): Layer {
   const layer = new Layer()
+  loadDataToLayer(layer, data)
+  return layer
+}
+
+export function loadDataToLayer (layer: Layer, data: LayerData) {
   layer.name = data.name
   layer.rect = dataToRect(data.rect)
   layer.shape = dataToShape(data.shape)
   layer.style = dataToStyle(data.style)
   layer.children.replace(data.children.map(dataToLayer))
-  return layer
 }
 
 export function dataToDocument (data: DocumentData): Document {
