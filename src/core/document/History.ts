@@ -3,6 +3,7 @@ import { LayerData } from '../format/v1/Schema'
 import { Document } from './Document'
 import { UndoStack, UndoCommand } from '../common/UndoStack'
 import { dataToLayer, loadLayerData } from '../format/v1/Deserialize'
+import { Layer } from './Layer'
 
 export class LayerChange {
   constructor (public path: number[], public oldData: LayerData, public newData: LayerData) {
@@ -15,13 +16,6 @@ export class LayerChange {
 
   invert () {
     return new LayerChange(this.path, this.newData, this.oldData)
-  }
-
-  merge (latter: LayerChange) {
-    if (!_.isEqual(this.path, latter.path)) {
-      throw new Error('path is not same')
-    }
-    return new LayerChange(this.path, this.oldData, latter.newData)
   }
 }
 
@@ -87,28 +81,38 @@ export class HistoryUndoCommand implements UndoCommand {
   }
 }
 
+function mergeUpdates (update1: LayerUpdate, update2: LayerUpdate) {
+  if (update1 instanceof LayerChange && update2 instanceof LayerChange) {
+    return new LayerChange(update1.path, update1.oldData, update2.newData)
+  }
+  if (update1 instanceof LayerRemove && update2 instanceof LayerInsert) {
+    return new LayerMove(update1.path, update2.path)
+  }
+}
+
 export class History {
   undoStack = new UndoStack<HistoryUndoCommand>()
-  private updates: LayerUpdate[] = []
+  private updates: [Layer, LayerUpdate][] = []
 
   constructor (public document: Document) {
   }
 
-  add (update: LayerUpdate) {
+  add (layer: Layer, update: LayerUpdate) {
     if (update instanceof LayerChange) {
       const last = _.last(this.updates)
-      if (last instanceof LayerChange && _.isEqual(update.path, last.path)) {
-        const merged = last.merge(update)
-        this.updates.pop()
-        this.updates.push(merged)
-        return
+      if (last && layer === last[0]) {
+        const merged = mergeUpdates(update, last[1])
+        if (merged) {
+          this.updates.pop()
+          this.updates.push([layer, merged])
+        }
       }
     }
-    this.updates.push(update)
+    this.updates.push([layer, update])
   }
 
   commit (name: string) {
-    this.undoStack.push(new HistoryUndoCommand(name, this.document, this.updates))
+    this.undoStack.push(new HistoryUndoCommand(name, this.document, this.updates.map(u => u[1])))
     this.updates = []
   }
 }

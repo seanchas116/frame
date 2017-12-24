@@ -91,7 +91,7 @@ export class Layer {
 
   private handleDataChange (change: IValueDidChange<LayerData>) {
     if (change.oldValue) {
-      this.history.add(new LayerChange(this.path, change.oldValue, change.newValue))
+      this.history.add(this, new LayerChange(this.path, change.oldValue, change.newValue))
     }
   }
 }
