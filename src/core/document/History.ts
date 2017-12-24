@@ -102,13 +102,9 @@ export class History {
   }
 
   add (layer: Layer, update: LayerUpdate) {
-    if (layer.root !== this.document.rootGroup) {
-      return
-    }
-
     const last = _.last(this.updates)
     if (last && layer === last[0]) {
-      const merged = mergeUpdates(update, last[1])
+      const merged = mergeUpdates(last[1], update)
       if (merged) {
         this.updates.pop()
         this.updates.push([layer, merged])
