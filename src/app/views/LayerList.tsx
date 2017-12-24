@@ -17,7 +17,7 @@ const toTreeNode = (layer: Layer): TreeNode => {
 }
 
 const layerForPath = (path: number[]) => {
-  return editor.document.rootGroup.ancestor(path)
+  return editor.document.rootGroup.descendant(path)
 }
 
 @observer

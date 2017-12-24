@@ -55,11 +55,11 @@ export class Layer {
     observe(this, 'data', change => this.handleDataChange(change), true)
   }
 
-  ancestor (indexPath: number[]): Layer {
+  descendant (indexPath: number[]): Layer {
     if (indexPath.length === 0) {
       return this
     }
-    return this.children[indexPath[0]].ancestor(indexPath.slice(1, -1))
+    return this.children[indexPath[0]].descendant(indexPath.slice(1, -1))
   }
 
   clone () {

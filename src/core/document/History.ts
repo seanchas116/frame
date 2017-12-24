@@ -10,7 +10,7 @@ export class LayerChange {
   }
 
   apply (document: Document) {
-    const layer = document.rootGroup.ancestor(this.path)
+    const layer = document.rootGroup.descendant(this.path)
     loadLayerData(layer, this.newData)
   }
 
@@ -24,8 +24,8 @@ export class LayerMove {
   }
 
   apply (document: Document) {
-    const layer = document.rootGroup.ancestor(this.oldPath)
-    const newParent = document.rootGroup.ancestor(this.newPath.slice(0, -1))
+    const layer = document.rootGroup.descendant(this.oldPath)
+    const newParent = document.rootGroup.descendant(this.newPath.slice(0, -1))
     newParent.children.splice(_.last(this.newPath)!, 0, layer)
   }
 
@@ -40,7 +40,7 @@ export class LayerInsert {
 
   apply (document: Document) {
     const layer = dataToLayer(document, this.data)
-    const newParent = document.rootGroup.ancestor(this.path.slice(0, -1))
+    const newParent = document.rootGroup.descendant(this.path.slice(0, -1))
     newParent.children.splice(_.last(this.path)!, 0, layer)
   }
 
@@ -53,7 +53,7 @@ export class LayerRemove {
   constructor (public path: number[], public data: LayerData) {
   }
   apply (document: Document) {
-    const parent = document.rootGroup.ancestor(this.path.slice(0, -1))
+    const parent = document.rootGroup.descendant(this.path.slice(0, -1))
     parent.children.splice(_.last(this.path)!, 1)
   }
 
