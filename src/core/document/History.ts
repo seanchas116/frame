@@ -99,6 +99,10 @@ export class History {
   }
 
   add (layer: Layer, update: LayerUpdate) {
+    if (layer.root !== this.document.rootGroup) {
+      return
+    }
+
     if (update instanceof LayerChange) {
       const last = _.last(this.updates)
       if (last && layer === last[0]) {
