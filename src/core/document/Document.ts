@@ -20,6 +20,10 @@ export class Document {
     return new Layer(this.history)
   }
 
+  includes (layer: Layer) {
+    return layer !== this.rootGroup && layer.root === this.rootGroup
+  }
+
   commit (message: string) {
     this.history.commit(message)
   }
