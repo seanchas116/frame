@@ -5,7 +5,7 @@ import { Style } from './Style'
 import { dataToLayer } from '../format/v1/Deserialize'
 import { layerToData } from '../format/v1/Serialize'
 import { LayerData } from '../format/v1/Schema'
-import { History, LayerChange } from './History'
+import { History, LayerChange, LayerInsert, LayerRemove } from './History'
 
 export class Layer {
   private static maxKey = 0
@@ -76,15 +76,19 @@ export class Layer {
         }
       }
       layer._parent = this
+      this.history.add(layer, new LayerInsert(layer.path, layer.data))
     }
-    const onChildRemove = (layer: Layer) => {
+    const onChildRemove = (index: number, layer: Layer) => {
+      const parent = layer._parent
+      const path = [...parent ? parent.path : [], index]
       layer._parent = undefined
+      this.history.add(layer, new LayerRemove(path, layer.data))
     }
     if (change.type === 'update') {
-      onChildRemove(change.oldValue)
+      onChildRemove(change.index, change.oldValue)
       onChildAdd(change.newValue)
     } else {
-      change.removed.forEach(onChildRemove)
+      change.removed.forEach(layer => onChildRemove(change.index, layer))
       change.added.forEach(onChildAdd)
     }
   }
