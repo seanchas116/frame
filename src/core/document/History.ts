@@ -83,6 +83,9 @@ export class HistoryUndoCommand implements UndoCommand {
 }
 
 function mergeUpdates (update1: LayerUpdate, update2: LayerUpdate) {
+  if (update1 instanceof LayerInsert && update2 instanceof LayerChange) {
+    return new LayerInsert(update1.path, update2.newData)
+  }
   if (update1 instanceof LayerChange && update2 instanceof LayerChange) {
     return new LayerChange(update1.path, update1.oldData, update2.newData)
   }
@@ -103,15 +106,13 @@ export class History {
       return
     }
 
-    if (update instanceof LayerChange) {
-      const last = _.last(this.updates)
-      if (last && layer === last[0]) {
-        const merged = mergeUpdates(update, last[1])
-        if (merged) {
-          this.updates.pop()
-          this.updates.push([layer, merged])
-          return
-        }
+    const last = _.last(this.updates)
+    if (last && layer === last[0]) {
+      const merged = mergeUpdates(update, last[1])
+      if (merged) {
+        this.updates.pop()
+        this.updates.push([layer, merged])
+        return
       }
     }
     this.updates.push([layer, update])
