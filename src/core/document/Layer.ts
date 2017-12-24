@@ -53,7 +53,6 @@ export class Layer {
   constructor (private history: History) {
     this.children.observe(change => this.handleChildrenChange(change), true)
     observe(this, 'data', change => this.handleDataChange(change), true)
-    console.log(this.history)
   }
 
   ancestor (indexPath: number[]): Layer {
