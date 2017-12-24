@@ -1,6 +1,6 @@
 import { Vec2, Rect } from 'paintvec'
 import { Document } from '../../document/Document'
-import { DocumentData, BrushData, HSVColorData, Vec2Data, ShapeData, RectData, LayerData, StyleData } from './Schema'
+import { DocumentData, BrushData, HSVColorData, Vec2Data, ShapeData, RectData, LayerData, StyleData, DeepLayerData } from './Schema'
 import { Brush, ColorBrush, LinearGradientBrush, GradientStop } from '../../document/Brush'
 import { Shape, RectShape, EllipseShape, TextShape, ImageShape } from '../../document/Shape'
 import { HSVColor } from '../../common/Color'
@@ -68,22 +68,27 @@ export function dataToStyle (data: StyleData): Style {
   return style
 }
 
-export function dataToLayer (data: LayerData): Layer {
-  const layer = new Layer()
-  loadDataToLayer(layer, data)
-  return layer
-}
-
-export function loadDataToLayer (layer: Layer, data: LayerData) {
+export function loadLayerData (layer: Layer, data: LayerData) {
   layer.name = data.name
   layer.rect = dataToRect(data.rect)
   layer.shape = dataToShape(data.shape)
   layer.style = dataToStyle(data.style)
-  layer.children.replace(data.children.map(dataToLayer))
+}
+
+export function dataToLayer (data: LayerData): Layer {
+  const layer = new Layer()
+  loadLayerData(layer, data)
+  return layer
+}
+
+export function dataToLayerDeep (data: DeepLayerData): Layer {
+  const layer = dataToLayer(data)
+  layer.children.replace(data.children.map(dataToLayerDeep))
+  return layer
 }
 
 export function dataToDocument (data: DocumentData): Document {
   const document = new Document()
-  document.rootGroup.children.replace(data.layers.map(dataToLayer))
+  document.rootGroup.children.replace(data.layers.map(dataToLayerDeep))
   return document
 }

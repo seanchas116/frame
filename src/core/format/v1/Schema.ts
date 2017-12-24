@@ -71,11 +71,14 @@ export interface LayerData {
   rect: RectData
   shape: ShapeData
   style: StyleData
+}
+
+export interface DeepLayerData extends LayerData {
   children: LayerData[]
 }
 
 export interface DocumentData {
-  layers: LayerData[]
+  layers: DeepLayerData[]
 }
 
 export interface FileV1Format extends DocumentData {

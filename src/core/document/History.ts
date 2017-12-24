@@ -2,7 +2,7 @@ import * as _ from 'lodash'
 import { LayerData } from '../format/v1/Schema'
 import { Document } from './Document'
 import { UndoStack, UndoCommand } from '../common/UndoStack'
-import { dataToLayer, loadDataToLayer } from '../format/v1/Deserialize'
+import { dataToLayer, loadLayerData } from '../format/v1/Deserialize'
 
 export class LayerChange {
   constructor (public path: number[], public oldData: LayerData, public newData: LayerData) {
@@ -10,7 +10,7 @@ export class LayerChange {
 
   apply (document: Document) {
     const layer = document.rootGroup.ancestor(this.path)
-    loadDataToLayer(layer, this.newData)
+    loadLayerData(layer, this.newData)
   }
 
   invert () {

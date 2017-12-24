@@ -1,6 +1,6 @@
 import { Vec2, Rect } from 'paintvec'
 import { Document } from '../../document/Document'
-import { DocumentData, BrushData, HSVColorData, Vec2Data, GradientStopData, ShapeData, RectData, LayerData } from './Schema'
+import { DocumentData, BrushData, HSVColorData, Vec2Data, GradientStopData, ShapeData, RectData, LayerData, DeepLayerData } from './Schema'
 import { Brush, ColorBrush } from '../../document/Brush'
 import { Shape, RectShape, EllipseShape, TextShape, ImageShape } from '../../document/Shape'
 import { HSVColor } from '../../common/Color'
@@ -79,13 +79,19 @@ export function layerToData (layer: Layer): LayerData {
     name: layer.name,
     rect: rectToData(layer.rect),
     shape: shapeToData(layer.shape),
-    style: styleToData(layer.style),
-    children: layer.children.map(layerToData)
+    style: styleToData(layer.style)
+  }
+}
+
+export function layerToDataDeep (layer: Layer): DeepLayerData {
+  return {
+    ...layerToData(layer),
+    children: layer.children.map(layerToDataDeep)
   }
 }
 
 export function documentToData (document: Document): DocumentData {
   return {
-    layers: document.rootGroup.children.map(layerToData)
+    layers: document.rootGroup.children.map(layerToDataDeep)
   }
 }
