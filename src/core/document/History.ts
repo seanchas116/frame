@@ -105,6 +105,7 @@ export class History {
         if (merged) {
           this.updates.pop()
           this.updates.push([layer, merged])
+          return
         }
       }
     }
