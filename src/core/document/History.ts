@@ -2,14 +2,15 @@ import * as _ from 'lodash'
 import { LayerData } from '../format/v1/Schema'
 import { Document } from './Document'
 import { UndoStack, UndoCommand } from '../common/UndoStack'
-import { dataToLayer } from '../format/v1/Deserialize'
+import { dataToLayer, loadDataToLayer } from '../format/v1/Deserialize'
 
 class LayerChange {
   constructor (public path: number[], public oldData: LayerData, public newData: LayerData) {
   }
 
   apply (document: Document) {
-    throw new Error('TODO: implement')
+    const layer = document.rootGroup.ancestor(this.path)
+    loadDataToLayer(layer, this.newData)
   }
 
   invert () {
