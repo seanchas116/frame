@@ -4,7 +4,7 @@ import { Document } from './Document'
 import { UndoStack, UndoCommand } from '../common/UndoStack'
 import { dataToLayer, loadDataToLayer } from '../format/v1/Deserialize'
 
-class LayerChange {
+export class LayerChange {
   constructor (public path: number[], public oldData: LayerData, public newData: LayerData) {
   }
 
@@ -25,7 +25,7 @@ class LayerChange {
   }
 }
 
-class LayerMove {
+export class LayerMove {
   constructor (public oldPath: number[], public newPath: number[]) {
   }
 
@@ -40,7 +40,7 @@ class LayerMove {
   }
 }
 
-class LayerInsert {
+export class LayerInsert {
   constructor (public path: number[], public data: LayerData) {
   }
 
@@ -55,7 +55,7 @@ class LayerInsert {
   }
 }
 
-class LayerRemove {
+export class LayerRemove {
   constructor (public path: number[], public data: LayerData) {
   }
   apply (document: Document) {
@@ -68,9 +68,9 @@ class LayerRemove {
   }
 }
 
-type LayerUpdate = LayerChange | LayerMove | LayerInsert | LayerRemove
+export type LayerUpdate = LayerChange | LayerMove | LayerInsert | LayerRemove
 
-class HistoryUndoCommand implements UndoCommand {
+export class HistoryUndoCommand implements UndoCommand {
   constructor (public title: string, private document: Document, private updates: LayerUpdate[]) {
   }
 
