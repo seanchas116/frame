@@ -1,6 +1,7 @@
 import { observable, action, computed } from 'mobx'
 
 export interface UndoCommand {
+  title: string
   undo (): void
   redo (): void
 }

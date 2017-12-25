@@ -1,7 +1,7 @@
 import * as _ from 'lodash'
 import { LayerData } from '../format/v1/Schema'
 import { Document } from './Document'
-import { UndoStack, UndoCommand } from '../common/UndoStack'
+import { UndoStack } from '../common/UndoStack'
 import { dataToLayer, loadLayerData } from '../format/v1/Deserialize'
 import { Layer } from './Layer'
 
@@ -67,24 +67,6 @@ export class LayerRemove {
 
 export type LayerUpdate = LayerChange | LayerMove | LayerInsert | LayerRemove
 
-export class Commit implements UndoCommand {
-  constructor (public title: string, private document: Document, private updates: LayerUpdate[]) {
-    console.log(updates)
-  }
-
-  undo () {
-    for (const update of this.updates) {
-      update.invert().apply(this.document)
-    }
-  }
-
-  redo () {
-    for (const update of this.updates) {
-      update.apply(this.document)
-    }
-  }
-}
-
 function mergeUpdates (update1: LayerUpdate, update2: LayerUpdate) {
   if (update1 instanceof LayerInsert && update2 instanceof LayerChange) {
     return new LayerInsert(update1.path, update2.newData)
@@ -98,7 +80,7 @@ function mergeUpdates (update1: LayerUpdate, update2: LayerUpdate) {
 }
 
 export class History {
-  undoStack = new UndoStack<Commit>()
+  undoStack = new UndoStack()
   private updates: [Layer, LayerUpdate][] = []
 
   constructor (public document: Document) {
@@ -117,9 +99,29 @@ export class History {
     this.updates.push([layer, update])
   }
 
-  commit (name: string) {
+  clearUpdates () {
+    this.updates = []
+  }
+
+  commit (title: string) {
     if (this.updates.length !== 0) {
-      this.undoStack.push(new Commit(name, this.document, this.updates.map(u => u[1])))
+      const updates = this.updates.map(u => u[1])
+      const command = {
+        title,
+        undo: () => {
+          for (const update of updates) {
+            update.invert().apply(this.document)
+          }
+          this.updates = []
+        },
+        redo: () => {
+          for (const update of updates) {
+            update.apply(this.document)
+          }
+          this.updates = []
+        }
+      }
+      this.undoStack.push(command)
     }
     this.updates = []
   }
