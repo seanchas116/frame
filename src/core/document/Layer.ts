@@ -63,7 +63,7 @@ export class Layer {
     if (indexPath.length === 0) {
       return this
     }
-    return this.children[indexPath[0]].descendant(indexPath.slice(1, -1))
+    return this.children[indexPath[0]].descendant(indexPath.slice(1))
   }
 
   clone () {

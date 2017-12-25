@@ -25,12 +25,15 @@ export class LayerMove {
 
   apply (document: Document) {
     const layer = document.rootGroup.descendant(this.oldPath)
+    const oldParent = layer.parent!
+    oldParent.children.splice(oldParent.children.indexOf(layer), 1)
+
     const newParent = document.rootGroup.descendant(this.newPath.slice(0, -1))
     newParent.children.splice(_.last(this.newPath)!, 0, layer)
   }
 
   invert () {
-    return new LayerMove(this.oldPath, this.newPath)
+    return new LayerMove(this.newPath, this.oldPath)
   }
 }
 
