@@ -115,7 +115,9 @@ export class History {
   }
 
   commit (name: string) {
-    this.undoStack.push(new Commit(name, this.document, this.updates.map(u => u[1])))
+    if (this.updates.length !== 0) {
+      this.undoStack.push(new Commit(name, this.document, this.updates.map(u => u[1])))
+    }
     this.updates = []
   }
 }
