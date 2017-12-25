@@ -80,7 +80,7 @@ export class Layer {
       }
       layer._parent = this
 
-      if (this.document.includes(this)) {
+      if (this.root === this.document.rootGroup) {
         this.history.add(layer, new LayerInsert(layer.path, layer.data))
       }
     }
@@ -90,7 +90,7 @@ export class Layer {
 
       layer._parent = undefined
 
-      if (this.document.includes(this)) {
+      if (this.root === this.document.rootGroup) {
         this.history.add(layer, new LayerRemove(path, layer.data))
       }
     }
@@ -104,7 +104,7 @@ export class Layer {
   }
 
   private handleDataChange (change: IValueDidChange<LayerData>) {
-    if (change.oldValue) {
+    if (change.oldValue && this.root === this.document.rootGroup && this !== this.document.rootGroup) {
       this.history.add(this, new LayerChange(this.path, change.oldValue, change.newValue))
     }
   }
