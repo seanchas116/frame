@@ -81,6 +81,7 @@ export class LayerList extends React.Component {
     const destItem = layerForPath(destPathAfterMove.slice(0, -1))
     destItem.children.splice(destPathAfterMove[destPathAfterMove.length - 1], 0, ...items)
     destItem.collapsed = false
+    editor.document.commit('Move Layers')
   }
   @action private handleCopy = (src: TreeRowInfo[], dest: TreeRowInfo, destIndex: number) => {
     const items: Layer[] = []
@@ -94,5 +95,6 @@ export class LayerList extends React.Component {
     const destItem = layerForPath(dest.path)
     destItem.children.splice(destIndex, 0, ...items)
     destItem.collapsed = false
+    editor.document.commit('Copy Layers')
   }
 }
