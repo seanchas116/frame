@@ -68,19 +68,19 @@ export class LayerRemove {
 export type LayerUpdate = LayerChange | LayerMove | LayerInsert | LayerRemove
 
 export class Commit implements UndoCommand {
-  constructor (public title: string, private document: Document, private updates: LayerUpdate[]) {
+  constructor (public title: string, private history: History, private updates: LayerUpdate[]) {
     console.log(updates)
   }
 
   undo () {
     for (const update of this.updates) {
-      update.invert().apply(this.document)
+      update.invert().apply(this.history.document)
     }
   }
 
   redo () {
     for (const update of this.updates) {
-      update.apply(this.document)
+      update.apply(this.history.document)
     }
   }
 }
@@ -117,9 +117,13 @@ export class History {
     this.updates.push([layer, update])
   }
 
+  clear () {
+    this.updates = []
+  }
+
   commit (name: string) {
     if (this.updates.length !== 0) {
-      this.undoStack.push(new Commit(name, this.document, this.updates.map(u => u[1])))
+      this.undoStack.push(new Commit(name, this, this.updates.map(u => u[1])))
     }
     this.updates = []
   }
