@@ -30,6 +30,7 @@
     "classnames": "^2.2.5",
     "color-string": "^1.5.2",
     "jsondiffpatch": "^0.2.5",
+    "keyboard-layout": "^2.0.13",
     "lodash": "^4.17.4",
     "minimist": "^1.2.0",
     "mobx": "^3.4.1",
