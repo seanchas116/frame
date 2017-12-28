@@ -1,18 +1,20 @@
 import { assert } from 'chai'
 import { Editor } from './Editor'
-import { Layer } from '../../core/document/Layer'
+import { Document } from '../../core/document/Document'
 
 describe('Selection', () => {
   let editor: Editor
+  let document: Document
   beforeEach(() => {
     editor = new Editor()
+    document = editor.document
   })
   describe('layers', () => {
     it('returns selected layers sorted', () => {
-      const layer1 = new Layer()
-      const layer2 = new Layer()
-      const layer3 = new Layer()
-      const leakedLayer = new Layer()
+      const layer1 = document.createLayer()
+      const layer2 = document.createLayer()
+      const layer3 = document.createLayer()
+      const leakedLayer = document.createLayer()
       layer2.children.push(layer3)
       editor.layers.push(layer1, layer2)
 

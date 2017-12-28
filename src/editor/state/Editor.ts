@@ -1,10 +1,9 @@
 import { observable } from 'mobx'
 import { Document } from '../../core/document/Document'
-import { ShapeType, RectShape } from '../../core/document/Shape'
+import { ShapeType } from '../../core/document/Shape'
 import { Scroll } from './Scroll'
 import { Selection } from './Selection'
 import { Layer } from '../../core/document/Layer'
-import { Rect } from 'paintvec'
 
 export class Editor {
   @observable document = new Document()
@@ -13,15 +12,6 @@ export class Editor {
   readonly scroll = new Scroll()
   readonly selection = new Selection(this.document)
   @observable focusedLayer: Layer | undefined = undefined
-
-  constructor () {
-    // TODO: remove later
-    const layer = new Layer()
-    layer.shape = new RectShape()
-    layer.rect = Rect.fromWidthHeight(10, 20, 30, 40)
-    layer.name = 'Layer'
-    this.document.rootGroup.children.push(layer)
-  }
 }
 
 export const editor = new Editor()

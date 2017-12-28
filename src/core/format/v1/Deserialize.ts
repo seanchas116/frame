@@ -1,8 +1,8 @@
 import { Vec2, Rect } from 'paintvec'
 import { Document } from '../../document/Document'
-import { DocumentData, BrushData, HSVColorData, Vec2Data, ShapeData, RectData, LayerData, StyleData } from './Schema'
+import { DocumentData, BrushData, HSVColorData, Vec2Data, ShapeData, RectData, LayerData, StyleData, DeepLayerData } from './Schema'
 import { Brush, ColorBrush, LinearGradientBrush, GradientStop } from '../../document/Brush'
-import { Shape, RectShape, EllipseShape, TextShape, ImageShape } from '../../document/Shape'
+import { Shape, RectShape, EllipseShape, TextShape, ImageShape, GroupShape } from '../../document/Shape'
 import { HSVColor } from '../../common/Color'
 import { Style } from '../../document/Style'
 import { Layer } from '../../document/Layer'
@@ -54,6 +54,9 @@ export function dataToShape (data: ShapeData): Shape {
     case 'ellipse': {
       return new EllipseShape()
     }
+    case 'group': {
+      return new GroupShape()
+    }
   }
 }
 
@@ -68,18 +71,27 @@ export function dataToStyle (data: StyleData): Style {
   return style
 }
 
-export function dataToLayer (data: LayerData): Layer {
-  const layer = new Layer()
+export function loadLayerData (layer: Layer, data: LayerData) {
   layer.name = data.name
   layer.rect = dataToRect(data.rect)
   layer.shape = dataToShape(data.shape)
   layer.style = dataToStyle(data.style)
-  layer.children.replace(data.children.map(dataToLayer))
+}
+
+export function dataToLayer (document: Document, data: LayerData): Layer {
+  const layer = document.createLayer()
+  loadLayerData(layer, data)
+  return layer
+}
+
+export function dataToLayerDeep (document: Document, data: DeepLayerData): Layer {
+  const layer = dataToLayer(document, data)
+  layer.children.replace(data.children.map(childData => dataToLayerDeep(document, childData)))
   return layer
 }
 
 export function dataToDocument (data: DocumentData): Document {
   const document = new Document()
-  document.rootGroup.children.replace(data.layers.map(dataToLayer))
+  document.rootGroup.children.replace(data.layers.map(layerData => dataToLayerDeep(document, layerData)))
   return document
 }
