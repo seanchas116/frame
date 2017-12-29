@@ -1,5 +1,5 @@
 import * as Electron from 'electron'
-import { MenuDescription, menuBar } from '../menu/MenuBar'
+import { MenuDescription, menuBar } from '../app/menu/MenuBar'
 
 const fileMenu: MenuDescription = {
   label: 'File',
