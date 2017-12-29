@@ -10,5 +10,5 @@ export class Style {
   @observable strokeEnabled = true
   @observable stroke: Brush = new ColorBrush(new HSVColor(0, 0, 0.5))
   @observable strokeWidth = 1
-  @observable strokeAlignment: StrokeAlignment
+  @observable strokeAlignment: StrokeAlignment = 'center'
 }
