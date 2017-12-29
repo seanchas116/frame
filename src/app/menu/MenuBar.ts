@@ -1,5 +1,4 @@
-import { remote } from 'electron'
-const { Menu } = remote
+import * as Electron from 'electron'
 import { autorun, observable } from 'mobx'
 import { actionRegistry } from '../state/Action'
 
@@ -47,14 +46,14 @@ export class MenuBar {
 
   updateMenu () {
     const template = this.render()
-    const win = remote.getCurrentWindow()
+    const win = Electron.remote.getCurrentWindow()
     if (process.platform === 'darwin') {
       if (win.isFocused()) {
-        const menu = Menu.buildFromTemplate(template)
-        Menu.setApplicationMenu(menu)
+        const menu = Electron.remote.Menu.buildFromTemplate(template)
+        Electron.remote.Menu.setApplicationMenu(menu)
       }
     } else {
-      const menu = Menu.buildFromTemplate(template)
+      const menu = Electron.remote.Menu.buildFromTemplate(template)
       win.setMenu(menu)
     }
   }
