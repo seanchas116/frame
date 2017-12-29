@@ -1,10 +1,9 @@
 import { Layer } from './Layer'
-import { observable } from 'mobx'
 import { GroupShape } from './Shape'
 import { History } from './History'
 
 export class Document {
-  @observable rootGroup: Layer
+  readonly rootGroup: Layer
   private readonly history = new History(this)
 
   get undoStack () {

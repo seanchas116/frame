@@ -20,7 +20,7 @@ export function createGroupLayer (document: Document, children: Layer[]) {
 
 export function createDocument () {
   const document = new Document()
-  document.rootGroup = createGroupLayer(document, [
+  document.rootGroup.children.replace([
     createShapeLayer(document),
     createShapeLayer(document),
     createGroupLayer(document, [
