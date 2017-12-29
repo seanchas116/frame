@@ -15,8 +15,8 @@ const fileMenu: MenuDescription = {
 const editMenu: MenuDescription = {
   label: 'Edit',
   submenu: [
-    { action: 'edit.undo', accelerator: 'CommandOrControl+Z' },
-    { action: 'edit.redo', accelerator: 'CommandOrControl+Y' },
+    { action: 'edit.undo' },
+    { action: 'edit.redo' },
     { type: 'separator' },
     { action: 'edit.cut', accelerator: 'CommandOrControl+X' },
     { action: 'edit.copy', accelerator: 'CommandOrControl+C' },
