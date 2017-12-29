@@ -23,16 +23,28 @@ export class File {
     return file
   }
 
-  async save () {
+  async save (askFilePath: () => string | undefined) {
     if (!this._isModified) {
       return
     }
     if (this.path) {
-      const data = await fileFormat.serialize(this.document)
-      fs.writeFileSync(this.path, data)
-      this._isModified = false
+      this.saveToPath(this.path)
     } else {
-      throw new Error('path is not specified')
+      this.saveAs(askFilePath)
     }
+  }
+
+  async saveAs (askFilePath: () => string | undefined) {
+    const path = askFilePath()
+    if (path) {
+      this.saveToPath(path)
+      this.path = path
+    }
+  }
+
+  private async saveToPath (path: string) {
+    const data = await fileFormat.serialize(this.document)
+    fs.writeFileSync(path, data)
+    this._isModified = false
   }
 }
