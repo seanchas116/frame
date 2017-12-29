@@ -16,7 +16,7 @@ describe('File', () => {
     it('saves document to file', async () => {
       const file = new File(createDocument())
       file.path = tmp.tmpNameSync()
-      file.isModified = true
+      file.document.commit('Add Layers')
       await file.save()
       assert(fs.existsSync(file.path))
       assert.notOk(file.isModified)
