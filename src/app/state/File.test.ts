@@ -22,6 +22,7 @@ describe('File', () => {
 
       const openedFile = await File.open(file.path)
       assert.deepEqual(documentToData(openedFile.document), documentToData(file.document))
+      assert.equal(openedFile.document.undoStack.commandToUndo, undefined)
       assert.equal(openedFile.isModified, false)
       assert.equal(openedFile.path, file.path)
     })
