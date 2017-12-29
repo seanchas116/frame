@@ -1,5 +1,5 @@
 
-export interface IAction {
+export interface Action {
   id: string
   title: string
   enabled: boolean
@@ -7,9 +7,9 @@ export interface IAction {
 }
 
 export class ActionRegistry {
-  private actions = new Map<string, IAction>()
+  private actions = new Map<string, Action>()
 
-  add (action: IAction) {
+  add (action: Action) {
     this.actions.set(action.id, action)
   }
 

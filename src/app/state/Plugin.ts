@@ -1,11 +1,11 @@
-import { IAction } from './Action'
+import { Action } from './Action'
 
-interface IKeyBindings {
+interface KeyBindings {
   action: string
   key: string
 }
 
 export interface IPlugin {
-  actions: IAction[]
-  keyBindings: IKeyBindings[]
+  actions: Action[]
+  keyBindings: KeyBindings[]
 }
