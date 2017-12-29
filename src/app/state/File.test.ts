@@ -12,19 +12,44 @@ describe('File', () => {
       assert.equal(file.isModified, false)
     })
   })
-  describe('#save/.open', () => {
-    it('saves document to file', async () => {
-      const file = new File(createDocument())
-      file.path = tmp.tmpNameSync()
-      file.document.commit('Add Layers')
-      await file.save()
-      assert.equal(file.isModified, false)
+  describe('#save', () => {
+    describe('in first time', () => {
+      it('ask file path and save document to it', async () => {
+        const file = new File(createDocument())
+        file.document.commit('Add Layers')
+        const path = tmp.tmpNameSync()
+        assert.equal(file.isModified, true)
+        await file.save(() => path)
+        assert.equal(file.isModified, false)
 
-      const openedFile = await File.open(file.path)
-      assert.deepEqual(documentToData(openedFile.document), documentToData(file.document))
-      assert.equal(openedFile.document.undoStack.commandToUndo, undefined)
-      assert.equal(openedFile.isModified, false)
-      assert.equal(openedFile.path, file.path)
+        const openedFile = await File.open(file.path!)
+        assert.deepEqual(documentToData(openedFile.document), documentToData(file.document))
+        assert.equal(openedFile.document.undoStack.commandToUndo, undefined)
+        assert.equal(openedFile.isModified, false)
+        assert.equal(openedFile.path, file.path)
+      })
+    })
+    describe('once after saved', () => {
+      it('save document to same path', async () => {
+        const file = new File(createDocument())
+        file.document.commit('Add Layers')
+        const path = tmp.tmpNameSync()
+        assert.equal(file.isModified, true)
+        await file.save(() => path)
+        assert.equal(file.isModified, false)
+
+        file.document.rootGroup.children[0].name = 'New Layer Name'
+        file.document.commit('Change Layer Name')
+        assert.equal(file.isModified, true)
+        await file.save(() => path)
+        assert.equal(file.isModified, false)
+
+        const openedFile = await File.open(file.path!)
+        assert.deepEqual(documentToData(openedFile.document), documentToData(file.document))
+        assert.equal(openedFile.document.undoStack.commandToUndo, undefined)
+        assert.equal(openedFile.isModified, false)
+        assert.equal(openedFile.path, file.path)
+      })
     })
   })
 })
