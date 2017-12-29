@@ -22,4 +22,8 @@ export class Document {
   commit (message: string) {
     this.history.commit(message)
   }
+
+  clearHistory () {
+    this.history.clear()
+  }
 }
