@@ -1,14 +1,14 @@
-/*
 import { assert } from 'chai'
 import * as tmp from 'tmp'
 import * as fs from 'fs'
-import { File } from '.file/File'
-import { createDocument } from '../document/Document.fixture'
+import { File } from './File'
+import { createDocument } from '../../core/document/test/Fixture'
+import { Document } from '../../core/document/Document'
 
 describe('File', () => {
   describe('constructor', () => {
     it('creates empty file', () => {
-      const file = new File()
+      const file = new File(new Document())
       assert.notOk(file.isModified)
     })
   })
@@ -23,4 +23,3 @@ describe('File', () => {
     })
   })
 })
-*/
