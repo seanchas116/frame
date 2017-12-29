@@ -17,6 +17,7 @@ export class File {
   static async open (path: string) {
     const data = fs.readFileSync(path)
     const document = await fileFormat.deserialize(data)
+    document.clearHistory()
     const file = new File(document)
     file.path = path
     return file
