@@ -18,7 +18,7 @@ function menuDescriptionToElectron (description: MenuDescription): Electron.Menu
       }
       options.enabled = action.enabled
       options.click = () => action.run()
-      options.accelerator = action.defaultKey
+      options.accelerator = process.platform === 'darwin' ? action.defaultKeyMac : action.defaultKey
     }
   }
   if (description.submenu) {

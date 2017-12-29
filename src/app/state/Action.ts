@@ -5,6 +5,7 @@ export interface Action {
   title: string
   enabled: boolean
   defaultKey: string | undefined
+  defaultKeyMac: string | undefined
   run (): void
 }
 

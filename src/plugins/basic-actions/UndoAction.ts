@@ -4,7 +4,8 @@ import { editor } from '../../editor/state/Editor'
 
 export class UndoAction implements Action {
   id = 'edit.undo'
-  defaultKey = 'CommandOrControl+Z'
+  defaultKey = 'Control+Z'
+  defaultKeyMac = 'Command+Z'
 
   @computed get title () {
     const { commandToUndo } = editor.document.undoStack

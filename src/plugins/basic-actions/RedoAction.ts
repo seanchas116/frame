@@ -4,7 +4,8 @@ import { editor } from '../../editor/state/Editor'
 
 export class RedoAction implements Action {
   id = 'edit.redo'
-  defaultKey = 'CommandOrControl+Y'
+  defaultKey = 'Control+Y'
+  defaultKeyMac = 'Shift+Command+Z'
 
   @computed get title () {
     const { commandToRedo } = editor.document.undoStack
