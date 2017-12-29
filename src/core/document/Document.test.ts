@@ -5,6 +5,7 @@ describe('Document', () => {
   describe('#commit', () => {
     it('makes layer change undoable', () => {
       const document = createDocument()
+      document.clearHistory()
       const layer = document.rootGroup.children[1]
 
       layer.name = 'Name Changed'
@@ -20,6 +21,7 @@ describe('Document', () => {
     })
     it('makes layer move undoable', () => {
       const document = createDocument()
+      document.clearHistory()
       const layer = document.rootGroup.children[3]
       const group = document.rootGroup.children[2]
 
