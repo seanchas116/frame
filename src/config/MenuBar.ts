@@ -26,11 +26,11 @@ const editMenu: MenuDescription = {
   ]
 }
 
-const itemMenu: MenuDescription = {
-  label: 'Item',
+const layerMenu: MenuDescription = {
+  label: 'Layer',
   submenu: [
-    { action: 'item.group', accelerator: 'CommandOrControl+G' },
-    { action: 'item.ungroup', accelerator: 'Shift+CommandOrControl+G' }
+    { action: 'layer.group', accelerator: 'CommandOrControl+G' },
+    { action: 'layer.ungroup', accelerator: 'Shift+CommandOrControl+G' }
   ]
 }
 const viewMenu: MenuDescription = {
@@ -64,7 +64,7 @@ const helpMenu: MenuDescription = {
   ]
 }
 
-const template = [fileMenu, editMenu, itemMenu, viewMenu, windowMenu, helpMenu]
+const template = [fileMenu, editMenu, layerMenu, viewMenu, windowMenu, helpMenu]
 
 if (process.platform === 'darwin') {
   const appMenu: MenuDescription = {
