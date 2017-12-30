@@ -25,6 +25,16 @@ module.exports = {
       },
       {
         test: /\.tsx?$/,
+        enforce: 'pre',
+        use: {
+          loader: 'tslint-loader',
+          options: {
+            emitErrors: true
+          }
+        }
+      },
+      {
+        test: /\.tsx?$/,
         use: {
           loader: 'awesome-typescript-loader',
           options: {
