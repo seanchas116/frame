@@ -7,8 +7,8 @@ import { LayerView } from './LayerView'
 import { InsertOverlay } from './InsertOverlay'
 import { SnapLines } from './SnapLines'
 import { layerSnapper } from './LayerSnapper'
-import { LayerResizeHandles } from './LayerResizeHandles';
-import { isTextInput } from '../common/isTextInput';
+import { LayerResizeHandles } from './LayerResizeHandles'
+import { isTextInput } from '../common/isTextInput'
 const styles = require('./EditorView.css')
 
 interface ResizeObserver {

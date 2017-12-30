@@ -5,7 +5,7 @@ import { PointerEvents } from '../common/PointerEvents'
 import { Layer } from '../../core/document/Layer'
 import { editor } from '../state/Editor'
 import { Shape, ShapeType, RectShape, EllipseShape, TextShape } from '../../core/document/Shape'
-import { ColorBrush } from '../../core/document/Brush';
+import { ColorBrush } from '../../core/document/Brush'
 const styles = require('./InsertOverlay.css')
 
 function createShape (type: ShapeType): Shape {

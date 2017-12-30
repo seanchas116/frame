@@ -6,7 +6,7 @@ import { ResizeHandles } from './ResizeHandles'
 import { Alignment } from '../../core/common/Types'
 import { Layer } from '../../core/document/Layer'
 import { layerSnapper } from './LayerSnapper'
-import { editor } from '../state/Editor';
+import { editor } from '../state/Editor'
 
 @observer
 export
