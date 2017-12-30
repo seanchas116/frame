@@ -24,7 +24,10 @@
     "build:renderer": "webpack",
     "build:test": "webpack --config webpack.config.test.js",
     "pretest": "npm run build:test",
-    "test": "electron-mocha --renderer public/assets/test.js"
+    "lint": "tslint src/**/*.{ts,tsx}",
+    "lint:fix": "tslint --fix src/**/*.{ts,tsx}",
+    "test:mocha": "electron-mocha --renderer public/assets/test.js",
+    "test": "npm-run-all lint test:mocha"
   },
   "dependencies": {
     "classnames": "^2.2.5",
