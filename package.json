@@ -74,6 +74,7 @@
     "tmp": "0.0.33",
     "tslint": "^5.8.0",
     "tslint-config-standard": "^7.0.0",
+    "tslint-loader": "^3.5.3",
     "typescript": "^2.6.2",
     "webpack": "^3.10.0",
     "webpack-dev-server": "^2.9.7"
