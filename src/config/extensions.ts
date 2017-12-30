@@ -1,4 +1,4 @@
 import { extensionRegistry } from '../app/state/Extension'
-import BasicActionsExtension from '../extensions/basic-actions'
+import EditActionsExtension from '../extensions/edit-actions'
 
-extensionRegistry.add(new BasicActionsExtension())
+extensionRegistry.add(new EditActionsExtension())
