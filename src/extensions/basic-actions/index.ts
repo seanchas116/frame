@@ -1,8 +1,8 @@
-import { Plugin } from '../../app/state/Plugin'
+import { Extension } from '../../app/state/Extension'
 import { UndoAction } from './UndoAction'
 import { RedoAction } from './RedoAction'
 
-export default class BasicActionsPlugin implements Plugin {
+export default class BasicActionsExtension implements Extension {
   actions = [
     new UndoAction(),
     new RedoAction()
