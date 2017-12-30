@@ -3,7 +3,7 @@ import * as tmp from 'tmp'
 import { File } from './File'
 import { createDocument } from '../../core/document/test/Fixture'
 import { Document } from '../../core/document/Document'
-import { documentToData } from '../../core/format/v1/Serialize';
+import { documentToData } from '../../core/format/v1/Serialize'
 
 describe('File', () => {
   describe('constructor', () => {
