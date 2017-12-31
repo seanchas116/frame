@@ -14,8 +14,8 @@ export class FileOpenAction implements Action {
       Electron.remote.dialog.showOpenDialog(Electron.remote.getCurrentWindow(), {
         title: 'Open',
         filters: [{
-          name: 'Macaron Document',
-          extensions: ['macaron']
+          name: 'Frame Document',
+          extensions: ['frame']
         }]
       }, resolve)
     })
