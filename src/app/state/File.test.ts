@@ -19,7 +19,7 @@ describe('File', () => {
         file.document.commit('Add Layers')
         const path = tmp.tmpNameSync()
         assert.equal(file.isModified, true)
-        await file.save(() => path)
+        await file.save(async () => path)
         assert.equal(file.isModified, false)
 
         const openedFile = await File.open(file.path!)
@@ -35,13 +35,13 @@ describe('File', () => {
         file.document.commit('Add Layers')
         const path = tmp.tmpNameSync()
         assert.equal(file.isModified, true)
-        await file.save(() => path)
+        await file.save(async () => path)
         assert.equal(file.isModified, false)
 
         file.document.rootGroup.children[0].name = 'New Layer Name'
         file.document.commit('Change Layer Name')
         assert.equal(file.isModified, true)
-        await file.save(() => path)
+        await file.save(async () => path)
         assert.equal(file.isModified, false)
 
         const openedFile = await File.open(file.path!)
