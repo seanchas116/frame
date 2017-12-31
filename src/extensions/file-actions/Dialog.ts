@@ -1,7 +1,7 @@
 import { remote } from 'electron'
 
-export async function showSaveDialog () {
-  const filePath = await new Promise<string | undefined>((resolve, reject) => {
+export function showSaveDialog () {
+  return new Promise<string | undefined>((resolve, reject) => {
     remote.dialog.showSaveDialog(remote.getCurrentWindow(), {
       title: 'Save As...',
       filters: [{
@@ -10,7 +10,4 @@ export async function showSaveDialog () {
       }]
     }, resolve)
   })
-  if (filePath) {
-    return filePath[0]
-  }
 }
