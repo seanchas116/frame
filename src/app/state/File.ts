@@ -28,9 +28,9 @@ export class File {
       return
     }
     if (this.path) {
-      this.saveToPath(this.path)
+      await this.saveToPath(this.path)
     } else {
-      this.saveAs(askFilePath)
+      await this.saveAs(askFilePath)
     }
   }
 
