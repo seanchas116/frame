@@ -1,15 +1,18 @@
 import * as Electron from 'electron'
 import * as querystring from 'querystring'
-import { observable } from 'mobx'
+import { observable, reaction } from 'mobx'
 import { File } from './File'
 import { Document } from '../../core/document/Document'
+import { editor } from '../../editor/state/Editor'
 
 export class FileStore {
   @observable file = new File(new Document())
   get document () { return this.file.document }
 
   constructor () {
+    reaction(() => this.document, document => editor.document = document)
     this.openFileFromHash()
+    editor.document = this.document
   }
 
   openInNewWindow (path?: string) {
