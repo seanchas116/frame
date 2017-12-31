@@ -23,7 +23,7 @@ export class File {
     return file
   }
 
-  async save (askFilePath: () => string | undefined) {
+  async save (askFilePath: () => Promise<string | undefined>) {
     if (!this._isModified) {
       return
     }
@@ -34,8 +34,8 @@ export class File {
     }
   }
 
-  async saveAs (askFilePath: () => string | undefined) {
-    const path = askFilePath()
+  async saveAs (askFilePath: () => Promise<string | undefined>) {
+    const path = await askFilePath()
     if (path) {
       this.saveToPath(path)
       this.path = path
