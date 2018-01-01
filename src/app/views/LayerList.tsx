@@ -27,7 +27,7 @@ class LayerRowContent extends React.Component<TreeRowInfo> {
     const onChange = action((text: string) => {
       layer.name = text
     })
-    const editable = editor.selection.has(layer)
+    const editable = editor.document.selection.has(layer)
     return <div className={styles.LayerListRowContent}>
       <ClickToEdit text={layer.name} onChange={onChange} editable={editable} />
     </div>
@@ -37,7 +37,7 @@ class LayerRowContent extends React.Component<TreeRowInfo> {
 @observer
 export class LayerList extends React.Component {
   render () {
-    const selectedKeys = editor.selection.layers.map(l => l.key)
+    const selectedKeys = editor.document.selection.layers.map(l => l.key)
     const root = toTreeNode(editor.document.rootGroup)
 
     return <TreeView
@@ -64,7 +64,7 @@ export class LayerList extends React.Component {
     }
   }
   @action private handleSelectedKeysChange = (selectedKeys: Set<number>, selectedInfos: TreeRowInfo[]) => {
-    editor.selection.replace(selectedInfos.map(info => layerForPath(info.path)))
+    editor.document.selection.replace(selectedInfos.map(info => layerForPath(info.path)))
   }
   @action private handleCollapsedChange = (info: TreeRowInfo, collapsed: boolean) => {
     layerForPath(info.path).collapsed = collapsed

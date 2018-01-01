@@ -41,7 +41,7 @@ declare var ResizeObserver: ResizeObserverStatic
 
   render () {
     const { width, height } = this.clientRect
-    const selectedLayers = editor.selection.layers
+    const selectedLayers = editor.document.selection.layers
     return <div className={styles.EditorView} ref={e => this.element = e!}>
       <svg className={styles.SVG} width={width} height={height}>
         <rect className={styles.SVGBackground} x={0} y={0} width={width} height={height} onClick={this.handleClickBackground}/>
@@ -60,14 +60,14 @@ declare var ResizeObserver: ResizeObserverStatic
 
   private handleClickBackground = (e: React.MouseEvent<SVGRectElement>) => {
     if (!e.shiftKey) {
-      editor.selection.clear()
+      editor.document.selection.clear()
     }
   }
 
   private handleDocumentKeyDown = (e: KeyboardEvent) => {
     if (e.key === 'Backspace' || e.key === 'Delete') {
       if (!isTextInput(e.target)) {
-        for (const selection of editor.selection.layers) {
+        for (const selection of editor.document.selection.layers) {
           const parent = selection.parent
           if (parent) {
             parent.children.splice(parent.children.indexOf(selection), 1)
