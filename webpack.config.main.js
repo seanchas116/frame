@@ -6,10 +6,14 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, 'public/assets'),
     filename: 'main.js',
+    libraryTarget: 'commonjs'
   },
   target: 'electron-main',
   resolve: {
     extensions: ['.ts', '.js']
+  },
+  externals: {
+    'transparent-titlebar': true
   },
   module: {
     loaders: [
