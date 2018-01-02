@@ -1,5 +1,6 @@
 import { app, BrowserWindow, ipcMain } from 'electron'
 import * as qs from 'querystring'
+import * as transparentTitlebar from 'transparent-titlebar'
 
 const argv = require('minimist')(process.argv.slice(2))
 const contentBase = argv.devserver ? 'http://localhost:23000' : `file://${app.getAppPath()}/dist`
@@ -9,11 +10,12 @@ let testWindow: BrowserWindow | undefined
 
 async function openWindow (filePath?: string) {
   const win = mainWindow = new BrowserWindow({
-    titleBarStyle: 'hidden',
     width: 1200,
     height: 768,
     show: false
   })
+  win.setTitle('Frame')
+  transparentTitlebar.setup(win.getNativeWindowHandle())
 
   const query = qs.stringify({ filePath })
 
