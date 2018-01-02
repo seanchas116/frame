@@ -43,6 +43,7 @@
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-draggable-tree": "github:sketchglass/react-draggable-tree",
+    "transparent-titlebar": "github:seanchas116/transparent-titlebar",
     "uuid": "^3.1.0"
   },
   "devDependencies": {
@@ -64,6 +65,7 @@
     "css-loader": "^0.28.7",
     "electron": "1.8.2-beta.3",
     "electron-mocha": "^5.0.0",
+    "electron-rebuild": "^1.6.0",
     "file-loader": "^1.1.6",
     "istanbul-instrumenter-loader": "^3.0.0",
     "json-loader": "^0.5.7",
