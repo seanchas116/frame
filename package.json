@@ -44,7 +44,7 @@
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-draggable-tree": "github:sketchglass/react-draggable-tree",
-    "transparent-titlebar": "github:seanchas116/transparent-titlebar",
+    "transparent-titlebar": "^0.1.0",
     "uuid": "^3.1.0"
   },
   "devDependencies": {
