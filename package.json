@@ -27,7 +27,8 @@
     "lint": "tslint src/**/*.{ts,tsx}",
     "lint:fix": "tslint --fix src/**/*.{ts,tsx}",
     "test:mocha": "electron-mocha --renderer public/assets/test.js",
-    "test": "npm-run-all lint test:mocha"
+    "test": "npm-run-all lint test:mocha",
+    "postinstall": "electron-rebuild"
   },
   "dependencies": {
     "classnames": "^2.2.5",
