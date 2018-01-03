@@ -21,7 +21,7 @@ class LayerResizeHandles extends React.Component<{layers: Layer[]}, {}> {
     return Rect.union(...this.props.layers.map(i => i.rect))
   }
 
-  componentDidMount () {
+  @action componentDidMount () {
     this.updatePositions()
     this.disposers.push(
       reaction(() => this.rect, () => {

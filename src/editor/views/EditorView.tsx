@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { observable } from 'mobx'
+import { observable, action } from 'mobx'
 import { observer } from 'mobx-react'
 import { Rect } from 'paintvec'
 import { editor } from '../state/Editor'
@@ -53,18 +53,18 @@ declare var ResizeObserver: ResizeObserverStatic
     </div>
   }
 
-  private handleResize = () => {
+  @action private handleResize = () => {
     const clientRect = this.element.getBoundingClientRect()
     this.clientRect = Rect.fromWidthHeight(clientRect.left, clientRect.top, clientRect.width, clientRect.height)
   }
 
-  private handleClickBackground = (e: React.MouseEvent<SVGRectElement>) => {
+  @action private handleClickBackground = (e: React.MouseEvent<SVGRectElement>) => {
     if (!e.shiftKey) {
       editor.document.selection.clear()
     }
   }
 
-  private handleDocumentKeyDown = (e: KeyboardEvent) => {
+  @action private handleDocumentKeyDown = (e: KeyboardEvent) => {
     if (e.key === 'Backspace' || e.key === 'Delete') {
       if (!isTextInput(e.target)) {
         for (const selection of editor.document.selection.layers) {

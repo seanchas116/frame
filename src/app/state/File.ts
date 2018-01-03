@@ -1,6 +1,6 @@
 import { Document } from '../../core/document/Document'
 import { V1Format } from '../../core/format/v1/V1Format'
-import { observable, reaction } from 'mobx'
+import { observable, reaction, runInAction, action } from 'mobx'
 import * as fs from 'fs'
 
 const fileFormat = new V1Format()
@@ -15,7 +15,7 @@ export class File {
   }
 
   constructor (public readonly document: Document) {
-    reaction(() => document.undoStack.commandToUndo, () => this._isModified = true)
+    reaction(() => document.undoStack.commandToUndo, action(() => this._isModified = true))
   }
 
   static new () {
@@ -53,6 +53,8 @@ export class File {
   private async saveToPath (path: string) {
     const data = await fileFormat.serialize(this.document)
     fs.writeFileSync(path, data)
-    this._isModified = false
+    runInAction(() => {
+      this._isModified = false
+    })
   }
 }

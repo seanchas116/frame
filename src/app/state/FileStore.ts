@@ -1,6 +1,6 @@
 import * as Electron from 'electron'
 import * as querystring from 'querystring'
-import { observable, reaction } from 'mobx'
+import { observable, reaction, runInAction } from 'mobx'
 import { File } from './File'
 import { Document } from '../../core/document/Document'
 import { editor } from '../../editor/state/Editor'
@@ -22,7 +22,8 @@ export class FileStore {
 
   async open (path?: string) {
     if (this.file.isEmpty) {
-      this.file = path ? await File.open(path) : File.new()
+      const file = path ? await File.open(path) : File.new()
+      runInAction(() => this.file = file)
     } else {
       Electron.ipcRenderer.send('newWindow', path)
     }
@@ -33,10 +34,11 @@ export class FileStore {
       const opts = querystring.parse(location.hash.slice(1))
       if (opts.filePath) {
         // TODO: handle error
-        this.file = await File.open(opts.filePath as string)
+        const file = await File.open(opts.filePath as string)
+        runInAction(() => this.file = file)
       }
     }
   }
 }
 
-export const fileStore = new FileStore()
+export const fileStore = runInAction(() => new FileStore())

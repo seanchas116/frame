@@ -1,8 +1,9 @@
+import { runInAction } from 'mobx'
+import * as msgpack from 'msgpack-lite'
 import { Format } from '../Format'
 import { Document } from '../../document/Document'
 import { FileV1Format } from './Schema'
 import { documentToData } from './Serialize'
-import * as msgpack from 'msgpack-lite'
 import { dataToDocument } from './Deserialize'
 
 export class V1Format implements Format {
@@ -17,6 +18,6 @@ export class V1Format implements Format {
   async deserialize (buffer: Buffer) {
     const data: FileV1Format = msgpack.decode(buffer)
     // TODO: validate data format
-    return dataToDocument(data)
+    return runInAction(() => dataToDocument(data))
   }
 }

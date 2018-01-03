@@ -1,5 +1,6 @@
 import * as Electron from 'electron'
 import { MenuDescription, menuBar } from '../app/menu/MenuBar'
+import { runInAction } from 'mobx'
 
 const fileMenu: MenuDescription = {
   label: 'File',
@@ -104,4 +105,6 @@ if (process.platform === 'darwin') {
   ]
 }
 
-menuBar.template = template
+runInAction(() => {
+  menuBar.template = template
+})
