@@ -18,6 +18,10 @@ export class File {
     reaction(() => document.undoStack.commandToUndo, () => this._isModified = true)
   }
 
+  static new () {
+    return new File(new Document())
+  }
+
   static async open (path: string) {
     const data = fs.readFileSync(path)
     const document = await fileFormat.deserialize(data)

@@ -22,11 +22,7 @@ export class FileStore {
 
   async open (path?: string) {
     if (this.file.isEmpty) {
-      if (path) {
-        this.file = await File.open(path)
-      } else {
-        this.file = new File(new Document())
-      }
+      this.file = path ? await File.open(path) : File.new()
     } else {
       Electron.ipcRenderer.send('newWindow', path)
     }
