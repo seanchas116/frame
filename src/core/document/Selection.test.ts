@@ -4,7 +4,7 @@ import { Document } from '../../core/document/Document'
 describe('Selection', () => {
   let document: Document
   beforeEach(() => {
-    document = document
+    document = new Document()
   })
   describe('layers', () => {
     it('returns selected layers sorted', () => {
