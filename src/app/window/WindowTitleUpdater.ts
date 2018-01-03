@@ -15,12 +15,17 @@ export class WindowTitleUpdater {
     return fileStore.file.path || ''
   }
 
+  @computed private get isDocumentEdited () {
+    return fileStore.file.isModified
+  }
+
   constructor () {
     this.disposers = [
       autorun(() => {
         const win = Electron.remote.getCurrentWindow()
         win.setTitle(this.windowTitle)
         win.setRepresentedFilename(this.representedFilePath)
+        win.setDocumentEdited(this.isDocumentEdited)
       })
     ]
   }
