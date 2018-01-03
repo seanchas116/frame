@@ -10,6 +10,10 @@ export class File {
   get isModified () { return this._isModified }
   @observable private _isModified = false
 
+  get isEmpty () {
+    return !this.isModified && !this.path
+  }
+
   constructor (public readonly document: Document) {
     reaction(() => document.undoStack.commandToUndo, () => this._isModified = true)
   }
