@@ -4,17 +4,20 @@ import { ToolBar } from './ToolBar'
 import { LayerList } from './LayerList'
 import '../menu/MenuBar'
 import { WindowTitleUpdater } from '../window/WindowTitleUpdater'
+import { Disposable, disposeAll } from '../../core/common/Disposable'
 const styles = require('./AppView.css')
 
 export class AppView extends React.Component {
-  titleUpdater: WindowTitleUpdater
+  disposables: Disposable[]
 
   componentDidMount () {
-    this.titleUpdater = new WindowTitleUpdater()
+    this.disposables = [
+      new WindowTitleUpdater()
+    ]
   }
 
   componentWillUnmount () {
-    this.titleUpdater.dispose()
+    disposeAll(this.disposables)
   }
 
   render () {

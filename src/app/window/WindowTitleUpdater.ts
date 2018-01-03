@@ -2,9 +2,10 @@ import * as path from 'path'
 import * as Electron from 'electron'
 import { computed, autorun } from 'mobx'
 import { fileStore } from '../state/FileStore'
+import { Disposable, disposeAll } from '../../core/common/Disposable'
 
 export class WindowTitleUpdater {
-  private disposers: (() => void)[]
+  private disposables: Disposable[]
 
   @computed private get windowTitle () {
     const filePath = fileStore.file.path
@@ -20,7 +21,7 @@ export class WindowTitleUpdater {
   }
 
   constructor () {
-    this.disposers = [
+    this.disposables = [
       autorun(() => {
         const win = Electron.remote.getCurrentWindow()
         win.setTitle(this.windowTitle)
@@ -31,6 +32,6 @@ export class WindowTitleUpdater {
   }
 
   dispose () {
-    this.disposers.forEach(d => d())
+    disposeAll(this.disposables)
   }
 }
