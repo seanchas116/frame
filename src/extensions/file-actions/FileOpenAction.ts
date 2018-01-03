@@ -22,6 +22,6 @@ export class FileOpenAction implements Action {
     if (!filePaths || filePaths.length === 0) {
       return
     }
-    fileStore.openInNewWindow(filePaths[0])
+    fileStore.open(filePaths[0])
   }
 }

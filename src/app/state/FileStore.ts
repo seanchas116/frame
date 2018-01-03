@@ -20,8 +20,16 @@ export class FileStore {
     editor.document = this.document
   }
 
-  openInNewWindow (path?: string) {
-    Electron.ipcRenderer.send('newWindow', path)
+  async open (path?: string) {
+    if (this.file.isEmpty) {
+      if (path) {
+        this.file = await File.open(path)
+      } else {
+        this.file = new File(new Document())
+      }
+    } else {
+      Electron.ipcRenderer.send('newWindow', path)
+    }
   }
 
   private async openFileFromHash () {

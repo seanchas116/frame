@@ -9,6 +9,6 @@ export class FileNewAction implements Action {
   enabled = true
 
   run () {
-    fileStore.openInNewWindow()
+    fileStore.open()
   }
 }
