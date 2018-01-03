@@ -31,7 +31,3 @@ export class AppView extends React.Component {
     </div>
   }
 }
-
-if (module.hot) {
-  module.hot.accept()
-}
