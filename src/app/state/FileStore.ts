@@ -10,7 +10,12 @@ export class FileStore {
   get document () { return this.file.document }
 
   constructor () {
-    reaction(() => this.document, document => editor.document = document)
+    reaction(() => this.document, document => {
+      editor.document = document
+    })
+    reaction(() => this.file.path, path => {
+      Electron.ipcRenderer.send('filePathChange', path)
+    })
     this.openFileFromHash()
     editor.document = this.document
   }

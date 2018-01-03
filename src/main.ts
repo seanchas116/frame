@@ -14,6 +14,14 @@ class Window {
       Window.instances.delete(this)
     })
   }
+
+  static forWebContents (webContents: Electron.WebContents) {
+    for (const win of this.instances) {
+      if (win.browserWindow.webContents === webContents) {
+        return win
+      }
+    }
+  }
 }
 
 class DocumentWindow extends Window {
@@ -38,6 +46,14 @@ class DocumentWindow extends Window {
       this.browserWindow.show()
     })
   }
+
+  static forFilePath (path: string) {
+    for (const win of Window.instances) {
+      if (win instanceof DocumentWindow && win.filePath === path) {
+        return win
+      }
+    }
+  }
 }
 
 class TestWindow extends Window {
@@ -59,8 +75,22 @@ Electron.app.on('ready', () => {
     new TestWindow()
   } else {
     Electron.ipcMain.on('newWindow', async (e: Electron.IpcMessageEvent, filePath?: string) => {
+      if (filePath) {
+        const win = DocumentWindow.forFilePath(filePath)
+        if (win) {
+          win.browserWindow.focus()
+          return
+        }
+      }
       // tslint:disable-next-line:no-unused-expression
       new DocumentWindow(filePath)
+    })
+    Electron.ipcMain.on('filePathChange', async (e: Electron.IpcMessageEvent, filePath?: string) => {
+      const win = Window.forWebContents(e.sender)
+      if (win instanceof DocumentWindow) {
+        win.filePath = filePath
+        console.log(filePath)
+      }
     })
     // tslint:disable-next-line:no-unused-expression
     new DocumentWindow()
