@@ -22,7 +22,7 @@ export class AppView extends React.Component {
 
   render () {
     return <div className={styles.AppView}>
-      <div className={styles.TitleBar} />
+      {process.platform === 'darwin' && <div className={styles.TitleBar} />}
       <div className={styles.Columns}>
         <ToolBar />
         <LayerList />
