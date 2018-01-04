@@ -4,6 +4,7 @@ import { action, reaction, computed, observable } from 'mobx'
 import { Rect, Vec2 } from 'paintvec'
 import { ResizeHandles } from './ResizeHandles'
 import { Alignment } from '../../core/common/Types'
+import { Disposable, disposeAll } from '../../core/common/Disposable'
 import { Layer } from '../../core/document/Layer'
 import { layerSnapper } from './LayerSnapper'
 import { editor } from '../state/Editor'
@@ -12,7 +13,7 @@ import { editor } from '../state/Editor'
 export
 class LayerResizeHandles extends React.Component<{layers: Layer[]}, {}> {
   private dragging = false
-  private disposers: (() => void)[] = []
+  private disposables: Disposable[]
   @observable private positions: [Vec2, Vec2] | undefined
   private originalPositions: [Vec2, Vec2] | undefined
   private originalRects = new Map<Layer, Rect>()
@@ -23,17 +24,17 @@ class LayerResizeHandles extends React.Component<{layers: Layer[]}, {}> {
 
   @action componentDidMount () {
     this.updatePositions()
-    this.disposers.push(
+    this.disposables = [
       reaction(() => this.rect, () => {
         if (!this.dragging) {
           this.updatePositions()
         }
       })
-    )
+    ]
   }
 
   componentWillUnmount () {
-    this.disposers.forEach(f => f())
+    disposeAll(this.disposables)
   }
 
   render () {
