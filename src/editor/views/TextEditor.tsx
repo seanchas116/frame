@@ -5,7 +5,7 @@ import { Layer } from '../../core/document/Layer'
 const styles = require('./TextEditor.css')
 
 export class TextEdior extends React.Component<{layer: Layer}> {
-  element: HTMLDivElement
+  editable: HTMLElement
 
   componentDidMount () {
     const { text } = this.props.layer
@@ -13,9 +13,9 @@ export class TextEdior extends React.Component<{layer: Layer}> {
       if (fragment.type === 'span') {
         const spanElem = document.createElement('span')
         spanElem.innerText = fragment.characters.join('')
-        this.element.appendChild(spanElem)
+        this.editable.appendChild(spanElem)
       } else {
-        this.element.appendChild(document.createElement('br'))
+        this.editable.appendChild(document.createElement('br'))
       }
     }
   }
@@ -28,27 +28,21 @@ export class TextEdior extends React.Component<{layer: Layer}> {
       width: width + 'px',
       height: height + 'px'
     }
-    return <div
-      ref={e => this.element = e!}
-      className={styles.TextEditor} style={style}
-      onInput={this.handleInput}
-      onKeyPress={this.handleKeyPress}
-      contentEditable={true}
-    />
+    return <div style={style} className={styles.TextEditor}>
+      <div
+        ref={e => this.editable = e!}
+        className={styles.TextEditorEditable} style={style}
+        onInput={this.handleInput}
+        contentEditable={true}
+      />
+    </div>
   }
 
   @action private handleInput = () => {
     const span: TextSpan = {
       type: 'span',
-      characters: [...this.element.innerText]
+      characters: [...this.editable.innerText]
     }
     this.props.layer.text.fragments.replace([span])
-  }
-
-  @action private handleKeyPress = (e: React.KeyboardEvent<HTMLElement>) => {
-    if (e.key === 'Enter') {
-      document.execCommand('insertHTML', false, '<br><br>')
-      e.preventDefault()
-    }
   }
 }
