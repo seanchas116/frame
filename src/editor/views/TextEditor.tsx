@@ -8,7 +8,12 @@ export class TextEdior extends React.Component<{layer: Layer}> {
   element: HTMLDivElement
 
   componentDidMount () {
-    this.element.innerText = this.props.layer.text.toString()
+    const { text } = this.props.layer
+    for (const span of text.spans) {
+      const spanElem = document.createElement('span')
+      spanElem.innerText = span.characters.join('')
+      this.element.appendChild(spanElem)
+    }
   }
 
   render () {
