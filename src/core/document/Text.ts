@@ -1,10 +1,18 @@
 import { observable } from 'mobx'
 import { HSVColor } from '../common/Color'
 
+export type TextSpan = Readonly<{
+  fontFamily?: string
+  fontSize?: number
+  fontWeight?: number
+  color?: HSVColor
+  characters: string[]
+}>
+
 export class Text {
-  @observable fontFamily: string | undefined = undefined
-  @observable fontSize: number | undefined = undefined
-  @observable fontWeight: number | undefined = undefined
-  @observable color: HSVColor | undefined = undefined
-  readonly children = observable<Text | string>([])
+  readonly spans = observable<TextSpan>([])
+
+  toString () {
+    return this.spans.map(span => span.characters.join('')).join('')
+  }
 }

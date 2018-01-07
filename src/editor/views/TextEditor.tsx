@@ -1,14 +1,14 @@
 import * as React from 'react'
 import { action } from 'mobx'
-import { Layer, TextSpan } from '../../core/document/Layer'
+import { TextSpan } from '../../core/document/Text'
+import { Layer } from '../../core/document/Layer'
 const styles = require('./TextEditor.css')
 
 export class TextEdior extends React.Component<{layer: Layer}> {
   element: HTMLDivElement
 
   componentDidMount () {
-    const text = this.props.layer.text.map(span => span.characters.join('')).join('')
-    this.element.innerText = text
+    this.element.innerText = this.props.layer.text.toString()
   }
 
   render () {
@@ -26,6 +26,6 @@ export class TextEdior extends React.Component<{layer: Layer}> {
     const span: TextSpan = {
       characters: [...this.element.innerText]
     }
-    this.props.layer.text.replace([span])
+    this.props.layer.text.spans.replace([span])
   }
 }
