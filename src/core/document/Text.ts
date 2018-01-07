@@ -12,6 +12,10 @@ export type TextSpan = Readonly<{
 export class Text {
   readonly spans = observable<TextSpan>([])
 
+  get isEmpty () {
+    return this.spans.length === 0
+  }
+
   toString () {
     return this.spans.map(span => span.characters.join('')).join('')
   }
