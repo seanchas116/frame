@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { action } from 'mobx'
-import { TextSpan } from '../../core/document/Text'
+import { TextFragment } from '../../core/document/Text'
 import { Layer } from '../../core/document/Layer'
 const styles = require('./TextEditor.css')
 
@@ -39,10 +39,19 @@ export class TextEdior extends React.Component<{layer: Layer}> {
   }
 
   @action private handleInput = () => {
-    const span: TextSpan = {
-      type: 'span',
-      characters: [...this.editable.innerText]
+    const fragments: TextFragment[] = []
+    for (const child of this.editable.childNodes) {
+      if (child instanceof HTMLBRElement) {
+        fragments.push({
+          type: 'break'
+        })
+      } else {
+        fragments.push({
+          type: 'span',
+          characters: [...(child.textContent || '')]
+        })
+      }
     }
-    this.props.layer.text.fragments.replace([span])
+    this.props.layer.text.fragments.replace(fragments)
   }
 }
