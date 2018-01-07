@@ -9,10 +9,14 @@ export class TextEdior extends React.Component<{layer: Layer}> {
 
   componentDidMount () {
     const { text } = this.props.layer
-    for (const span of text.spans) {
-      const spanElem = document.createElement('span')
-      spanElem.innerText = span.characters.join('')
-      this.element.appendChild(spanElem)
+    for (const fragment of text.fragments) {
+      if (fragment.type === 'span') {
+        const spanElem = document.createElement('span')
+        spanElem.innerText = fragment.characters.join('')
+        this.element.appendChild(spanElem)
+      } else {
+        this.element.appendChild(document.createElement('br'))
+      }
     }
   }
 
@@ -29,8 +33,9 @@ export class TextEdior extends React.Component<{layer: Layer}> {
 
   @action private handleInput = () => {
     const span: TextSpan = {
+      type: 'span',
       characters: [...this.element.innerText]
     }
-    this.props.layer.text.spans.replace([span])
+    this.props.layer.text.fragments.replace([span])
   }
 }

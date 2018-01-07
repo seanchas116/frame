@@ -19,8 +19,16 @@ function renderText (layer: Layer) {
     const style: React.CSSProperties = {
       wordWrap: 'break-word'
     }
+    const children: React.ReactChild[] = []
+    for (const fragment of layer.text.fragments) {
+      if (fragment.type === 'span') {
+        children.push(<span>{fragment.characters.join('')}</span>)
+      } else {
+        children.push(<br />)
+      }
+    }
     return <foreignObject x={rect.left} y={rect.top} width={rect.width} height={rect.height}>
-      <div style={style}>{layer.text.toString()}</div>
+      <div style={style}>{children}</div>
     </foreignObject>
   }
 }

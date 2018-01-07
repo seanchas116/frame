@@ -1,22 +1,25 @@
 import { observable } from 'mobx'
 import { HSVColor } from '../common/Color'
 
-export type TextSpan = Readonly<{
-  fontFamily?: string
-  fontSize?: number
-  fontWeight?: number
-  color?: HSVColor
-  characters: string[]
-}>
+export interface TextSpan {
+  type: 'span'
+  // readonly fontFamily?: string
+  readonly fontSize?: number
+  readonly fontWeight?: number
+  readonly color?: HSVColor
+  readonly characters: string[]
+}
+
+export interface TextBreak {
+  type: 'break'
+}
+
+export type TextFragment = TextSpan | TextBreak
 
 export class Text {
-  readonly spans = observable<TextSpan>([])
+  readonly fragments = observable<TextFragment>([])
 
   get isEmpty () {
-    return this.spans.length === 0
-  }
-
-  toString () {
-    return this.spans.map(span => span.characters.join('')).join('')
+    return this.fragments.length === 0
   }
 }
