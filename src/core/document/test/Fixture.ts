@@ -8,6 +8,10 @@ export function createShapeLayer (document: Document) {
   layer.shape = new RectShape()
   layer.rect = Rect.fromWidthHeight(10, 20, 30, 40)
   layer.name = 'Layer'
+  layer.text.fragments.replace([{
+    type: 'span',
+    characters: [...'Text']
+  }])
   return layer
 }
 

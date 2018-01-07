@@ -70,11 +70,27 @@ export interface StyleData {
   strokeAlignment: StrokeAlignmentData
 }
 
+export interface TextSpanData {
+  type: 'span'
+  content: string
+}
+
+export interface TextBreakData {
+  type: 'break'
+}
+
+export type TextFragmentData = TextSpanData | TextBreakData
+
+export interface TextData {
+  fragments: TextFragmentData[]
+}
+
 export interface LayerData {
   name: string
   rect: RectData
   shape: ShapeData
   style: StyleData
+  text: TextData
 }
 
 export interface DeepLayerData extends LayerData {

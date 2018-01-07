@@ -1,11 +1,12 @@
 import { Vec2, Rect } from 'paintvec'
 import { Document } from '../../document/Document'
-import { DocumentData, BrushData, HSVColorData, Vec2Data, ShapeData, RectData, LayerData, StyleData, DeepLayerData } from './Schema'
+import { DocumentData, BrushData, HSVColorData, Vec2Data, ShapeData, RectData, LayerData, StyleData, DeepLayerData, TextData, TextFragmentData } from './Schema'
 import { Brush, ColorBrush, LinearGradientBrush, GradientStop } from '../../document/Brush'
 import { Shape, RectShape, EllipseShape, TextShape, ImageShape, GroupShape } from '../../document/Shape'
 import { HSVColor } from '../../common/Color'
 import { Style } from '../../document/Style'
 import { Layer } from '../../document/Layer'
+import { Text, TextFragment } from '../../document/Text'
 
 export function dataToVec2 (p: Vec2Data) {
   return new Vec2(p.x, p.y)
@@ -71,11 +72,31 @@ export function dataToStyle (data: StyleData): Style {
   return style
 }
 
+export function dataToTextFragment (data: TextFragmentData): TextFragment {
+  if (data.type === 'span') {
+    return {
+      type: 'span',
+      characters: [...data.content]
+    }
+  } else {
+    return {
+      type: 'break'
+    }
+  }
+}
+
+export function dataToText (data: TextData): Text {
+  const text = new Text()
+  text.fragments.replace(data.fragments.map(dataToTextFragment))
+  return text
+}
+
 export function loadLayerData (layer: Layer, data: LayerData) {
   layer.name = data.name
   layer.rect = dataToRect(data.rect)
   layer.shape = dataToShape(data.shape)
   layer.style = dataToStyle(data.style)
+  layer.text = dataToText(data.text)
 }
 
 export function dataToLayer (document: Document, data: LayerData): Layer {
