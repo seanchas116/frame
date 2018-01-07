@@ -41,6 +41,7 @@ export class TextEdior extends React.Component<{layer: Layer}> {
   @action private handleInput = () => {
     const fragments: TextFragment[] = []
     for (const child of this.editable.childNodes) {
+      // TODO: handle nested <br>
       if (child instanceof HTMLBRElement) {
         fragments.push({
           type: 'break'
