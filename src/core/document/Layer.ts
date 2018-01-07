@@ -6,6 +6,7 @@ import { dataToLayer } from '../format/v1/Deserialize'
 import { layerToData } from '../format/v1/Serialize'
 import { LayerData } from '../format/v1/Schema'
 import { History, LayerChange, LayerInsert, LayerRemove } from './History'
+import { Text } from './Text'
 
 export class Layer {
   private static maxKey = 0
@@ -15,6 +16,7 @@ export class Layer {
   @observable rect = new Rect()
   @observable shape: Shape = new RectShape()
   @observable style = new Style()
+  @observable text = new Text()
 
   @observable collapsed = false
   readonly children = observable<Layer>([])
