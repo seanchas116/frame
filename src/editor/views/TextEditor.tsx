@@ -28,7 +28,13 @@ export class TextEdior extends React.Component<{layer: Layer}> {
       width: width + 'px',
       height: height + 'px'
     }
-    return <div ref={e => this.element = e!} className={styles.TextEditor} style={style} onInput={this.handleInput} contentEditable={true} />
+    return <div
+      ref={e => this.element = e!}
+      className={styles.TextEditor} style={style}
+      onInput={this.handleInput}
+      onKeyPress={this.handleKeyPress}
+      contentEditable={true}
+    />
   }
 
   @action private handleInput = () => {
@@ -37,5 +43,12 @@ export class TextEdior extends React.Component<{layer: Layer}> {
       characters: [...this.element.innerText]
     }
     this.props.layer.text.fragments.replace([span])
+  }
+
+  @action private handleKeyPress = (e: React.KeyboardEvent<HTMLElement>) => {
+    if (e.key === 'Enter') {
+      document.execCommand('insertHTML', false, '<br><br>')
+      e.preventDefault()
+    }
   }
 }
