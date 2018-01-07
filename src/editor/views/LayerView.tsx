@@ -13,6 +13,18 @@ function brushToCSS (brush: Brush) {
   }
 }
 
+function renderText (layer: Layer) {
+  const { rect } = layer
+  if (!layer.text.isEmpty) {
+    const style: React.CSSProperties = {
+      wordWrap: 'break-word'
+    }
+    return <foreignObject x={rect.left} y={rect.top} width={rect.width} height={rect.height}>
+      <div style={style}>{layer.text.toString()}</div>
+    </foreignObject>
+  }
+}
+
 @observer export class LayerView extends React.Component<{layer: Layer}> {
 
   render () {
@@ -28,7 +40,10 @@ function brushToCSS (brush: Brush) {
     }
     const styledElem = React.cloneElement(shape as React.ReactSVGElement, style)
     return <Movable layer={this.props.layer}>
-      {styledElem}
+      <g>
+        {styledElem}
+        {renderText(layer)}
+      </g>
     </Movable>
   }
 }
