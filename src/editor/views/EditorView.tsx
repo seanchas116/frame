@@ -9,7 +9,7 @@ import { SnapLines } from './SnapLines'
 import { layerSnapper } from './LayerSnapper'
 import { LayerResizeHandles } from './LayerResizeHandles'
 import { isTextInput } from '../common/isTextInput'
-import { TextEdior } from './TextEditor'
+import { TextEditorOverlay } from './TextEditorOverlay'
 const styles = require('./EditorView.css')
 
 interface ResizeObserver {
@@ -50,8 +50,8 @@ declare var ResizeObserver: ResizeObserverStatic
         {editor.document.rootGroup.children.map(layer => <LayerView key={layer.key} layer={layer} />)}
         <SnapLines snapper={layerSnapper} />
         {selectedLayers.length > 0 && <LayerResizeHandles layers={selectedLayers} />}
-        {focusedLayer && <TextEdior layer={focusedLayer} />}
       </svg>
+      {focusedLayer && <TextEditorOverlay layer={focusedLayer}/>}
       {editor.insertMode && <InsertOverlay />}
     </div>
   }
