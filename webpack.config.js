@@ -43,16 +43,7 @@ module.exports = {
         }
       },
       {
-        test: /\.css$/,
-        exclude: /node_modules/,
-        use: [
-          { loader: 'style-loader', options: { sourceMap: true } },
-          { loader: 'typings-for-css-modules-loader', options: { modules: true, namedExport: true, sourceMap: true } }
-        ]
-      },
-      {
         test: /\.scss$/,
-        exclude: /node_modules/,
         use: [
           { loader: 'style-loader', options: { sourceMap: true } },
           { loader: 'typings-for-css-modules-loader', options: { modules: true, namedExport: true, sourceMap: true } },
@@ -60,7 +51,7 @@ module.exports = {
         ]
       },
       {
-        test: /node_modules.*\.css$/,
+        test: /\.css$/,
         use: [ 'style-loader', 'css-loader']
       },
       {
