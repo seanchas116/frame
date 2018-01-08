@@ -1,23 +1,39 @@
 import * as React from 'react'
+import { observer } from 'mobx-react'
+import { Layer } from '../../core/document/Layer'
+import { fileStore } from '../state/FileStore'
 const styles = require('./Inspector.css')
 
-export class Inspector extends React.Component {
+const FillPanel = observer((props: {layer: Layer}) => {
+  return <div className={styles.Panel}>
+    <div className={styles.Header}>Fill</div>
+    <div className={styles.FillStrokeRow}>
+      <input type='checkbox' />
+      <input type='color' />
+    </div>
+  </div>
+})
+
+const StrokePanel = observer((props: {layer: Layer}) => {
+  return <div className={styles.Panel}>
+    <div className={styles.Header}>Border</div>
+    <div className={styles.FillStrokeRow}>
+      <input type='checkbox' />
+      <input type='color' />
+      <select>
+        <option>Center</option>
+      </select>
+      <input type='number' />
+    </div>
+  </div>
+})
+
+@observer export class Inspector extends React.Component {
   render () {
+    const layer: Layer | undefined = fileStore.document.selection.layers[0]
     return <div className={styles.Inspector}>
-      <div className={styles.Header}>Fill</div>
-      <div className={styles.FillRow}>
-        <input type='checkbox' />
-        <input type='color' />
-      </div>
-      <div className={styles.Header}>Border</div>
-      <div className={styles.StrokeRow}>
-        <input type='checkbox' />
-        <input type='color' />
-        <select>
-          <option>Center</option>
-        </select>
-        <input type='number' />
-      </div>
+      {layer && <FillPanel layer={layer} />}
+      {layer && <StrokePanel layer={layer} />}
     </div>
   }
 }

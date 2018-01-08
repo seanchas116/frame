@@ -3,25 +3,21 @@
   padding: 8px;
   box-sizing: border-box;
 }
+.Panel {
+  margin-bottom: 8px;
+}
 .Header {
   height: 24px;
   line-height: 24px;
   font-size: 14px;
 }
-.FillRow {
+.FillStrokeRow {
   display: flex;
   align-items: center;
 }
-.FillRow > * {
+.FillStrokeRow > * {
   margin-right: 8px;
 }
-.StrokeRow {
-  display: flex;
-  align-items: center;
-}
-.StrokeRow > * {
-  margin-right: 8px;
-}
-.StrokeRow > :last-child {
+.FillStrokeRow > input[type='number'] {
   width: 40px;
 }
