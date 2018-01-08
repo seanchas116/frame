@@ -1,5 +1,5 @@
 import * as React from 'react'
-import * as styles from './ClickToEdit.css'
+import * as styles from './ClickToEdit.scss'
 
 interface ClickToEditProps {
   text: string
