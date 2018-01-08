@@ -81,10 +81,6 @@ export class RGBColor {
     return new RGBColor(rgb[0] / 255, rgb[1] / 255, rgb[2] / 255, rgb[3])
   }
 
-  members () {
-    return [this.r, this.g, this.b, this.a]
-  }
-
   equals (other: RGBColor) {
     return this.r === other.r && this.g === other.g && this.b === other.b && this.a === other.a
   }
@@ -94,7 +90,7 @@ export class RGBColor {
     return new HSVColor(hsv.h, hsv.s, hsv.v, this.a)
   }
 
-  toString () {
+  toRGBString () {
     const { r, g, b, a } = this
     const rr = Math.round(r * 255)
     const gg = Math.round(g * 255)
@@ -121,5 +117,9 @@ export class HSVColor {
 
   equals (other: HSVColor) {
     return this.h === other.h && this.s === other.s && this.v === other.v && this.a === other.a
+  }
+
+  toRGBString () {
+    return this.toRGB().toRGBString()
   }
 }

@@ -6,7 +6,7 @@ import { Movable } from './Movable'
 
 function brushToCSS (brush: Brush) {
   if (brush instanceof ColorBrush) {
-    return brush.color.toRGB().toString()
+    return brush.color.toRGBString()
   } else {
     // TODO
     return 'black'

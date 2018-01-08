@@ -5,7 +5,7 @@ describe('RGBColor', () => {
   describe('toString', () => {
     it('returns RGBA string for CSS', () => {
       const rgb = new RGBColor(10 / 255, 20 / 255, 30 / 255, 0.5)
-      const str = rgb.toString()
+      const str = rgb.toRGBString()
       assert.equal(str, 'rgba(10,20,30,0.5)')
     })
   })
