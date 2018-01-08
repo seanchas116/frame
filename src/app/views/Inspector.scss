@@ -14,10 +14,10 @@
 .FillStrokeRow {
   display: flex;
   align-items: center;
-}
-.FillStrokeRow > * {
-  margin-right: 8px;
-}
-.FillStrokeRow > input[type='number'] {
-  width: 40px;
+  > * {
+    margin-right: 8px;
+  }
+  > input[type='number'] {
+    width: 40px;
+  }
 }

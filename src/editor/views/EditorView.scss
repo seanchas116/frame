@@ -2,10 +2,11 @@
   background-color: var(--background-color);
   flex: 1;
   position: relative;
-}
-.SVG {
-  position: absolute;
-}
-.SVGBackground {
-  fill: var(--background-color);
+
+  .svg {
+    position: absolute;
+    .background {
+      fill: var(--background-color);
+    }
+  }
 }

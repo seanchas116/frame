@@ -31,7 +31,7 @@ export class TextEdior extends React.Component<{layer: Layer}> {
     return <div style={style} className={styles.TextEditor}>
       <div
         ref={e => this.editable = e!}
-        className={styles.TextEditorEditable} style={style}
+        className={styles.editable} style={style}
         onInput={this.handleInput}
         contentEditable={true}
       />

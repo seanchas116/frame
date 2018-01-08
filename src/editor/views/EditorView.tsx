@@ -45,8 +45,8 @@ declare var ResizeObserver: ResizeObserverStatic
     const selectedLayers = editor.document.selection.layers
     const { focusedLayer } = editor.document
     return <div className={styles.EditorView} ref={e => this.element = e!}>
-      <svg className={styles.SVG} width={width} height={height}>
-        <rect className={styles.SVGBackground} x={0} y={0} width={width} height={height} onClick={this.handleClickBackground}/>
+      <svg className={styles.svg} width={width} height={height}>
+        <rect className={styles.background} x={0} y={0} width={width} height={height} onClick={this.handleClickBackground}/>
         {editor.document.rootGroup.children.map(layer => <LayerView key={layer.key} layer={layer} />)}
         <SnapLines snapper={layerSnapper} />
         {selectedLayers.length > 0 && <LayerResizeHandles layers={selectedLayers} />}
