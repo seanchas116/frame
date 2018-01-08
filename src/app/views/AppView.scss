@@ -18,13 +18,13 @@ body {
   height: 100vh;
   display: flex;
   flex-direction: column;
-}
-.TitleBar {
-  height: 22px;
-  border-bottom: 2px solid var(--background-color);
-  -webkit-app-region: drag;
-}
-.Columns {
-  display: flex;
-  flex: 1;
+  .titleBar {
+    height: 22px;
+    border-bottom: 2px solid var(--background-color);
+    -webkit-app-region: drag;
+  }
+  .columns {
+    display: flex;
+    flex: 1;
+  }
 }

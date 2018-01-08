@@ -5,9 +5,9 @@ import { fileStore } from '../state/FileStore'
 import * as styles from './Inspector.scss'
 
 const FillPanel = observer((props: {layer: Layer}) => {
-  return <div className={styles.Panel}>
-    <div className={styles.Header}>Fill</div>
-    <div className={styles.FillStrokeRow}>
+  return <div className={styles.panel}>
+    <div className={styles.header}>Fill</div>
+    <div className={styles.fillStrokeRow}>
       <input type='checkbox' />
       <input type='color' />
     </div>
@@ -15,9 +15,9 @@ const FillPanel = observer((props: {layer: Layer}) => {
 })
 
 const StrokePanel = observer((props: {layer: Layer}) => {
-  return <div className={styles.Panel}>
-    <div className={styles.Header}>Border</div>
-    <div className={styles.FillStrokeRow}>
+  return <div className={styles.panel}>
+    <div className={styles.header}>Border</div>
+    <div className={styles.fillStrokeRow}>
       <input type='checkbox' />
       <input type='color' />
       <select>
