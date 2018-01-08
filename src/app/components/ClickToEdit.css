@@ -12,6 +12,8 @@
   line-height: var(--height);
   font-size: 12px;
 }
+.ClickToEditText {
+}
 .ClickToEditInput {
   border: none;
   outline: none;

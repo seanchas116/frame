@@ -10,7 +10,7 @@ import { layerSnapper } from './LayerSnapper'
 import { LayerResizeHandles } from './LayerResizeHandles'
 import { isTextInput } from '../common/isTextInput'
 import { TextEditorOverlay } from './TextEditorOverlay'
-const styles = require('./EditorView.css')
+import * as styles from './EditorView.css'
 
 interface ResizeObserver {
   observe (e: Element): void

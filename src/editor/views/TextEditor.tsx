@@ -2,7 +2,7 @@ import * as React from 'react'
 import { action } from 'mobx'
 import { TextFragment } from '../../core/document/Text'
 import { Layer } from '../../core/document/Layer'
-const styles = require('./TextEditor.css')
+import * as styles from './TextEditor.css'
 
 export class TextEdior extends React.Component<{layer: Layer}> {
   editable: HTMLElement

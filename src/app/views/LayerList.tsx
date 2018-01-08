@@ -5,8 +5,8 @@ import { TreeView, TreeRowInfo, TreeNode } from 'react-draggable-tree'
 import { editor } from '../../editor/state/Editor'
 import { Layer } from '../../core/document/Layer'
 import { ClickToEdit } from '../components/ClickToEdit'
-require('react-draggable-tree/lib/index.css')
-const styles = require('./LayerList.css')
+import 'react-draggable-tree/lib/index.css'
+import * as styles from './LayerList.css'
 
 const toTreeNode = (layer: Layer): TreeNode => {
   return {

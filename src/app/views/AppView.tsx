@@ -6,7 +6,7 @@ import '../menu/MenuBar'
 import { WindowTitleUpdater } from '../window/WindowTitleUpdater'
 import { Disposable, disposeAll } from '../../core/common/Disposable'
 import { Inspector } from './Inspector'
-const styles = require('./AppView.css')
+import * as styles from './AppView.css'
 
 export class AppView extends React.Component {
   disposables: Disposable[]

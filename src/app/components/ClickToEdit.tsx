@@ -1,5 +1,5 @@
 import * as React from 'react'
-const styles = require('./ClickToEdit.css')
+import * as styles from './ClickToEdit.css'
 
 interface ClickToEditProps {
   text: string

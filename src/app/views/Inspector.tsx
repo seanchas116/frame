@@ -2,7 +2,7 @@ import * as React from 'react'
 import { observer } from 'mobx-react'
 import { Layer } from '../../core/document/Layer'
 import { fileStore } from '../state/FileStore'
-const styles = require('./Inspector.css')
+import * as styles from './Inspector.css'
 
 const FillPanel = observer((props: {layer: Layer}) => {
   return <div className={styles.Panel}>
