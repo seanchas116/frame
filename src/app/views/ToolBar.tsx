@@ -4,7 +4,7 @@ import { observer } from 'mobx-react'
 import * as classNames from 'classnames'
 import { ShapeType } from '../../core/document/Shape'
 import { editor } from '../../editor/state/Editor'
-import * as styles from './ToolBar.css'
+import * as styles from './ToolBar.scss'
 
 const ShapeToolIcon = observer((props: { type: ShapeType, className: string }) => {
   const onClick = action(() => {

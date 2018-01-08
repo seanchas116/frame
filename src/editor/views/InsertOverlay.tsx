@@ -6,7 +6,7 @@ import { Layer } from '../../core/document/Layer'
 import { editor } from '../state/Editor'
 import { Shape, ShapeType, RectShape, EllipseShape, TextShape } from '../../core/document/Shape'
 import { ColorBrush } from '../../core/document/Brush'
-import * as styles from './InsertOverlay.css'
+import * as styles from './InsertOverlay.scss'
 
 function createShape (type: ShapeType): Shape {
   switch (type) {

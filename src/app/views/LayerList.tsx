@@ -6,7 +6,7 @@ import { editor } from '../../editor/state/Editor'
 import { Layer } from '../../core/document/Layer'
 import { ClickToEdit } from '../components/ClickToEdit'
 import 'react-draggable-tree/lib/index.css'
-import * as styles from './LayerList.css'
+import * as styles from './LayerList.scss'
 
 const toTreeNode = (layer: Layer): TreeNode => {
   return {
