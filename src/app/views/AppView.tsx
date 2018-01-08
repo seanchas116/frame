@@ -5,6 +5,7 @@ import { LayerList } from './LayerList'
 import '../menu/MenuBar'
 import { WindowTitleUpdater } from '../window/WindowTitleUpdater'
 import { Disposable, disposeAll } from '../../core/common/Disposable'
+import { Inspector } from './Inspector'
 const styles = require('./AppView.css')
 
 export class AppView extends React.Component {
@@ -27,6 +28,7 @@ export class AppView extends React.Component {
         <ToolBar />
         <LayerList />
         <EditorView />
+        <Inspector />
       </div>
     </div>
   }
