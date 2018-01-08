@@ -1,6 +1,6 @@
 import { observable } from 'mobx'
 import { Vec2 } from 'paintvec'
-import { HSVColor, RGBColor } from '../common/Color'
+import { HSVColor, RGBColor } from '../../support/Color'
 
 export class ColorBrush {
   @observable color: HSVColor

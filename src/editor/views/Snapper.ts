@@ -1,6 +1,6 @@
 import { Vec2, Rect } from 'paintvec'
 import { observable, computed, action } from 'mobx'
-import { Alignment, Direction } from '../../core/common/Types'
+import { Alignment, Direction } from '../../support/Types'
 
 const snapDistance = 8
 

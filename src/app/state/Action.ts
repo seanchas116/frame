@@ -1,4 +1,4 @@
-import { ObservableMap } from '../../core/common/ObservableMap'
+import { ObservableMap } from '../../support/ObservableMap'
 
 export interface Action {
   id: string

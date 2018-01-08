@@ -1,6 +1,6 @@
 import { observable } from 'mobx'
 import { Brush, ColorBrush } from './Brush'
-import { HSVColor } from '../common/Color'
+import { HSVColor } from '../../support/Color'
 
 export type StrokeAlignment = 'center' | 'inner' | 'outer'
 
