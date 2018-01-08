@@ -1,0 +1,23 @@
+.Inspector {
+  width: 240px;
+  padding: 8px;
+  box-sizing: border-box;
+  .panel {
+    margin-bottom: 8px;
+    .header {
+      height: 24px;
+      line-height: 24px;
+      font-size: 14px;
+    }
+    .fillStrokeRow {
+      display: flex;
+      align-items: center;
+      > * {
+        margin-right: 8px;
+      }
+      > input[type='number'] {
+        width: 40px;
+      }
+    }
+  }
+}

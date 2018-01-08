@@ -60,6 +60,10 @@ typings/
 # awesome-typescript-loader cache
 .awcache
 
+# typings-for-css-modules-loader .d.ts
+*.css.d.ts
+*.scss.d.ts
+
 # bundled files
 public/assets
 coverage.json

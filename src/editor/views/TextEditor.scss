@@ -1,7 +1,8 @@
 .TextEditor {
   position: absolute;
   outline: none;
-}
-.TextEditorEditable {
-  display: inline-block;
+
+  .editable {
+    display: inline-block;
+  }
 }

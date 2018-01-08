@@ -2,7 +2,7 @@ import * as React from 'react'
 import { action } from 'mobx'
 import { TextFragment } from '../../core/document/Text'
 import { Layer } from '../../core/document/Layer'
-const styles = require('./TextEditor.css')
+import * as styles from './TextEditor.scss'
 
 export class TextEdior extends React.Component<{layer: Layer}> {
   editable: HTMLElement
@@ -31,7 +31,7 @@ export class TextEdior extends React.Component<{layer: Layer}> {
     return <div style={style} className={styles.TextEditor}>
       <div
         ref={e => this.editable = e!}
-        className={styles.TextEditorEditable} style={style}
+        className={styles.editable} style={style}
         onInput={this.handleInput}
         contentEditable={true}
       />

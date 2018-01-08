@@ -1,0 +1,34 @@
+.ToolBar {
+  width: 40px;
+  border-right: 2px solid var(--background-color);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 12px;
+
+  .icon {
+    width: 32px;
+    height: 32px;
+    background-color: var(--text-color);
+    -webkit-mask: var(--icon) center no-repeat;
+    &:hover {
+      background-color: #2A2A2A;
+    }
+
+    &_selected {
+      background-color: var(--primary-color);
+      &:hover {
+        background-color: var(--primary-color);
+      }
+    }
+    &_rect {
+      --icon: url(./icons/Rectangle20.svg)
+    }
+    &_ellipse {
+      --icon: url(./icons/Circle20.svg)
+    }
+    &_text {
+      --icon: url(./icons/Text20.svg)
+    }
+  }
+}

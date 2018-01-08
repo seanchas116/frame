@@ -43,15 +43,15 @@ module.exports = {
         }
       },
       {
-        test: /\.css$/,
-        exclude: /node_modules/,
+        test: /\.scss$/,
         use: [
           { loader: 'style-loader', options: { sourceMap: true } },
-          { loader: 'css-loader', options: { modules: true, sourceMap: true } }
+          { loader: 'typings-for-css-modules-loader', options: { modules: true, namedExport: true, sourceMap: true } },
+          { loader: 'sass-loader', options: { sourceMap: true } }
         ]
       },
       {
-        test: /node_modules.*\.css$/,
+        test: /\.css$/,
         use: [ 'style-loader', 'css-loader']
       },
       {
