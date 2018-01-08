@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { Vec2, Rect } from 'paintvec'
 import { action } from 'mobx'
-import { PointerEvents } from '../common/PointerEvents'
+import { PointerEvents } from '../../support/PointerEvents'
 import { Layer } from '../../core/document/Layer'
 import { editor } from '../state/Editor'
 import { Shape, ShapeType, RectShape, EllipseShape, TextShape } from '../../core/document/Shape'

@@ -1,5 +1,5 @@
 import { observable } from 'mobx'
-import { HSVColor } from '../common/Color'
+import { HSVColor } from '../../support/Color'
 
 export interface TextSpan {
   type: 'span'

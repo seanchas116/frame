@@ -8,7 +8,7 @@ import { InsertOverlay } from './InsertOverlay'
 import { SnapLines } from './SnapLines'
 import { layerSnapper } from './LayerSnapper'
 import { LayerResizeHandles } from './LayerResizeHandles'
-import { isTextInput } from '../common/isTextInput'
+import { isTextInput } from '../../support/isTextInput'
 import { TextEditorOverlay } from './TextEditorOverlay'
 import * as styles from './EditorView.scss'
 

@@ -2,8 +2,8 @@ import * as React from 'react'
 import { observer } from 'mobx-react'
 import { observable, action } from 'mobx'
 import { Vec2, Rect } from 'paintvec'
-import { PointerEvents } from '../common/PointerEvents'
-import { Alignment } from '../../core/common/Types'
+import { PointerEvents } from '../../support/PointerEvents'
+import { Alignment } from '../../support/Types'
 import { SizeLabel } from './SizeLabel'
 
 const handleSize = 6
