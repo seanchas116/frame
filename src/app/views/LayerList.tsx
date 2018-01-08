@@ -28,7 +28,7 @@ class LayerRowContent extends React.Component<TreeRowInfo> {
       layer.name = text
     })
     const editable = editor.document.selection.has(layer)
-    return <div className={styles.LayerListRowContent}>
+    return <div className={styles.content}>
       <ClickToEdit text={layer.name} onChange={onChange} editable={editable} />
     </div>
   }
@@ -42,8 +42,8 @@ export class LayerList extends React.Component {
 
     return <TreeView
       className={styles.LayerList}
-      rowClassName={styles.LayerListRow}
-      rowSelectedClassName={styles.LayerListRowSelected}
+      rowClassName={styles.row}
+      rowSelectedClassName={styles.row_selected}
       rowHeight={24}
       rowContent={LayerRowContent}
       root={root}
