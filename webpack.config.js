@@ -55,7 +55,8 @@ module.exports = {
         exclude: /node_modules/,
         use: [
           { loader: 'style-loader', options: { sourceMap: true } },
-          { loader: 'typings-for-css-modules-loader', options: { modules: true, namedExport: true, sass: true, sourceMap: true } }
+          { loader: 'typings-for-css-modules-loader', options: { modules: true, namedExport: true, sourceMap: true } },
+          { loader: 'sass-loader', options: { sourceMap: true } }
         ]
       },
       {
