@@ -10,8 +10,8 @@ const ShapeToolIcon = observer((props: { type: ShapeType, className: string }) =
   const onClick = action(() => {
     editor.insertMode = props.type
   })
-  const className = classNames(styles.ShapeToolIcon, props.className, {
-    [styles.ShapeToolIconSelected]: props.type === editor.insertMode
+  const className = classNames(styles.icon, props.className, {
+    [styles.icon_selected]: props.type === editor.insertMode
   })
   return <div className={className} onClick={onClick}></div>
 })
@@ -19,9 +19,9 @@ const ShapeToolIcon = observer((props: { type: ShapeType, className: string }) =
 export class ToolBar extends React.Component {
   render () {
     return <div className={styles.ToolBar}>
-      <ShapeToolIcon type='rect' className={styles.ShapeToolIconRect} />
-      <ShapeToolIcon type='ellipse' className={styles.ShapeToolIconEllipse} />
-      <ShapeToolIcon type='text' className={styles.ShapeToolIconText} />
+      <ShapeToolIcon type='rect' className={styles.icon_rect} />
+      <ShapeToolIcon type='ellipse' className={styles.icon_ellipse} />
+      <ShapeToolIcon type='text' className={styles.icon_text} />
     </div>
   }
 }
