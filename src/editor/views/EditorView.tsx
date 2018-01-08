@@ -12,16 +12,6 @@ import { isTextInput } from '../../support/isTextInput'
 import { TextEditorOverlay } from './TextEditorOverlay'
 import * as styles from './EditorView.scss'
 
-interface ResizeObserver {
-  observe (e: Element): void
-  unobserve (e: Element): void
-}
-
-interface ResizeObserverStatic {
-  new (callback: () => void): ResizeObserver
-}
-declare var ResizeObserver: ResizeObserverStatic
-
 @observer export class EditorView extends React.Component {
   @observable clientRect = new Rect()
 
