@@ -14,7 +14,7 @@ import * as styles from './Inspector.scss'
     const color = style.fill instanceof ColorBrush ? style.fill.color.toRGB().toHexRGBString() : '#000000'
     return <div className={styles.panel}>
       <div className={styles.header}>Fill</div>
-      <div className={styles.fillStrokeRow}>
+      <div className={styles.fillBorderRow}>
         <input type='checkbox' checked={style.fillEnabled} onChange={this.handleEnabledChange} />
         <input type='color' value={color} onChange={this.handleColorChange} onBlur={this.handleColorChangeFinish}/>
       </div>
@@ -39,13 +39,13 @@ import * as styles from './Inspector.scss'
   }
 }
 
-@observer class StrokePanel extends React.Component<{layer: Layer}> {
+@observer class BorderPanel extends React.Component<{layer: Layer}> {
   render () {
     const { style } = this.props.layer
     const color = style.stroke instanceof ColorBrush ? style.stroke.color.toRGB().toHexRGBString() : '#000000'
     return <div className={styles.panel}>
       <div className={styles.header}>Border</div>
-      <div className={styles.fillStrokeRow}>
+      <div className={styles.fillBorderRow}>
         <input type='checkbox' checked={style.strokeEnabled} onChange={this.handleEnabledChange} />
         <input type='color' value={color} onChange={this.handleColorChange} onBlur={this.handleColorChangeFinish} />
         <select value={style.strokeAlignment} onChange={this.handleAlignmentChange}>
@@ -93,7 +93,7 @@ import * as styles from './Inspector.scss'
     const layer: Layer | undefined = fileStore.document.selection.layers[0]
     return <div className={styles.Inspector}>
       {layer && <FillPanel layer={layer} />}
-      {layer && <StrokePanel layer={layer} />}
+      {layer && <BorderPanel layer={layer} />}
     </div>
   }
 }
