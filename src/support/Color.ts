@@ -97,6 +97,14 @@ export class RGBColor {
     const bb = Math.round(b * 255)
     return `rgba(${rr},${gg},${bb},${a})`
   }
+
+  toHexRGBString () {
+    const { r, g, b } = this
+    const rr = Math.round(r * 255)
+    const gg = Math.round(g * 255)
+    const bb = Math.round(b * 255)
+    return colorString.to.hex(rr, gg, bb)
+  }
 }
 
 export class HSVColor {
