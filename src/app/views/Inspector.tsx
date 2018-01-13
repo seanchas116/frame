@@ -103,7 +103,7 @@ import * as styles from './Inspector.scss'
           <option value='center'>Center</option>
           <option value='outside'>Outside</option>
         </select>
-        <input type='number' value={style.strokeWidth} onChange={this.handleWidthChange}/>
+        <NumberInput value={style.strokeWidth} onChange={this.handleWidthChange}/>
       </div>
     </div>
   }
@@ -131,9 +131,9 @@ import * as styles from './Inspector.scss'
     document.commit('Change Border Alignment')
   }
 
-  @action private handleWidthChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  @action private handleWidthChange = (value: number) => {
     const { style, document } = this.props.layer
-    style.strokeWidth = parseFloat(e.currentTarget.value)
+    style.strokeWidth = value
     document.commit('Change Border Width')
   }
 }
