@@ -20,4 +20,24 @@
       }
     }
   }
+  .numberPanel {
+    @extend .panel;
+    .row {
+      display: flex;
+      align-items: center;
+      margin: 8px 0;
+      .column {
+        display: flex;
+        align-items: center;
+        margin-right: 8px;
+        .label {
+          width: 12px;
+          font-size: 12px;
+        }
+        .input {
+          width: 48px;
+        }
+      }
+    }
+  }
 }

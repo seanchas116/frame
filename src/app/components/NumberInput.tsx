@@ -1,9 +1,9 @@
 import * as React from 'react'
 
 interface NumberInputProps {
+  className?: string
   value: number
   onChange: (value: number) => void
-  // onChangeEnd: () => void
 }
 
 interface NumberInputState {
@@ -26,6 +26,7 @@ export class NumberInput extends React.Component<NumberInputProps, NumberInputSt
 
   render () {
     return <input
+      className={this.props.className}
       type='number' value={this.state.value}
       onKeyDown={this.handleKeyDown}
       onChange={this.handleChange}

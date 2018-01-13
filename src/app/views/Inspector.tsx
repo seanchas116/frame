@@ -1,12 +1,62 @@
 import * as React from 'react'
 import { action } from 'mobx'
+import { Rect } from 'paintvec'
 import { observer } from 'mobx-react'
 import { RGBColor } from '../../support/Color'
 import { Layer } from '../../core/document/Layer'
 import { StrokeAlignment } from '../../core/document/Style'
 import { ColorBrush } from '../../core/document/Brush'
 import { fileStore } from '../state/FileStore'
+import { NumberInput } from '../components/NumberInput'
 import * as styles from './Inspector.scss'
+
+@observer class RectPanel extends React.Component<{layer: Layer}> {
+  render () {
+    const { rect } = this.props.layer
+    return <div className={styles.numberPanel}>
+      <div className={styles.header}>Position</div>
+      <div className={styles.row}>
+        {this.renderColumn('x', rect.left, this.handleLeftChange)}
+        {this.renderColumn('y', rect.top, this.handleTopChange)}
+      </div>
+      <div className={styles.row}>
+        {this.renderColumn('w', rect.width, this.handleWidthChange)}
+        {this.renderColumn('h', rect.height, this.handleHeightChange)}
+      </div>
+    </div>
+  }
+
+  private renderColumn (name: string, value: number, onChange: (value: number) => void) {
+    return <label className={styles.column}>
+      <div className={styles.label}>{name}</div>
+      <NumberInput className={styles.input} value={value} onChange={onChange} />
+    </label>
+  }
+
+  @action private handleLeftChange = (value: number) => {
+    const { layer } = this.props
+    layer.rect = Rect.fromWidthHeight(value, layer.rect.top, layer.rect.width, layer.rect.height)
+    layer.document.commit('Change Left')
+  }
+
+  @action private handleTopChange = (value: number) => {
+    const { layer } = this.props
+    layer.rect = Rect.fromWidthHeight(layer.rect.left, value, layer.rect.width, layer.rect.height)
+    layer.document.commit('Change Top')
+  }
+
+  @action private handleWidthChange = (value: number) => {
+    const { layer } = this.props
+    layer.rect = Rect.fromWidthHeight(layer.rect.left, layer.rect.top, value, layer.rect.height)
+    layer.document.commit('Change Width')
+  }
+
+  @action private handleHeightChange = (value: number) => {
+    const { layer } = this.props
+    layer.rect = Rect.fromWidthHeight(layer.rect.left, layer.rect.top, layer.rect.width, value)
+    layer.document.commit('Change Height')
+  }
+}
 
 @observer class FillPanel extends React.Component<{layer: Layer}> {
   render () {
@@ -92,6 +142,7 @@ import * as styles from './Inspector.scss'
   render () {
     const layer: Layer | undefined = fileStore.document.selection.layers[0]
     return <div className={styles.Inspector}>
+      {layer && <RectPanel layer={layer} />}
       {layer && <FillPanel layer={layer} />}
       {layer && <BorderPanel layer={layer} />}
     </div>
