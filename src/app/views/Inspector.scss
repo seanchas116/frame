@@ -2,6 +2,9 @@
   width: 240px;
   padding: 8px;
   box-sizing: border-box;
+  background-color: var(--front-color);
+  border-left: 2px solid var(--background-color);
+
   .panel {
     margin-bottom: 8px;
     .header {

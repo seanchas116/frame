@@ -1,5 +1,6 @@
 :root {
-  --background-color: #F3F3F3;
+  --background-color: #F0F0F0;
+  --front-color: #F8F8F8;
   --primary-color: #47ABFF;
   --text-color: #4A4A4A;
   --default-font-family: BlinkMacSystemFont, "Segoe UI";
@@ -21,6 +22,7 @@ body {
   .titleBar {
     height: 22px;
     border-bottom: 2px solid var(--background-color);
+    background-color: var(--front-color);
     -webkit-app-region: drag;
   }
   .columns {

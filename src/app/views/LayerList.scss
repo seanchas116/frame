@@ -3,6 +3,8 @@
   height: 100%;
   overflow-x: hidden;
   overflow-y: scroll;
+  background-color: var(--front-color);
+  border-right: 2px solid var(--background-color);
 
   .row {
     font-size: 13px;

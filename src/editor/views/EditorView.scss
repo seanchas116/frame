@@ -1,12 +1,11 @@
 .EditorView {
-  background-color: var(--background-color);
   flex: 1;
   position: relative;
 
   .svg {
     position: absolute;
     .background {
-      fill: var(--background-color);
+      fill: white;
     }
   }
 }
