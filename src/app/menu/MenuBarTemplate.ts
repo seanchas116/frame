@@ -1,6 +1,5 @@
 import * as Electron from 'electron'
-import { MenuDescription, menuBar } from '../app/menu/MenuBar'
-import { runInAction } from 'mobx'
+import { MenuDescription } from './MenuBar'
 
 const fileMenu: MenuDescription = {
   label: 'File',
@@ -65,7 +64,7 @@ const helpMenu: MenuDescription = {
   ]
 }
 
-const template = [fileMenu, editMenu, layerMenu, viewMenu, windowMenu, helpMenu]
+export const menuBarTemplate = [fileMenu, editMenu, layerMenu, viewMenu, windowMenu, helpMenu]
 
 if (process.platform === 'darwin') {
   const appMenu: MenuDescription = {
@@ -82,7 +81,7 @@ if (process.platform === 'darwin') {
       { role: 'quit' }
     ]
   }
-  template.unshift(appMenu)
+  menuBarTemplate.unshift(appMenu)
 
   editMenu.submenu![1].accelerator = 'Shift+CommandOrControl+Z'
   editMenu.submenu!.push(
@@ -104,7 +103,3 @@ if (process.platform === 'darwin') {
     { role: 'front' }
   ]
 }
-
-runInAction(() => {
-  menuBar.template = template
-})
