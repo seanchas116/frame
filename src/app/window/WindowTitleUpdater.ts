@@ -35,3 +35,5 @@ export class WindowTitleUpdater {
     disposeAll(this.disposables)
   }
 }
+
+export const windowTitleUpdater = new WindowTitleUpdater()
