@@ -1,2 +1,4 @@
-import './config'
+import { useStrict } from 'mobx'
 import '../app'
+
+useStrict(true)
