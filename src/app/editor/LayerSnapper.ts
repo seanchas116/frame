@@ -1,6 +1,6 @@
 import { Rect } from 'paintvec'
 import { Snapper } from './Snapper'
-import { Layer } from '../document/Layer'
+import { Layer } from '../../core/document/Layer'
 
 export class LayerSnapper extends Snapper {
   setTargetLayers (layers: ReadonlyArray<Layer>) {

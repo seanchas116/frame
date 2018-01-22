@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { action } from 'mobx'
-import { TextFragment } from '../document/Text'
-import { Layer } from '../document/Layer'
+import { TextFragment } from '../../core/document/Text'
+import { Layer } from '../../core/document/Layer'
 import * as styles from './TextEditor.scss'
 
 export class TextEdior extends React.Component<{layer: Layer}> {

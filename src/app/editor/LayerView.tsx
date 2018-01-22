@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { observer } from 'mobx-react'
-import { Layer } from '../document/Layer'
-import { Brush, ColorBrush } from '../document/Brush'
+import { Layer } from '../../core/document/Layer'
+import { Brush, ColorBrush } from '../../core/document/Brush'
 import { Movable } from './Movable'
 
 function brushToCSS (brush: Brush) {

@@ -2,7 +2,7 @@ import * as React from 'react'
 import { action } from 'mobx'
 import { observer } from 'mobx-react'
 import * as classNames from 'classnames'
-import { ShapeType } from '../document/Shape'
+import { ShapeType } from '../../core/document/Shape'
 import { editor } from '../editor/Editor'
 import * as styles from './ToolBar.scss'
 

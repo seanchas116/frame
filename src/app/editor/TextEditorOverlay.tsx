@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { action } from 'mobx'
-import { Layer } from '../document/Layer'
+import { Layer } from '../../core/document/Layer'
 import { TextEdior } from './TextEditor'
 import * as styles from './TextEditorOverlay.scss'
 

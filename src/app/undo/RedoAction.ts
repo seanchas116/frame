@@ -1,5 +1,5 @@
 import { computed } from 'mobx'
-import { Action, registerAction } from '../action/Action'
+import { Action, registerAction } from '../../core/action/Action'
 import { editor } from '../editor/Editor'
 
 @registerAction

@@ -1,5 +1,5 @@
-import { Document } from '../document/Document'
-import { V1Format } from '../format/v1/V1Format'
+import { Document } from '../../core/document/Document'
+import { V1Format } from '../../core/format/v1/V1Format'
 import { observable, reaction, runInAction, action } from 'mobx'
 import * as fs from 'fs'
 

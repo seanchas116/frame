@@ -2,10 +2,10 @@ import * as React from 'react'
 import { Vec2, Rect } from 'paintvec'
 import { action } from 'mobx'
 import { PointerEvents } from '../../lib/PointerEvents'
-import { Layer } from '../document/Layer'
+import { Layer } from '../../core/document/Layer'
 import { editor } from './Editor'
-import { Shape, ShapeType, RectShape, EllipseShape, TextShape } from '../document/Shape'
-import { ColorBrush } from '../document/Brush'
+import { Shape, ShapeType, RectShape, EllipseShape, TextShape } from '../../core/document/Shape'
+import { ColorBrush } from '../../core/document/Brush'
 import * as styles from './InsertOverlay.scss'
 
 function createShape (type: ShapeType): Shape {

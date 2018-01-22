@@ -1,5 +1,5 @@
 import * as Electron from 'electron'
-import { Action, registerAction } from '../action/Action'
+import { Action, registerAction } from '../../core/action/Action'
 import { fileStore } from './FileStore'
 
 @registerAction

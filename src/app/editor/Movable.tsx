@@ -2,7 +2,7 @@ import * as React from 'react'
 import { Vec2, Rect } from 'paintvec'
 import { computed, action } from 'mobx'
 import { PointerEvents } from '../../lib/PointerEvents'
-import { Layer } from '../document/Layer'
+import { Layer } from '../../core/document/Layer'
 import { layerSnapper } from './LayerSnapper'
 import { editor } from './Editor'
 

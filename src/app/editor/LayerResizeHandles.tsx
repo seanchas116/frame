@@ -5,7 +5,7 @@ import { Rect, Vec2 } from 'paintvec'
 import { ResizeHandles } from './ResizeHandles'
 import { Alignment } from '../../lib/Types'
 import { Disposable, disposeAll } from '../../lib/Disposable'
-import { Layer } from '../document/Layer'
+import { Layer } from '../../core/document/Layer'
 import { layerSnapper } from './LayerSnapper'
 import { editor } from './Editor'
 

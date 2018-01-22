@@ -1,9 +1,9 @@
 import { assert } from 'chai'
 import * as tmp from 'tmp'
 import { File } from './File'
-import { createDocument } from '../document/test/Fixture'
-import { Document } from '../document/Document'
-import { documentToData } from '../format/v1/Serialize'
+import { createDocument } from '../../core/document/test/Fixture'
+import { Document } from '../../core/document/Document'
+import { documentToData } from '../../core/format/v1/Serialize'
 
 describe('File', () => {
   describe('constructor', () => {

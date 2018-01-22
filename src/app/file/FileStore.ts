@@ -2,7 +2,7 @@ import * as Electron from 'electron'
 import * as querystring from 'querystring'
 import { observable, reaction, runInAction } from 'mobx'
 import { File } from './File'
-import { Document } from '../document/Document'
+import { Document } from '../../core/document/Document'
 import { editor } from '../editor/Editor'
 
 export class FileStore {
