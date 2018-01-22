@@ -1,6 +1,6 @@
 import * as Electron from 'electron'
 import { autorun, observable } from 'mobx'
-import { actionRegistry } from '../state/Action'
+import { actionRegistry } from '../action/Action'
 
 export interface MenuDescription extends Electron.MenuItemConstructorOptions {
   action?: string

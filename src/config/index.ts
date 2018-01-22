@@ -1,3 +1,4 @@
 import './mobx'
 import './MenuBar'
-import './extensions'
+import '../app/file'
+import '../app/undo'
