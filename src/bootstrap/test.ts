@@ -1,7 +1,7 @@
 import * as fs from 'fs'
 import * as path from 'path'
 
-const requires = require.context('./', true, /\.test\.ts$/)
+const requires = require.context('../', true, /\.test\.ts$/)
 requires.keys().forEach(requires)
 
 after(() => {
