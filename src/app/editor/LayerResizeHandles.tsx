@@ -6,8 +6,8 @@ import { ResizeHandles } from './ResizeHandles'
 import { Alignment } from '../../lib/Types'
 import { Disposable, disposeAll } from '../../lib/Disposable'
 import { Layer } from '../../core/document/Layer'
+import { Document } from '../../core/document/Document'
 import { layerSnapper } from './LayerSnapper'
-import { editor } from './Editor'
 
 @observer
 export
@@ -86,7 +86,7 @@ class LayerResizeHandles extends React.Component<{layers: Layer[]}, {}> {
   }
 
   @action private onChangeEnd = () => {
-    editor.document.commit('Resize Layers')
+    Document.current.commit('Resize Layers')
 
     this.dragging = false
     this.originalPositions = undefined

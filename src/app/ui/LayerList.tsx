@@ -2,8 +2,8 @@ import * as React from 'react'
 import { action } from 'mobx'
 import { observer } from 'mobx-react'
 import { TreeView, TreeRowInfo, TreeNode } from 'react-draggable-tree'
-import { editor } from '../editor/Editor'
 import { Layer } from '../../core/document/Layer'
+import { Document } from '../../core/document/Document'
 import { ClickToEdit } from './components/ClickToEdit'
 import 'react-draggable-tree/lib/index.css'
 import * as styles from './LayerList.scss'
@@ -17,7 +17,7 @@ const toTreeNode = (layer: Layer): TreeNode => {
 }
 
 const layerForPath = (path: number[]) => {
-  return editor.document.rootGroup.descendant(path)
+  return Document.current.rootGroup.descendant(path)
 }
 
 @observer
@@ -27,7 +27,7 @@ class LayerRowContent extends React.Component<TreeRowInfo> {
     const onChange = action((text: string) => {
       layer.name = text
     })
-    const editable = editor.document.selection.has(layer)
+    const editable = Document.current.selection.has(layer)
     return <div className={styles.content}>
       <ClickToEdit text={layer.name} onChange={onChange} editable={editable} />
     </div>
@@ -37,8 +37,8 @@ class LayerRowContent extends React.Component<TreeRowInfo> {
 @observer
 export class LayerList extends React.Component {
   render () {
-    const selectedKeys = editor.document.selection.layers.map(l => l.key)
-    const root = toTreeNode(editor.document.rootGroup)
+    const selectedKeys = Document.current.selection.layers.map(l => l.key)
+    const root = toTreeNode(Document.current.rootGroup)
 
     return <TreeView
       className={styles.LayerList}
@@ -64,7 +64,7 @@ export class LayerList extends React.Component {
     }
   }
   @action private handleSelectedKeysChange = (selectedKeys: Set<number>, selectedInfos: TreeRowInfo[]) => {
-    editor.document.selection.replace(selectedInfos.map(info => layerForPath(info.path)))
+    Document.current.selection.replace(selectedInfos.map(info => layerForPath(info.path)))
   }
   @action private handleCollapsedChange = (info: TreeRowInfo, collapsed: boolean) => {
     layerForPath(info.path).collapsed = collapsed
@@ -81,7 +81,7 @@ export class LayerList extends React.Component {
     const destItem = layerForPath(destPathAfterMove.slice(0, -1))
     destItem.children.splice(destPathAfterMove[destPathAfterMove.length - 1], 0, ...items)
     destItem.collapsed = false
-    editor.document.commit('Move Layers')
+    Document.current.commit('Move Layers')
   }
   @action private handleCopy = (src: TreeRowInfo[], dest: TreeRowInfo, destIndex: number) => {
     const items: Layer[] = []
@@ -95,6 +95,6 @@ export class LayerList extends React.Component {
     const destItem = layerForPath(dest.path)
     destItem.children.splice(destIndex, 0, ...items)
     destItem.collapsed = false
-    editor.document.commit('Copy Layers')
+    Document.current.commit('Copy Layers')
   }
 }

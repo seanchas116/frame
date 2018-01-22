@@ -1,6 +1,6 @@
 import { computed } from 'mobx'
 import { Action, registerAction } from '../../core/action/Action'
-import { editor } from '../editor/Editor'
+import { Document } from '../../core/document/Document'
 
 @registerAction
 export class RedoAction implements Action {
@@ -9,15 +9,15 @@ export class RedoAction implements Action {
   defaultKeyMac = 'Shift+Command+Z'
 
   @computed get title () {
-    const { commandToRedo } = editor.document.undoStack
+    const { commandToRedo } = Document.current.undoStack
     return commandToRedo ? `Redo ${commandToRedo.title}` : 'Redo'
   }
 
   @computed get enabled () {
-    return editor.document.undoStack.canRedo
+    return Document.current.undoStack.canRedo
   }
 
   run () {
-    editor.document.undoStack.redo()
+    Document.current.undoStack.redo()
   }
 }

@@ -6,6 +6,8 @@ import { Scroll } from './Scroll'
 import { Selection } from './Selection'
 
 export class Document {
+  @observable static current = new Document()
+
   readonly rootGroup: Layer
   readonly scroll = new Scroll()
   readonly selection = new Selection(this)

@@ -3,7 +3,6 @@ import * as querystring from 'querystring'
 import { observable, reaction, runInAction } from 'mobx'
 import { File } from './File'
 import { Document } from '../../core/document/Document'
-import { editor } from '../editor/Editor'
 
 export class FileStore {
   @observable file = new File(new Document())
@@ -11,13 +10,13 @@ export class FileStore {
 
   constructor () {
     reaction(() => this.document, document => {
-      editor.document = document
+      Document.current = document
     })
     reaction(() => this.file.path, path => {
       Electron.ipcRenderer.send('filePathChange', path)
     })
     this.openFileFromHash()
-    editor.document = this.document
+    Document.current = this.document
   }
 
   async open (path?: string) {

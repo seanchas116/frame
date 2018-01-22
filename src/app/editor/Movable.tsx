@@ -3,8 +3,8 @@ import { Vec2, Rect } from 'paintvec'
 import { computed, action } from 'mobx'
 import { PointerEvents } from '../../lib/PointerEvents'
 import { Layer } from '../../core/document/Layer'
+import { Document } from '../../core/document/Document'
 import { layerSnapper } from './LayerSnapper'
-import { editor } from './Editor'
 
 export
 class Movable extends React.Component<{layer: Layer, movable?: boolean}, {}> {
@@ -15,7 +15,7 @@ class Movable extends React.Component<{layer: Layer, movable?: boolean}, {}> {
 
   @computed get clickThrough () {
     const { layer } = this.props
-    return editor.document.selection.layers.some(selected => layer.children.includes(selected))
+    return Document.current.selection.layers.some(selected => layer.children.includes(selected))
   }
 
   render () {
@@ -43,8 +43,8 @@ class Movable extends React.Component<{layer: Layer, movable?: boolean}, {}> {
     }
     this.cancel()
     const { layer } = this.props
-    editor.document.selection.replace([layer])
-    editor.document.focusedLayer = layer
+    Document.current.selection.replace([layer])
+    Document.current.focusedLayer = layer
     event.stopPropagation()
   }
 
@@ -54,11 +54,11 @@ class Movable extends React.Component<{layer: Layer, movable?: boolean}, {}> {
     }
     event.stopPropagation()
     if (event.shiftKey) {
-      editor.document.selection.add(this.props.layer)
+      Document.current.selection.add(this.props.layer)
     } else {
-      editor.document.selection.replace([this.props.layer])
+      Document.current.selection.replace([this.props.layer])
     }
-    const layers = editor.document.selection.layers
+    const layers = Document.current.selection.layers
     for (const layer of layers) {
       this.originalRects.set(layer, layer.rect)
     }
@@ -99,7 +99,7 @@ class Movable extends React.Component<{layer: Layer, movable?: boolean}, {}> {
     }
     this.cancel()
 
-    editor.document.commit('Move Layers')
+    Document.current.commit('Move Layers')
   }
 
   private cancel () {

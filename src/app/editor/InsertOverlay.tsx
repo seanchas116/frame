@@ -3,6 +3,7 @@ import { Vec2, Rect } from 'paintvec'
 import { action } from 'mobx'
 import { PointerEvents } from '../../lib/PointerEvents'
 import { Layer } from '../../core/document/Layer'
+import { Document } from '../../core/document/Document'
 import { editor } from './Editor'
 import { Shape, ShapeType, RectShape, EllipseShape, TextShape } from '../../core/document/Shape'
 import { ColorBrush } from '../../core/document/Brush'
@@ -39,16 +40,16 @@ export class InsertOverlay extends React.Component {
 
     (event.currentTarget as Element).setPointerCapture(event.pointerId)
     const eventPos = new Vec2(event.offsetX, event.offsetY)
-    const docPos = eventPos.transform(editor.document.scroll.viewportToDocument)
+    const docPos = eventPos.transform(Document.current.scroll.viewportToDocument)
     this.dragStartPos = docPos
 
-    const layer = editor.document.createLayer()
+    const layer = Document.current.createLayer()
     layer.shape = createShape(editor.insertMode)
     layer.rect = new Rect(docPos, docPos)
     layer.style.fill = ColorBrush.fromString('#CCC')
     layer.style.stroke = ColorBrush.fromString('#000')
     // TODO: insert after selected layer
-    editor.document.rootGroup.children.push(layer)
+    Document.current.rootGroup.children.push(layer)
 
     this.layer = layer
   }
@@ -58,13 +59,13 @@ export class InsertOverlay extends React.Component {
       return
     }
     const eventPos = new Vec2(event.offsetX, event.offsetY)
-    const docPos = eventPos.transform(editor.document.scroll.viewportToDocument)
+    const docPos = eventPos.transform(Document.current.scroll.viewportToDocument)
     this.layer.rect = Rect.fromTwoPoints(this.dragStartPos, docPos)
   }
 
   @action private handlePointerUp = (event: PointerEvent) => {
     this.layer = undefined
     editor.insertMode = undefined
-    editor.document.commit('Insert Layer')
+    Document.current.commit('Insert Layer')
   }
 }

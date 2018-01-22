@@ -1,6 +1,6 @@
 import { computed } from 'mobx'
 import { Action, registerAction } from '../../core/action/Action'
-import { editor } from '../editor/Editor'
+import { Document } from '../../core/document/Document'
 
 @registerAction
 export class UndoAction implements Action {
@@ -9,15 +9,15 @@ export class UndoAction implements Action {
   defaultKeyMac = 'Command+Z'
 
   @computed get title () {
-    const { commandToUndo } = editor.document.undoStack
+    const { commandToUndo } = Document.current.undoStack
     return commandToUndo ? `Undo ${commandToUndo.title}` : 'Undo'
   }
 
   @computed get enabled () {
-    return editor.document.undoStack.canUndo
+    return Document.current.undoStack.canUndo
   }
 
   run () {
-    editor.document.undoStack.undo()
+    Document.current.undoStack.undo()
   }
 }
