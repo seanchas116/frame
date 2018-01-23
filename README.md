@@ -18,3 +18,13 @@
 
 * Better format support (PSD / Sketch / PDF ...)
 * Design handoff features (Generating CSS, ...)
+
+## Code Structure
+
+* `src` - Source files
+  * `app`
+    * Modules that forms app (modules inside `app` should not refer to each other)
+  * `core`
+    * Core modules that are referred from `app` modules
+  * `lib`
+    * Convenient utilities that does not form the app directly
