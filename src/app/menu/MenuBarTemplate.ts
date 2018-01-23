@@ -1,6 +1,6 @@
 import * as Electron from 'electron'
 import { MenuDescription } from './MenuBar'
-import { fileNew, fileOpen, fileSave, fileSaveAs, editUndo, editRedo } from '../ActionIDs'
+import { fileNew, fileOpen, fileSave, fileSaveAs, editUndo, editRedo, editCut, editCopy, editPaste } from '../ActionIDs'
 
 const fileMenu: MenuDescription = {
   label: 'File',
@@ -19,9 +19,9 @@ const editMenu: MenuDescription = {
     { action: editUndo },
     { action: editRedo },
     { type: 'separator' },
-    { action: 'edit.cut', accelerator: 'CommandOrControl+X' },
-    { action: 'edit.copy', accelerator: 'CommandOrControl+C' },
-    { action: 'edit.paste', accelerator: 'CommandOrControl+V' },
+    { action: editCut },
+    { action: editCopy },
+    { action: editPaste },
     { role: 'delete' },
     { role: 'selectall' }
   ]
