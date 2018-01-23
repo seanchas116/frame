@@ -1,7 +1,7 @@
 import { computed } from 'mobx'
 import { Layer } from './Layer'
 import { Document } from './Document'
-import { ObservableSet } from '../../support/ObservableSet'
+import { ObservableSet } from '../../lib/ObservableSet'
 
 export class Selection {
   private readonly set = new ObservableSet<Layer>()

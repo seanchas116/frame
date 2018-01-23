@@ -1,7 +1,7 @@
 import * as _ from 'lodash'
 import { LayerData } from '../format/v1/Schema'
 import { Document } from './Document'
-import { UndoStack, UndoCommand } from '../../support/UndoStack'
+import { UndoStack, UndoCommand } from '../../lib/UndoStack'
 import { dataToLayer, loadLayerData } from '../format/v1/Deserialize'
 import { Layer } from './Layer'
 

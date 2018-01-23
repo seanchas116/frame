@@ -1,8 +1,8 @@
 import * as path from 'path'
 import * as Electron from 'electron'
 import { computed, autorun } from 'mobx'
-import { fileStore } from '../state/FileStore'
-import { Disposable, disposeAll } from '../../support/Disposable'
+import { fileStore } from '../file/FileStore'
+import { Disposable, disposeAll } from '../../lib/Disposable'
 
 export class WindowTitleUpdater {
   private disposables: Disposable[]
@@ -35,3 +35,5 @@ export class WindowTitleUpdater {
     disposeAll(this.disposables)
   }
 }
+
+export const windowTitleUpdater = new WindowTitleUpdater()

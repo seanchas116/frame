@@ -1,5 +1,5 @@
 import { assert } from 'chai'
-import { Document } from '../../core/document/Document'
+import { Document } from '../document/Document'
 
 describe('Selection', () => {
   let document: Document

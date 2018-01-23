@@ -5,7 +5,7 @@ const fileRegex = /\.(jpg|png|woff|woff2|eot|ttf|svg)/
 
 module.exports = {
   entry: {
-    test: path.resolve(__dirname, 'src/test.ts')
+    test: path.resolve(__dirname, 'src/bootstrap/test.ts')
   },
   output: {
     path: path.resolve(__dirname, 'public/assets'),

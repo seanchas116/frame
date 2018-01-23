@@ -1,6 +1,7 @@
 import * as Electron from 'electron'
 import { autorun, observable } from 'mobx'
-import { actionRegistry } from '../state/Action'
+import { actionRegistry } from '../../core/action/Action'
+import { menuBarTemplate } from './MenuBarTemplate'
 
 export interface MenuDescription extends Electron.MenuItemConstructorOptions {
   action?: string
@@ -28,7 +29,7 @@ function menuDescriptionToElectron (description: MenuDescription): Electron.Menu
 }
 
 export class MenuBar {
-  @observable template: MenuDescription[] = []
+  @observable template: MenuDescription[] = menuBarTemplate
 
   constructor () {
     autorun(() => {
