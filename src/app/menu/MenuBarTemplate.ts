@@ -5,11 +5,11 @@ import { fileNew, fileOpen, fileSave, fileSaveAs, editUndo, editRedo, editCut, e
 const fileMenu: MenuDescription = {
   label: 'File',
   submenu: [
-    { action: fileNew, accelerator: 'CommandOrControl+N' },
-    { action: fileOpen, accelerator: 'CommandOrControl+O' },
+    { action: fileNew },
+    { action: fileOpen },
     { type: 'separator' },
-    { action: fileSave, accelerator: 'CommandOrControl+S' },
-    { action: fileSaveAs, accelerator: 'Shift+CommandOrControl+S' }
+    { action: fileSave },
+    { action: fileSaveAs }
   ]
 }
 
