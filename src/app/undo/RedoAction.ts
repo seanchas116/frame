@@ -1,10 +1,11 @@
 import { computed } from 'mobx'
 import { Action, registerAction } from '../../core/action/Action'
 import { Document } from '../../core/document/Document'
+import { editRedo } from '../ActionIDs'
 
 @registerAction
 export class RedoAction implements Action {
-  id = 'edit.redo'
+  id = editRedo
   defaultKey = 'Control+Y'
   defaultKeyMac = 'Shift+Command+Z'
 

@@ -1,10 +1,11 @@
 import { computed } from 'mobx'
 import { Action, registerAction } from '../../core/action/Action'
 import { Document } from '../../core/document/Document'
+import { editUndo } from '../ActionIDs'
 
 @registerAction
 export class UndoAction implements Action {
-  id = 'edit.undo'
+  id = editUndo
   defaultKey = 'Control+Z'
   defaultKeyMac = 'Command+Z'
 

@@ -1,10 +1,11 @@
 import { Action, registerAction } from '../../core/action/Action'
 import { fileStore } from './FileStore'
 import { showSaveDialog } from './Dialog'
+import { fileSaveAs } from '../ActionIDs'
 
 @registerAction
 export class FileSaveAsAction implements Action {
-  id = 'file.saveAs'
+  id = fileSaveAs
   defaultKey = 'Shift+Control+S'
   defaultKeyMac = 'Shift+Command+S'
   title = 'Save As...'

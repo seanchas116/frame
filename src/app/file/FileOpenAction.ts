@@ -1,10 +1,11 @@
 import * as Electron from 'electron'
 import { Action, registerAction } from '../../core/action/Action'
 import { fileStore } from './FileStore'
+import { fileOpen } from '../ActionIDs'
 
 @registerAction
 export class FileOpenAction implements Action {
-  id = 'file.open'
+  id = fileOpen
   defaultKey = 'Control+O'
   defaultKeyMac = 'Command+O'
   title = 'Open...'

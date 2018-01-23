@@ -1,9 +1,10 @@
 import { Action, registerAction } from '../../core/action/Action'
 import { fileStore } from './FileStore'
+import { fileNew } from '../ActionIDs'
 
 @registerAction
 export class FileNewAction implements Action {
-  id = 'file.new'
+  id = fileNew
   defaultKey = 'Control+N'
   defaultKeyMac = 'Command+N'
   title = 'New'

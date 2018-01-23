@@ -1,22 +1,23 @@
 import * as Electron from 'electron'
 import { MenuDescription } from './MenuBar'
+import { fileNew, fileOpen, fileSave, fileSaveAs, editUndo, editRedo } from '../ActionIDs'
 
 const fileMenu: MenuDescription = {
   label: 'File',
   submenu: [
-    { action: 'file.new', accelerator: 'CommandOrControl+N' },
-    { action: 'file.open', accelerator: 'CommandOrControl+O' },
+    { action: fileNew, accelerator: 'CommandOrControl+N' },
+    { action: fileOpen, accelerator: 'CommandOrControl+O' },
     { type: 'separator' },
-    { action: 'file.save', accelerator: 'CommandOrControl+S' },
-    { action: 'file.saveAs', accelerator: 'Shift+CommandOrControl+S' }
+    { action: fileSave, accelerator: 'CommandOrControl+S' },
+    { action: fileSaveAs, accelerator: 'Shift+CommandOrControl+S' }
   ]
 }
 
 const editMenu: MenuDescription = {
   label: 'Edit',
   submenu: [
-    { action: 'edit.undo' },
-    { action: 'edit.redo' },
+    { action: editUndo },
+    { action: editRedo },
     { type: 'separator' },
     { action: 'edit.cut', accelerator: 'CommandOrControl+X' },
     { action: 'edit.copy', accelerator: 'CommandOrControl+C' },

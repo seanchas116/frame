@@ -1,0 +1,8 @@
+
+export const fileNew = 'file.new'
+export const fileOpen = 'file.open'
+export const fileSave = 'file.save'
+export const fileSaveAs = 'file.saveAs'
+
+export const editUndo = 'edit.undo'
+export const editRedo = 'edit.redo'
