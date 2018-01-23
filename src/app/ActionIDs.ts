@@ -6,3 +6,6 @@ export const fileSaveAs = 'file.saveAs'
 
 export const editUndo = 'edit.undo'
 export const editRedo = 'edit.redo'
+export const editCopy = 'edit.copy'
+export const editCut = 'edit.cut'
+export const editPaste = 'edit.paste'
