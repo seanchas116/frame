@@ -33,12 +33,17 @@ import * as styles from './EditorView.scss'
 
   render () {
     const { width, height } = this.clientRect
-    const selectedLayers = Document.current.selection.layers
-    const { focusedLayer } = Document.current
+    const document = Document.current
+    const selectedLayers = document.selection.layers
+    const { focusedLayer } = document
+
+    const layerViews = document.rootGroup.children.map(layer => <LayerView key={layer.key} layer={layer} />)
+    layerViews.reverse()
+
     return <div className={styles.EditorView} ref={e => this.element = e!}>
       <svg className={styles.svg} width={width} height={height}>
         <rect className={styles.background} x={0} y={0} width={width} height={height} onClick={this.handleClickBackground}/>
-        {Document.current.rootGroup.children.map(layer => <LayerView key={layer.key} layer={layer} />)}
+        {layerViews}
         <SnapLines snapper={layerSnapper} />
         {selectedLayers.length > 0 && <LayerResizeHandles layers={selectedLayers} />}
       </svg>
