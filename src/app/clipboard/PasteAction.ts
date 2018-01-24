@@ -19,9 +19,11 @@ export class PasteAction implements Action {
     if (!dataString) {
       return
     }
+    const document = Document.current
     const data: ClipboardFormat = JSON.parse(dataString)
-    const layers = data.map(data => dataToLayer(Document.current, data))
+    const layers = data.map(data => dataToLayer(document, data))
     // TODO: insert after selected layer
-    Document.current.rootGroup.children.push(...layers)
+    document.rootGroup.children.push(...layers)
+    document.selection.replace(layers)
   }
 }
