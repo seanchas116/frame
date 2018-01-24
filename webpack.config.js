@@ -12,10 +12,14 @@ module.exports = {
     path: path.resolve(__dirname, 'public/assets'),
     publicPath: '/assets/',
     filename: '[name].js',
+    libraryTarget: 'commonjs'
   },
   target: 'electron-renderer',
   resolve: {
     extensions: ['.ts', '.tsx', '.js']
+  },
+  externals: {
+    'node-pasteboard': true
   },
   module: {
     loaders: [
