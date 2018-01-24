@@ -61,12 +61,7 @@ import * as styles from './EditorView.scss'
   @action private handleDocumentKeyDown = (e: KeyboardEvent) => {
     if (e.key === 'Backspace' || e.key === 'Delete') {
       if (!isTextInput(e.target)) {
-        for (const selection of Document.current.selection.layers) {
-          const parent = selection.parent
-          if (parent) {
-            parent.children.splice(parent.children.indexOf(selection), 1)
-          }
-        }
+        Document.current.deleteLayers()
         Document.current.commit('Delete Layers')
       }
     }
