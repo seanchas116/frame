@@ -34,4 +34,13 @@ export class Document {
   clearHistory () {
     this.history.clear()
   }
+
+  deleteLayers () {
+    for (const selection of this.selection.layers) {
+      const parent = selection.parent
+      if (parent) {
+        parent.children.splice(parent.children.indexOf(selection), 1)
+      }
+    }
+  }
 }
