@@ -1,3 +1,4 @@
+import * as _ from 'lodash'
 import { observable } from 'mobx'
 import { Layer } from './Layer'
 import { GroupShape } from './Shape'
@@ -33,6 +34,17 @@ export class Document {
 
   clearHistory () {
     this.history.clear()
+  }
+
+  insertLayers (layers: Layer[]) {
+    const anchor = _.first(this.selection.layers)
+    if (!anchor) {
+      this.rootGroup.children.push(...layers)
+    } else {
+      const parent = anchor.parent!
+      const index = parent.children.indexOf(anchor)
+      parent.children.splice(index, 0, ...layers)
+    }
   }
 
   deleteLayers () {
