@@ -60,4 +60,19 @@ describe('Document', () => {
       assert.equal(document.rootGroup.children[4], document.selection.layers[1])
     })
   })
+  describe('#deleteLayers', () => {
+    let document: Document
+    let layers: Layer[]
+    beforeEach(() => {
+      document = createDocument()
+      document.selection.add(document.rootGroup.children[1])
+      document.selection.add(document.rootGroup.children[2])
+      layers = document.selection.layers
+      document.deleteLayers()
+    })
+    it('deletes selected layers', () => {
+      assert.notInclude(document.rootGroup.children, layers[0])
+      assert.notInclude(document.rootGroup.children, layers[1])
+    })
+  })
 })
