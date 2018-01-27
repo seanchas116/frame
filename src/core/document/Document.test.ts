@@ -1,5 +1,7 @@
 import { assert } from 'chai'
-import { createDocument } from './test/Fixture'
+import { createDocument, createShapeLayer } from './test/Fixture'
+import { Document } from './Document'
+import { Layer } from './Layer'
 
 describe('Document', () => {
   describe('#commit', () => {
@@ -35,6 +37,27 @@ describe('Document', () => {
 
       document.undoStack.redo()
       assert.deepEqual(layer.path, [2, 0])
+    })
+  })
+  describe('#insertLayers', () => {
+    let document: Document
+    let layers: Layer[]
+    beforeEach(() => {
+      document = createDocument()
+      document.selection.add(document.rootGroup.children[1])
+      document.selection.add(document.rootGroup.children[2])
+      layers = [
+        createShapeLayer(document),
+        createShapeLayer(document)
+      ]
+      document.insertLayers(layers)
+    })
+
+    it('inserts layers before first selected item', () => {
+      assert.equal(document.rootGroup.children[1], layers[0])
+      assert.equal(document.rootGroup.children[2], layers[1])
+      assert.equal(document.rootGroup.children[3], document.selection.layers[0])
+      assert.equal(document.rootGroup.children[4], document.selection.layers[1])
     })
   })
 })
