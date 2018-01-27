@@ -24,5 +24,6 @@ export class AppView extends React.Component {
 
   private handleDrop = (e: React.DragEvent<HTMLElement>) => {
     e.preventDefault()
+    // TODO: add dragged files as layers
   }
 }
