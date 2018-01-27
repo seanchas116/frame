@@ -7,7 +7,7 @@ import * as styles from './AppView.scss'
 
 export class AppView extends React.Component {
   render () {
-    return <div className={styles.AppView}>
+    return <div className={styles.AppView} onDragOver={this.handleDragOver} onDrop={this.handleDrop}>
       {process.platform === 'darwin' && <div className={styles.titleBar} />}
       <div className={styles.columns}>
         <ToolBar />
@@ -16,5 +16,13 @@ export class AppView extends React.Component {
         <Inspector />
       </div>
     </div>
+  }
+
+  private handleDragOver = (e: React.DragEvent<HTMLElement>) => {
+    e.preventDefault()
+  }
+
+  private handleDrop = (e: React.DragEvent<HTMLElement>) => {
+    e.preventDefault()
   }
 }
