@@ -7,6 +7,10 @@ import { documentToData } from './Serialize'
 import { dataToDocument } from './Deserialize'
 
 export class V1Format implements Format {
+  readonly mime = 'application/x-frame-document'
+  readonly uti = 'com.seanchas116.frame.document'
+  readonly isLayered = true
+
   async serialize (document: Document) {
     const data: FileV1Format = {
       version: 1,
