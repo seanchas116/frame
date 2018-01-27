@@ -17,7 +17,7 @@ export class CopyAction implements Action {
     const data: ClipboardFormat = Document.current.selection.layers.map(layerToData)
     pasteboard.set({
       data: {
-        [clipboardMime]: JSON.stringify(data)
+        [clipboardMime]: Buffer.from(JSON.stringify(data))
       }
     })
     // TODO: delete originals

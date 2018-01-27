@@ -18,7 +18,7 @@ export class CutAction implements Action {
     const data: ClipboardFormat = Document.current.selection.layers.map(layerToData)
     pasteboard.set({
       data: {
-        [clipboardMime]: JSON.stringify(data)
+        [clipboardMime]: Buffer.from(JSON.stringify(data))
       }
     })
     Document.current.deleteLayers()

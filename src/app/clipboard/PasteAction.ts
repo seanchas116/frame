@@ -30,9 +30,9 @@ export class PasteAction implements Action {
 
   private getPasteLayers (): Layer[] {
     const document = Document.current
-    const dataString = pasteboard.getDataString(clipboardMime)
-    if (dataString) {
-      const data: ClipboardFormat = JSON.parse(dataString)
+    const dataBuffer = pasteboard.getData(clipboardMime)
+    if (dataBuffer) {
+      const data: ClipboardFormat = JSON.parse(dataBuffer.toString())
       return data.map(data => dataToLayer(document, data))
     }
 
