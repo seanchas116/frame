@@ -1,8 +1,13 @@
 import * as fs from 'fs'
 import * as path from 'path'
 
-const requires = require.context('../', true, /\.test\.ts$/)
-requires.keys().forEach(requires)
+// require all core modules to see coverage
+const coreRequireContext = require.context('../core', true, /\.tsx?$/)
+coreRequireContext.keys().forEach(coreRequireContext)
+
+// require all tests
+const testRequireContext = require.context('../', true, /\.test\.ts$/)
+testRequireContext.keys().forEach(testRequireContext)
 
 after(() => {
   const coverage = (window as any).__coverage__
