@@ -83,7 +83,7 @@ export class Layer {
       layer._parent = this
 
       if (this.root === this.document.rootGroup) {
-        this.history.add(layer, new LayerInsert(layer.path, layer.data))
+        this.history.stage(layer, new LayerInsert(layer.path, layer.data))
       }
     }
     const onChildRemove = (index: number, layer: Layer) => {
@@ -93,7 +93,7 @@ export class Layer {
       layer._parent = undefined
 
       if (this.root === this.document.rootGroup) {
-        this.history.add(layer, new LayerRemove(path, layer.data))
+        this.history.stage(layer, new LayerRemove(path, layer.data))
       }
     }
     if (change.type === 'update') {
@@ -107,7 +107,7 @@ export class Layer {
 
   private handleDataChange (change: IValueDidChange<LayerData>) {
     if (change.oldValue && this.root === this.document.rootGroup && this !== this.document.rootGroup) {
-      this.history.add(this, new LayerChange(this.path, change.oldValue, change.newValue))
+      this.history.stage(this, new LayerChange(this.path, change.oldValue, change.newValue))
     }
   }
 }

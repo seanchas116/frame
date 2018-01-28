@@ -104,7 +104,7 @@ export class History {
   constructor (public document: Document) {
   }
 
-  add (layer: Layer, update: LayerUpdate) {
+  stage (layer: Layer, update: LayerUpdate) {
     const last = _.last(this.updates)
     if (last && layer === last[0]) {
       const merged = mergeUpdates(last[1], update)
