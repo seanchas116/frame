@@ -71,7 +71,6 @@ Electron.app.commandLine.appendSwitch('enable-experimental-web-platform-features
 
 Electron.app.on('ready', () => {
   if (argv.test) {
-    // tslint:disable-next-line:no-unused-expression
     new TestWindow()
   } else {
     Electron.ipcMain.on('newWindow', async (e: Electron.IpcMessageEvent, filePath?: string) => {
@@ -82,7 +81,6 @@ Electron.app.on('ready', () => {
           return
         }
       }
-      // tslint:disable-next-line:no-unused-expression
       new DocumentWindow(filePath)
     })
     Electron.ipcMain.on('filePathChange', async (e: Electron.IpcMessageEvent, filePath?: string) => {
@@ -92,7 +90,6 @@ Electron.app.on('ready', () => {
         console.log(filePath)
       }
     })
-    // tslint:disable-next-line:no-unused-expression
     new DocumentWindow()
   }
 })

@@ -1,6 +1,7 @@
 {
   "extends": "tslint-config-standard",
   "rules": {
-    "member-ordering": false
+    "member-ordering": false,
+    "no-unused-expression": [true, "allow-fast-null-checks", "allow-new"]
   }
 }
