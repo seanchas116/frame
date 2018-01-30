@@ -7,6 +7,7 @@ import { layerToData } from '../format/v1/Serialize'
 import { LayerData } from '../format/v1/Schema'
 import { History, LayerChange, LayerInsert, LayerRemove } from './History'
 import { Text } from './Text'
+import { Document } from './Document'
 
 export class Layer {
   private static maxKey = 0
@@ -40,10 +41,6 @@ export class Layer {
     return this.parent ? this.parent.children : []
   }
 
-  get document () {
-    return this.history.document
-  }
-
   get path (): number[] {
     if (this.parent) {
       return this.parent.path.concat(this.parent.children.indexOf(this))
@@ -56,7 +53,7 @@ export class Layer {
     return layerToData(this)
   }
 
-  constructor (private history: History) {
+  constructor (public document: Document) {
     this.children.observe(change => this.handleChildrenChange(change), true)
     observe(this, 'data', change => this.handleDataChange(change), true)
   }
@@ -83,7 +80,7 @@ export class Layer {
       layer._parent = this
 
       if (this.root === this.document.rootGroup) {
-        this.history.stage(layer, new LayerInsert(layer.path, layer.data))
+        History.get(this.document)!.stage(layer, new LayerInsert(layer.path, layer.data))
       }
     }
     const onChildRemove = (index: number, layer: Layer) => {
@@ -93,7 +90,7 @@ export class Layer {
       layer._parent = undefined
 
       if (this.root === this.document.rootGroup) {
-        this.history.stage(layer, new LayerRemove(path, layer.data))
+        History.get(this.document)!.stage(layer, new LayerRemove(path, layer.data))
       }
     }
     if (change.type === 'update') {
@@ -107,7 +104,7 @@ export class Layer {
 
   private handleDataChange (change: IValueDidChange<LayerData>) {
     if (change.oldValue && this.root === this.document.rootGroup && this !== this.document.rootGroup) {
-      this.history.stage(this, new LayerChange(this.path, change.oldValue, change.newValue))
+      History.get(this.document)!.stage(this, new LayerChange(this.path, change.oldValue, change.newValue))
     }
   }
 }

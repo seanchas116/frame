@@ -13,27 +13,27 @@ export class Document {
   readonly scroll = new Scroll()
   readonly selection = new Selection(this)
   @observable focusedLayer: Layer | undefined = undefined
-  private readonly history = new History(this)
 
   get undoStack () {
-    return this.history.undoStack
+    return History.get(this)!.undoStack
   }
 
   constructor () {
     this.rootGroup = this.createLayer()
     this.rootGroup.shape = new GroupShape()
+    new History(this)
   }
 
   createLayer () {
-    return new Layer(this.history)
+    return new Layer(this)
   }
 
   commit (message: string) {
-    this.history.commit(message)
+    History.get(this)!.commit(message)
   }
 
   clearHistory () {
-    this.history.clear()
+    History.get(this)!.clear()
   }
 
   insertLayers (layers: Layer[]) {

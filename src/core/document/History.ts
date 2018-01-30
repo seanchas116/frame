@@ -98,10 +98,17 @@ function mergeUpdates (update1: LayerUpdate, update2: LayerUpdate) {
 }
 
 export class History {
+  // use WeakMap to make History module-private
+  private static instances = new WeakMap<Document, History>()
+  static get (document: Document) {
+    return this.instances.get(document)
+  }
+
   undoStack = new UndoStack<Commit>()
   private updates: [Layer, LayerUpdate][] = []
 
   constructor (public document: Document) {
+    History.instances.set(document, this)
   }
 
   stage (layer: Layer, update: LayerUpdate) {
