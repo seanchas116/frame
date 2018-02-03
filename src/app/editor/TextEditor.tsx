@@ -5,7 +5,7 @@ import { Layer } from '../../core/document/Layer'
 import * as styles from './TextEditor.scss'
 
 export class TextEdior extends React.Component<{layer: Layer}> {
-  editable: HTMLElement
+  editable!: HTMLElement
 
   componentDidMount () {
     const { text } = this.props.layer

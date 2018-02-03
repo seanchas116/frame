@@ -16,7 +16,7 @@ export class ClickToEdit extends React.Component<ClickToEditProps, ClickToEditSt
     isEditing: false
   }
 
-  private inputElement: HTMLInputElement
+  private inputElement!: HTMLInputElement
 
   componentWillReceiveProps (props: ClickToEditProps) {
     if (!props.editable) {

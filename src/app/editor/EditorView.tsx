@@ -16,8 +16,8 @@ import * as styles from './EditorView.scss'
 @observer export class EditorView extends React.Component {
   @observable clientRect = new Rect()
 
-  private element: HTMLElement
-  private resizeObserver: ResizeObserver
+  private element!: HTMLElement
+  private resizeObserver!: ResizeObserver
 
   componentDidMount () {
     this.handleResize()

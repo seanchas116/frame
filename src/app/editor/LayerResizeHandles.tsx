@@ -13,7 +13,7 @@ import { layerSnapper } from './LayerSnapper'
 export
 class LayerResizeHandles extends React.Component<{layers: Layer[]}, {}> {
   private dragging = false
-  private disposables: Disposable[]
+  private disposables!: Disposable[]
   @observable private positions: [Vec2, Vec2] | undefined
   private originalPositions: [Vec2, Vec2] | undefined
   private originalRects = new Map<Layer, Rect>()
