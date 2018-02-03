@@ -63,7 +63,7 @@ export class LayerList extends React.Component {
       console.log(`Context menu at blank space`)
     }
   }
-  @action private handleSelectedKeysChange = (selectedKeys: Set<number>, selectedInfos: TreeRowInfo[]) => {
+  @action private handleSelectedKeysChange = (selectedKeys: Set<number | string>, selectedInfos: TreeRowInfo[]) => {
     Document.current.selection.replace(selectedInfos.map(info => layerForPath(info.path)))
   }
   @action private handleCollapsedChange = (info: TreeRowInfo, collapsed: boolean) => {
