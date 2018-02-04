@@ -7,6 +7,7 @@ import { documentToData } from './Serialize'
 import { dataToDocument } from './Deserialize'
 
 export class V1Format implements Format {
+  readonly extensions = Object.freeze(['frame'])
   readonly mime = 'application/x-frame-document'
   readonly uti = 'com.seanchas116.frame.document'
   readonly isLayered = true
