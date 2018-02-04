@@ -55,7 +55,7 @@ export class ImageShape implements IShape {
   }
 
   render (rect: Rect) {
-    return <image xlinkHref={this.dataURL} x={rect.left} y={rect.top} width={rect.width} height={rect.height} />
+    return <image xlinkHref={this.dataURL} x={rect.left} y={rect.top} width={rect.width} height={rect.height} preserveAspectRatio='none' />
   }
 }
 
