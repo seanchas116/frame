@@ -3,6 +3,7 @@ import { Document } from '../../document/Document'
 import { Rect } from 'paintvec'
 import { ImageShape } from '../../document/Shape'
 import { Layer } from '../../document/Layer'
+import { runInAction } from 'mobx'
 
 export abstract class ImageFormat implements Format {
   abstract readonly extensions: ReadonlyArray<string>
@@ -19,12 +20,14 @@ export abstract class ImageFormat implements Format {
     const layer = new Layer()
     const shape = new ImageShape()
     await shape.loadDataURL(dataURL)
-    layer.shape = shape
-    layer.rect = Rect.fromWidthHeight(0, 0, shape.originalSize.width, shape.originalSize.height)
-    layer.name = 'Image'
 
-    const document = new Document()
-    document.rootGroup.children.replace([layer])
-    return document
+    return runInAction(() => {
+      const document = new Document()
+      layer.shape = shape
+      layer.rect = Rect.fromWidthHeight(0, 0, shape.originalSize.width, shape.originalSize.height)
+      layer.name = 'Image'
+      document.rootGroup.children.replace([layer])
+      return document
+    })
   }
 }
