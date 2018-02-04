@@ -24,6 +24,5 @@ export class ActionRegistry {
 export const actionRegistry = new ActionRegistry()
 
 export function registerAction (klass: { new (): Action }) {
-  const action = new klass()
-  actionRegistry.add(action)
+  actionRegistry.add(new klass())
 }
