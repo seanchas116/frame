@@ -1,4 +1,4 @@
-import { registerFormat, Format } from '../Format'
+import { registerFormat } from '../Format'
 import { ImageFormat } from './ImageFormat'
 
 @registerFormat
