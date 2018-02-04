@@ -1,11 +1,12 @@
 import { runInAction } from 'mobx'
 import * as msgpack from 'msgpack-lite'
-import { Format } from '../Format'
+import { Format, registerFormat } from '../Format'
 import { Document } from '../../document/Document'
 import { FileV1Format } from './Schema'
 import { documentToData } from './Serialize'
 import { dataToDocument } from './Deserialize'
 
+@registerFormat
 export class V1Format implements Format {
   readonly extensions = Object.freeze(['frame'])
   readonly mime = 'application/x-frame-document'
