@@ -99,20 +99,20 @@ export function loadLayerData (layer: Layer, data: LayerData) {
   layer.text = dataToText(data.text)
 }
 
-export function dataToLayer (document: Document, data: LayerData): Layer {
-  const layer = document.createLayer()
+export function dataToLayer (data: LayerData): Layer {
+  const layer = new Layer()
   loadLayerData(layer, data)
   return layer
 }
 
-export function dataToLayerDeep (document: Document, data: DeepLayerData): Layer {
-  const layer = dataToLayer(document, data)
-  layer.children.replace(data.children.map(childData => dataToLayerDeep(document, childData)))
+export function dataToLayerDeep (data: DeepLayerData): Layer {
+  const layer = dataToLayer(data)
+  layer.children.replace(data.children.map(dataToLayerDeep))
   return layer
 }
 
 export function dataToDocument (data: DocumentData): Document {
   const document = new Document()
-  document.rootGroup.children.replace(data.layers.map(layerData => dataToLayerDeep(document, layerData)))
+  document.rootGroup.children.replace(data.layers.map(dataToLayerDeep))
   return document
 }

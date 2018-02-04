@@ -1,5 +1,6 @@
 import * as React from 'react'
 import { action } from 'mobx'
+import { Document } from '../../core/document/Document'
 import { Layer } from '../../core/document/Layer'
 import { TextEdior } from './TextEditor'
 import * as styles from './TextEditorOverlay.scss'
@@ -13,6 +14,6 @@ export class TextEditorOverlay extends React.Component<{layer: Layer}> {
   }
 
   @action private handleClickBackground = () => {
-    this.props.layer.document.focusedLayer = undefined
+    Document.current.focusedLayer = undefined
   }
 }

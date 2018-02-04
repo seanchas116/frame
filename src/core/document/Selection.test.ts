@@ -1,5 +1,6 @@
 import { assert } from 'chai'
 import { Document } from '../document/Document'
+import { Layer } from '../document/Layer'
 
 describe('Selection', () => {
   let document: Document
@@ -8,10 +9,10 @@ describe('Selection', () => {
   })
   describe('layers', () => {
     it('returns selected layers sorted', () => {
-      const layer1 = document.createLayer()
-      const layer2 = document.createLayer()
-      const layer3 = document.createLayer()
-      const leakedLayer = document.createLayer()
+      const layer1 = new Layer()
+      const layer2 = new Layer()
+      const layer3 = new Layer()
+      const leakedLayer = new Layer()
       layer2.children.push(layer3)
       document.rootGroup.children.push(layer1, layer2)
 

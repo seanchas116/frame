@@ -19,13 +19,10 @@ export class Document {
   }
 
   constructor () {
-    this.rootGroup = this.createLayer()
+    this.rootGroup = new Layer()
+    this.rootGroup.document = this
     this.rootGroup.shape = new GroupShape()
     new History(this)
-  }
-
-  createLayer () {
-    return new Layer(this)
   }
 
   commit (message: string) {
@@ -49,10 +46,8 @@ export class Document {
 
   deleteLayers () {
     for (const selection of this.selection.layers) {
-      const parent = selection.parent
-      if (parent) {
-        parent.children.splice(parent.children.indexOf(selection), 1)
-      }
+      const parent = selection.parent!
+      parent.children.splice(parent.children.indexOf(selection), 1)
     }
   }
 }

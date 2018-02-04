@@ -22,6 +22,8 @@ export class Layer {
   @observable collapsed = false
   readonly children = observable<Layer>([])
 
+  /* internal(set) */ @observable document: Document | undefined = undefined
+
   private _parent: Layer | undefined = undefined
   get parent () { return this._parent }
 
@@ -53,7 +55,7 @@ export class Layer {
     return layerToData(this)
   }
 
-  constructor (public document: Document) {
+  constructor () {
     this.children.observe(change => this.handleChildrenChange(change), true)
     observe(this, 'data', change => this.handleDataChange(change), true)
   }
@@ -66,7 +68,7 @@ export class Layer {
   }
 
   clone () {
-    return dataToLayer(this.document, layerToData(this))
+    return dataToLayer(layerToData(this))
   }
 
   private handleChildrenChange (change: IArrayChange<Layer> | IArraySplice<Layer>) {
@@ -79,8 +81,9 @@ export class Layer {
       }
       layer._parent = this
 
-      if (this.root === this.document.rootGroup) {
-        History.get(this.document)!.stage(layer, new LayerInsert(layer.path, layer.data))
+      const root = this.root
+      if (root.document) {
+        History.get(root.document)!.stage(layer, new LayerInsert(layer.path, layer.data))
       }
     }
     const onChildRemove = (index: number, layer: Layer) => {
@@ -89,8 +92,9 @@ export class Layer {
 
       layer._parent = undefined
 
-      if (this.root === this.document.rootGroup) {
-        History.get(this.document)!.stage(layer, new LayerRemove(path, layer.data))
+      const root = this.root
+      if (root.document) {
+        History.get(root.document)!.stage(layer, new LayerRemove(path, layer.data))
       }
     }
     if (change.type === 'update') {
@@ -103,8 +107,9 @@ export class Layer {
   }
 
   private handleDataChange (change: IValueDidChange<LayerData>) {
-    if (change.oldValue && this.root === this.document.rootGroup && this !== this.document.rootGroup) {
-      History.get(this.document)!.stage(this, new LayerChange(this.path, change.oldValue, change.newValue))
+    const root = this.root
+    if (change.oldValue && root.document && this.parent) {
+      History.get(root.document)!.stage(this, new LayerChange(this.path, change.oldValue, change.newValue))
     }
   }
 }

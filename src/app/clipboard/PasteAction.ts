@@ -29,17 +29,16 @@ export class PasteAction implements Action {
   }
 
   private getPasteLayers (): Layer[] {
-    const document = Document.current
     const dataBuffer = pasteboard.getData(clipboardMime)
     if (dataBuffer) {
       const data: ClipboardFormat = JSON.parse(dataBuffer.toString())
-      return data.map(data => dataToLayer(document, data))
+      return data.map(data => dataToLayer(data))
     }
 
     const imageData = pasteboard.getImage()
     if (imageData) {
       const imageURL = imageDataToURL(new ImageData(imageData.data, imageData.width, imageData.height))
-      const layer = document.createLayer()
+      const layer = new Layer()
       const shape = new ImageShape()
       shape.dataURL = imageURL
       shape.originalSize = new Vec2(imageData.width, imageData.height)

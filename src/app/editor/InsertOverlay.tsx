@@ -44,7 +44,7 @@ export class InsertOverlay extends React.Component {
     this.dragStartPos = docPos
 
     const document = Document.current
-    const layer = document.createLayer()
+    const layer = new Layer()
     layer.shape = createShape(editor.insertMode)
     layer.rect = new Rect(docPos, docPos)
     layer.style.fill = ColorBrush.fromString('#CCC')

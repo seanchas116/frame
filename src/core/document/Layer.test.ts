@@ -1,6 +1,7 @@
 import { assert } from 'chai'
 import { createShapeLayer } from './test/Fixture'
 import { Document } from './Document'
+import { Layer } from './Layer'
 
 describe('Layer', () => {
   let document: Document
@@ -9,9 +10,9 @@ describe('Layer', () => {
   })
   describe('parent', () => {
     it('is automatically set when inserted to new parent', () => {
-      const parent = document.createLayer()
-      const child1 = document.createLayer()
-      const child2 = document.createLayer()
+      const parent = new Layer()
+      const child1 = new Layer()
+      const child2 = new Layer()
       parent.children.push(child1)
       assert.equal(child1.parent, parent)
       parent.children[0] = child2
@@ -23,9 +24,9 @@ describe('Layer', () => {
   })
   describe('children', () => {
     it('removes child automatically when child is inserted to another parent', () => {
-      const parent1 = document.createLayer()
-      const parent2 = document.createLayer()
-      const child = document.createLayer()
+      const parent1 = new Layer()
+      const parent2 = new Layer()
+      const child = new Layer()
       parent1.children.push(child)
       assert.deepEqual([...parent1.children], [child])
       parent2.children.push(child)

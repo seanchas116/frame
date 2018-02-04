@@ -3,6 +3,7 @@ import { action } from 'mobx'
 import { Rect } from 'paintvec'
 import { observer } from 'mobx-react'
 import { RGBColor } from '../../lib/Color'
+import { Document } from '../../core/document/Document'
 import { Layer } from '../../core/document/Layer'
 import { StrokeAlignment } from '../../core/document/Style'
 import { ColorBrush } from '../../core/document/Brush'
@@ -36,25 +37,25 @@ import * as styles from './Inspector.scss'
   @action private handleLeftChange = (value: number) => {
     const { layer } = this.props
     layer.rect = Rect.fromWidthHeight(value, layer.rect.top, layer.rect.width, layer.rect.height)
-    layer.document.commit('Change Left')
+    Document.current.commit('Change Left')
   }
 
   @action private handleTopChange = (value: number) => {
     const { layer } = this.props
     layer.rect = Rect.fromWidthHeight(layer.rect.left, value, layer.rect.width, layer.rect.height)
-    layer.document.commit('Change Top')
+    Document.current.commit('Change Top')
   }
 
   @action private handleWidthChange = (value: number) => {
     const { layer } = this.props
     layer.rect = Rect.fromWidthHeight(layer.rect.left, layer.rect.top, value, layer.rect.height)
-    layer.document.commit('Change Width')
+    Document.current.commit('Change Width')
   }
 
   @action private handleHeightChange = (value: number) => {
     const { layer } = this.props
     layer.rect = Rect.fromWidthHeight(layer.rect.left, layer.rect.top, layer.rect.width, value)
-    layer.document.commit('Change Height')
+    Document.current.commit('Change Height')
   }
 }
 
@@ -72,9 +73,9 @@ import * as styles from './Inspector.scss'
   }
 
   @action private handleEnabledChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { style, document } = this.props.layer
+    const { style } = this.props.layer
     style.fillEnabled = e.currentTarget.checked
-    document.commit('Change Fill Enabled')
+    Document.current.commit('Change Fill Enabled')
   }
 
   @action private handleColorChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -84,8 +85,7 @@ import * as styles from './Inspector.scss'
   }
 
   @action private handleColorChangeFinish = () => {
-    const { document } = this.props.layer
-    document.commit('Change Fill Color')
+    Document.current.commit('Change Fill Color')
   }
 }
 
@@ -109,9 +109,9 @@ import * as styles from './Inspector.scss'
   }
 
   @action private handleEnabledChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { style, document } = this.props.layer
+    const { style } = this.props.layer
     style.strokeEnabled = e.currentTarget.checked
-    document.commit('Change Border Enabled')
+    Document.current.commit('Change Border Enabled')
   }
 
   @action private handleColorChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -121,20 +121,19 @@ import * as styles from './Inspector.scss'
   }
 
   @action private handleColorChangeFinish = () => {
-    const { document } = this.props.layer
-    document.commit('Change Border Color')
+    Document.current.commit('Change Border Color')
   }
 
   @action private handleAlignmentChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const { style, document } = this.props.layer
+    const { style } = this.props.layer
     style.strokeAlignment = e.currentTarget.value as StrokeAlignment
-    document.commit('Change Border Alignment')
+    Document.current.commit('Change Border Alignment')
   }
 
   @action private handleWidthChange = (value: number) => {
-    const { style, document } = this.props.layer
+    const { style } = this.props.layer
     style.strokeWidth = value
-    document.commit('Change Border Width')
+    Document.current.commit('Change Border Width')
   }
 }
 

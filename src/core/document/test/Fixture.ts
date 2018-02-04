@@ -4,7 +4,7 @@ import { RectShape } from '../Shape'
 import { Rect } from 'paintvec'
 
 export function createShapeLayer (document: Document) {
-  const layer = document.createLayer()
+  const layer = new Layer()
   layer.shape = new RectShape()
   layer.rect = Rect.fromWidthHeight(10, 20, 30, 40)
   layer.name = 'Layer'
@@ -16,7 +16,7 @@ export function createShapeLayer (document: Document) {
 }
 
 export function createGroupLayer (document: Document, children: Layer[]) {
-  const layer = document.createLayer()
+  const layer = new Layer()
   layer.name = 'Group'
   layer.children.replace(children)
   return layer
