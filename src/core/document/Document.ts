@@ -20,7 +20,7 @@ export class Document {
 
   constructor () {
     this.rootGroup = new Layer()
-    this.rootGroup.document = this
+    this.rootGroup.makeRoot(this)
     this.rootGroup.shape = new GroupShape()
     new History(this)
   }

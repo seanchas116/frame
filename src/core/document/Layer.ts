@@ -22,8 +22,6 @@ export class Layer {
   @observable collapsed = false
   readonly children = observable<Layer>([])
 
-  /* internal(set) */ @observable document: Document | undefined = undefined
-
   private _parent: Layer | undefined = undefined
   get parent () { return this._parent }
 
@@ -37,6 +35,12 @@ export class Layer {
 
   get root (): Layer {
     return this.parent ? this.parent.root : this
+  }
+
+  private _rootDocument: Document | undefined = undefined
+
+  get document (): Document | undefined {
+    return this.root._rootDocument
   }
 
   get siblings () {
@@ -58,6 +62,10 @@ export class Layer {
   constructor () {
     this.children.observe(change => this.handleChildrenChange(change), true)
     observe(this, 'data', change => this.handleDataChange(change), true)
+  }
+
+  /* internal */ makeRoot (document: Document) {
+    this._rootDocument = document
   }
 
   descendant (indexPath: number[]): Layer {
