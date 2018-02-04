@@ -1,4 +1,7 @@
 import * as React from 'react'
+import { runInAction } from 'mobx'
+import { FormatFileLoader } from '../../core/format/FormatFileLoader'
+import { Document } from '../../core/document/Document'
 import { EditorView } from '../editor/EditorView'
 import { ToolBar } from './ToolBar'
 import { LayerList } from './LayerList'
@@ -20,10 +23,23 @@ export class AppView extends React.Component {
 
   private handleDragOver = (e: React.DragEvent<HTMLElement>) => {
     e.preventDefault()
+    e.stopPropagation()
+    e.dataTransfer.dropEffect = 'copy'
   }
 
-  private handleDrop = (e: React.DragEvent<HTMLElement>) => {
+  private handleDrop = async (e: React.DragEvent<HTMLElement>) => {
     e.preventDefault()
-    // TODO: add dragged files as layers
+    e.stopPropagation()
+    const files = e.dataTransfer.files
+    for (let i = 0; i < files.length; ++i) {
+      const file = files.item(i)
+      const document = await FormatFileLoader.loadFile(file)
+      runInAction(() => {
+        if (document) {
+          const layers = document.rootGroup.children.peek()
+          Document.current.insertLayers(layers)
+        }
+      })
+    }
   }
 }
