@@ -9,7 +9,8 @@ export class WindowTitleUpdater {
 
   @computed private get windowTitle () {
     const filePath = fileStore.file.path
-    return filePath ? path.basename(filePath) : 'Untitled'
+    const zoomPercentage = fileStore.document.scroll.scale * 100
+    return (filePath ? path.basename(filePath) : 'Untitled') + ` - ${zoomPercentage}%`
   }
 
   @computed private get representedFilePath () {
