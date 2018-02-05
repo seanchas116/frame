@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { observable, action } from 'mobx'
 import { observer } from 'mobx-react'
-import { Rect } from 'paintvec'
+import { Rect, Vec2 } from 'paintvec'
 import { editor } from './Editor'
 import { LayerView } from './LayerView'
 import { InsertOverlay } from './InsertOverlay'
@@ -9,6 +9,7 @@ import { SnapLines } from './SnapLines'
 import { layerSnapper } from './LayerSnapper'
 import { LayerResizeHandles } from './LayerResizeHandles'
 import { isTextInput } from '../../lib/isTextInput'
+import { toCSSTransform } from '../../lib/CSSTransform'
 import { TextEditorOverlay } from './TextEditorOverlay'
 import { Document } from '../../core/document/Document'
 import * as styles from './EditorView.scss'
@@ -40,10 +41,12 @@ import * as styles from './EditorView.scss'
     const layerViews = document.rootGroup.children.map(layer => <LayerView key={layer.key} layer={layer} />)
     layerViews.reverse()
 
-    return <div className={styles.EditorView} ref={e => this.element = e!}>
+    return <div className={styles.EditorView} ref={e => this.element = e!} onWheel={this.handleWheel} >
       <svg className={styles.svg} width={width} height={height}>
         <rect className={styles.background} x={0} y={0} width={width} height={height} onClick={this.handleClickBackground}/>
-        {layerViews}
+        <g transform={toCSSTransform(document.scroll.documentToViewport)}>
+          {layerViews}
+        </g>
         <SnapLines snapper={layerSnapper} />
         {selectedLayers.length > 0 && <LayerResizeHandles layers={selectedLayers} />}
       </svg>
@@ -70,5 +73,10 @@ import * as styles from './EditorView.scss'
         Document.current.commit('Delete Layers')
       }
     }
+  }
+
+  @action private handleWheel = (e: React.WheelEvent<HTMLElement>) => {
+    const { scroll } = Document.current
+    scroll.translation = scroll.translation.add(new Vec2(e.deltaX, e.deltaY))
   }
 }
