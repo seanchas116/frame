@@ -1,6 +1,6 @@
 import * as Electron from 'electron'
 import { MenuDescription } from './MenuBar'
-import { fileNew, fileOpen, fileSave, fileSaveAs, editUndo, editRedo, editCut, editCopy, editPaste } from '../ActionIDs'
+import { fileNew, fileOpen, fileSave, fileSaveAs, editUndo, editRedo, editCut, editCopy, editPaste, viewZoomIn, viewZoomOut, viewZoomToActualSize } from '../ActionIDs'
 
 const fileMenu: MenuDescription = {
   label: 'File',
@@ -41,9 +41,9 @@ const viewMenu: MenuDescription = {
     { role: 'forcereload' },
     { role: 'toggledevtools' },
     { type: 'separator' },
-    { role: 'resetzoom' },
-    { role: 'zoomin' },
-    { role: 'zoomout' },
+    { action: viewZoomIn },
+    { action: viewZoomOut },
+    { action: viewZoomToActualSize },
     { type: 'separator' },
     { role: 'togglefullscreen' }
   ]
