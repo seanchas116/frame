@@ -42,9 +42,10 @@ class LayerResizeHandles extends React.Component<{layers: Layer[]}, {}> {
     if (!positions) {
       return <g />
     }
+    const { documentToViewport } = Document.current.scroll
     return <ResizeHandles
-      p1={positions[0]}
-      p2={positions[1]}
+      p1={positions[0].transform(documentToViewport)}
+      p2={positions[1].transform(documentToViewport)}
       snap={this.snap}
       onChangeBegin={this.onChangeBegin}
       onChange={this.onChange}
@@ -69,10 +70,13 @@ class LayerResizeHandles extends React.Component<{layers: Layer[]}, {}> {
     layerSnapper.setTargetLayers(this.props.layers)
   }
 
-  @action private onChange = (p1: Vec2, p2: Vec2) => {
+  @action private onChange = (p1Viewport: Vec2, p2Viewport: Vec2) => {
     if (!this.originalPositions) {
       return
     }
+    const { viewportToDocument } = Document.current.scroll
+    const p1 = p1Viewport.transform(viewportToDocument)
+    const p2 = p2Viewport.transform(viewportToDocument)
     for (const [layer, origRect] of this.originalRects) {
       const [origP1, origP2] = this.originalPositions
       const ratio = p2.sub(p1).div(origP2.sub(origP1))
