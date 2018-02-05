@@ -82,7 +82,7 @@ class Movable extends React.Component<{layer: Layer, movable?: boolean}, {}> {
       return
     }
     const pos = new Vec2(event.clientX, event.clientY)
-    const offset = pos.sub(this.dragOrigin)
+    const offset = pos.sub(this.dragOrigin).divScalar(Document.current.scroll.scale)
     const snappedRect = layerSnapper.snapRect(this.originalRect.translate(offset))
     const snappedOffset = snappedRect.topLeft.sub(this.originalRect.topLeft)
     for (const [layer, origRect] of this.originalRects.entries()) {
