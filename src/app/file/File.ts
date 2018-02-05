@@ -46,7 +46,9 @@ export class File {
     const path = await askFilePath()
     if (path) {
       this.saveToPath(path)
-      this.path = path
+      runInAction(() => {
+        this.path = path
+      })
     }
   }
 
