@@ -76,6 +76,6 @@ import * as styles from './EditorView.scss'
   }
 
   @action private handleWheel = (e: React.WheelEvent<HTMLElement>) => {
-    editor.scroll.translation = editor.scroll.translation.add(new Vec2(e.deltaX, e.deltaY))
+    editor.scroll.translation = editor.scroll.translation.sub(new Vec2(e.deltaX, e.deltaY))
   }
 }
