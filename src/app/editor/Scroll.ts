@@ -20,10 +20,8 @@ export class Scroll {
     const ratio = scale / this.scale
     this.scale = scale
 
-    const halfViewportSize = this.viewportSize.divScalar(2)
-    const translationFromCenterOld = this.translation.sub(halfViewportSize)
-    const translationFromCenterNew = translationFromCenterOld.mulScalar(ratio)
-    this.translation = translationFromCenterNew.add(halfViewportSize).round()
+    const center = this.viewportSize.divScalar(2)
+    this.translation = this.translation.sub(center).mulScalar(ratio).add(center).round()
   }
 
   zoomIn () {
