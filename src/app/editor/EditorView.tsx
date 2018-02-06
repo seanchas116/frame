@@ -44,7 +44,7 @@ import * as styles from './EditorView.scss'
     return <div className={styles.EditorView} ref={e => this.element = e!} onWheel={this.handleWheel} >
       <svg className={styles.svg} width={width} height={height}>
         <rect className={styles.background} x={0} y={0} width={width} height={height} onClick={this.handleClickBackground}/>
-        <g transform={toCSSTransform(document.scroll.documentToViewport)}>
+        <g transform={toCSSTransform(editor.scroll.documentToViewport)}>
           {layerViews}
         </g>
         <SnapLines snapper={layerSnapper} />
@@ -76,7 +76,6 @@ import * as styles from './EditorView.scss'
   }
 
   @action private handleWheel = (e: React.WheelEvent<HTMLElement>) => {
-    const { scroll } = Document.current
-    scroll.translation = scroll.translation.add(new Vec2(e.deltaX, e.deltaY))
+    editor.scroll.translation = editor.scroll.translation.add(new Vec2(e.deltaX, e.deltaY))
   }
 }

@@ -1,7 +1,7 @@
 import { action } from 'mobx'
 import { Action, registerAction } from '../../core/action/Action'
-import { Document } from '../../core/document/Document'
 import { viewZoomOut } from '../ActionIDs'
+import { editor } from '../editor/Editor'
 
 @registerAction
 export class ZoomOutAction implements Action {
@@ -12,6 +12,6 @@ export class ZoomOutAction implements Action {
   enabled = true
 
   @action run () {
-    Document.current.scroll.zoomOut()
+    editor.scroll.zoomOut()
   }
 }

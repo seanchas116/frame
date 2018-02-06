@@ -3,13 +3,14 @@ import * as Electron from 'electron'
 import { computed, autorun } from 'mobx'
 import { fileStore } from '../file/FileStore'
 import { Disposable, disposeAll } from '../../lib/Disposable'
+import { editor } from '../editor/Editor'
 
 export class WindowTitleUpdater {
   private disposables: Disposable[]
 
   @computed private get windowTitle () {
     const filePath = fileStore.file.path
-    const zoomPercentage = fileStore.document.scroll.scale * 100
+    const zoomPercentage = editor.scroll.scale * 100
     return (filePath ? path.basename(filePath) : 'Untitled') + ` - ${zoomPercentage}%`
   }
 

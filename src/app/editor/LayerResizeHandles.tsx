@@ -8,6 +8,7 @@ import { Disposable, disposeAll } from '../../lib/Disposable'
 import { Layer } from '../../core/document/Layer'
 import { Document } from '../../core/document/Document'
 import { layerSnapper } from './LayerSnapper'
+import { editor } from './Editor'
 
 @observer
 export
@@ -42,7 +43,7 @@ class LayerResizeHandles extends React.Component<{layers: Layer[]}, {}> {
     if (!positions) {
       return <g />
     }
-    const { documentToViewport } = Document.current.scroll
+    const { documentToViewport } = editor.scroll
     return <ResizeHandles
       p1={positions[0].transform(documentToViewport)}
       p2={positions[1].transform(documentToViewport)}
@@ -74,7 +75,7 @@ class LayerResizeHandles extends React.Component<{layers: Layer[]}, {}> {
     if (!this.originalPositions) {
       return
     }
-    const { viewportToDocument } = Document.current.scroll
+    const { viewportToDocument } = editor.scroll
     const p1 = p1Viewport.transform(viewportToDocument)
     const p2 = p2Viewport.transform(viewportToDocument)
     for (const [layer, origRect] of this.originalRects) {

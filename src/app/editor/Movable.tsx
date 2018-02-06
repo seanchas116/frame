@@ -5,6 +5,7 @@ import { PointerEvents } from '../../lib/PointerEvents'
 import { Layer } from '../../core/document/Layer'
 import { Document } from '../../core/document/Document'
 import { layerSnapper } from './LayerSnapper'
+import { editor } from './Editor'
 
 export
 class Movable extends React.Component<{layer: Layer, movable?: boolean}, {}> {
@@ -82,7 +83,7 @@ class Movable extends React.Component<{layer: Layer, movable?: boolean}, {}> {
       return
     }
     const pos = new Vec2(event.clientX, event.clientY)
-    const offset = pos.sub(this.dragOrigin).divScalar(Document.current.scroll.scale)
+    const offset = pos.sub(this.dragOrigin).divScalar(editor.scroll.scale)
     const snappedRect = layerSnapper.snapRect(this.originalRect.translate(offset))
     const snappedOffset = snappedRect.topLeft.sub(this.originalRect.topLeft)
     for (const [layer, origRect] of this.originalRects.entries()) {

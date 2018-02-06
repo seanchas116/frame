@@ -40,7 +40,7 @@ export class InsertOverlay extends React.Component {
 
     (event.currentTarget as Element).setPointerCapture(event.pointerId)
     const eventPos = new Vec2(event.offsetX, event.offsetY)
-    const docPos = eventPos.transform(Document.current.scroll.viewportToDocument)
+    const docPos = eventPos.transform(editor.scroll.viewportToDocument)
     this.dragStartPos = docPos
 
     const document = Document.current
@@ -59,7 +59,7 @@ export class InsertOverlay extends React.Component {
       return
     }
     const eventPos = new Vec2(event.offsetX, event.offsetY)
-    const docPos = eventPos.transform(Document.current.scroll.viewportToDocument)
+    const docPos = eventPos.transform(editor.scroll.viewportToDocument)
     this.layer.rect = Rect.fromTwoPoints(this.dragStartPos, docPos)
   }
 

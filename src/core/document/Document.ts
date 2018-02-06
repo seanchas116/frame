@@ -3,14 +3,12 @@ import { observable } from 'mobx'
 import { Layer } from './Layer'
 import { GroupShape } from './Shape'
 import { History } from './History'
-import { Scroll } from './Scroll'
 import { Selection } from './Selection'
 
 export class Document {
   @observable static current = new Document()
 
   readonly rootGroup: Layer
-  readonly scroll = new Scroll()
   readonly selection = new Selection(this)
   @observable focusedLayer: Layer | undefined = undefined
 

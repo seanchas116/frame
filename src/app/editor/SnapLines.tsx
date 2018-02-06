@@ -1,13 +1,13 @@
 import * as React from 'react'
 import { observer } from 'mobx-react'
 import { Snapper } from './Snapper'
-import { Document } from '../../core/document/Document'
+import { editor } from './Editor'
 
 @observer
 export class SnapLines extends React.Component<{snapper: Snapper}, {}> {
   render () {
     const { lines } = this.props.snapper
-    const transform = Document.current.scroll.documentToViewport
+    const transform = editor.scroll.documentToViewport
     return <g pointerEvents='none'>
       {lines.map(([p1, p2], i) => {
         const p1Viewport = p1.transform(transform)

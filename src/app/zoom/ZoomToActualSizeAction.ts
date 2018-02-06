@@ -1,7 +1,7 @@
 import { action } from 'mobx'
 import { Action, registerAction } from '../../core/action/Action'
-import { Document } from '../../core/document/Document'
 import { viewZoomToActualSize } from '../ActionIDs'
+import { editor } from '../editor/Editor'
 
 @registerAction
 export class ZoomToActualSizeAction implements Action {
@@ -12,6 +12,6 @@ export class ZoomToActualSizeAction implements Action {
   enabled = true
 
   @action run () {
-    Document.current.scroll.scale = 1
+    editor.scroll.scale = 1
   }
 }

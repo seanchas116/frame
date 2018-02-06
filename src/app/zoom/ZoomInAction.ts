@@ -1,7 +1,7 @@
 import { action } from 'mobx'
 import { Action, registerAction } from '../../core/action/Action'
-import { Document } from '../../core/document/Document'
 import { viewZoomIn } from '../ActionIDs'
+import { editor } from '../editor/Editor'
 
 @registerAction
 export class ZoomInAction implements Action {
@@ -12,6 +12,6 @@ export class ZoomInAction implements Action {
   enabled = true
 
   @action run () {
-    Document.current.scroll.zoomIn()
+    editor.scroll.zoomIn()
   }
 }
