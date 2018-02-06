@@ -1,10 +1,14 @@
 import { observable, computed } from 'mobx'
 import { Vec2, Transform } from 'paintvec'
+import { EditorView } from './EditorView'
 
 export class Scroll {
   @observable translation = new Vec2()
   @observable scale = 1
 
+  @computed get viewportSize () {
+    return EditorView.instance ? EditorView.instance.size : new Vec2(100, 100)
+  }
   @computed get viewportToDocument () {
     return Transform.translate(this.translation.neg()).scale(new Vec2(1 / this.scale))
   }

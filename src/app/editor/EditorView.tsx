@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { observable, action } from 'mobx'
 import { observer } from 'mobx-react'
-import { Rect, Vec2 } from 'paintvec'
+import { Vec2 } from 'paintvec'
 import { editor } from './Editor'
 import { LayerView } from './LayerView'
 import { InsertOverlay } from './InsertOverlay'
@@ -15,25 +15,29 @@ import { Document } from '../../core/document/Document'
 import * as styles from './EditorView.scss'
 
 @observer export class EditorView extends React.Component {
-  @observable clientRect = new Rect()
+  @observable static instance: EditorView | undefined
+
+  size = new Vec2(100, 100)
 
   private element!: HTMLElement
   private resizeObserver!: ResizeObserver
 
-  componentDidMount () {
+  @action componentDidMount () {
+    EditorView.instance = this
     this.handleResize()
     this.resizeObserver = new ResizeObserver(this.handleResize)
     this.resizeObserver.observe(this.element)
     document.addEventListener('keydown', this.handleDocumentKeyDown)
   }
 
-  componentWillUnmount () {
+  @action componentWillUnmount () {
+    EditorView.instance = undefined
     this.resizeObserver.unobserve(this.element)
     document.removeEventListener('keydown', this.handleDocumentKeyDown)
   }
 
   render () {
-    const { width, height } = this.clientRect
+    const { width, height } = this.size
     const document = Document.current
     const selectedLayers = document.selection.layers
     const { focusedLayer } = document
@@ -57,7 +61,7 @@ import * as styles from './EditorView.scss'
 
   @action private handleResize = () => {
     const clientRect = this.element.getBoundingClientRect()
-    this.clientRect = Rect.fromWidthHeight(clientRect.left, clientRect.top, clientRect.width, clientRect.height)
+    this.size = new Vec2(clientRect.width, clientRect.height)
   }
 
   @action private handleClickBackground = (e: React.MouseEvent<SVGRectElement>) => {
