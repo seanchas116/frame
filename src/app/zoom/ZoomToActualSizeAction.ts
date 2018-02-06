@@ -12,6 +12,6 @@ export class ZoomToActualSizeAction implements Action {
   enabled = true
 
   @action run () {
-    editor.scroll.scale = 1
+    editor.scroll.zoomAroundCenter(1)
   }
 }

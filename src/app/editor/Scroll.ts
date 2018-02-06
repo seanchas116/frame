@@ -16,10 +16,21 @@ export class Scroll {
     return Transform.scale(new Vec2(this.scale)).translate(this.translation)
   }
 
-  zoomIn () {
-    this.scale *= 2
+  zoomAroundCenter (scale: number) {
+    const ratio = scale / this.scale
+    this.scale = scale
+
+    const halfViewportSize = this.viewportSize.divScalar(2)
+    const translationFromCenterOld = this.translation.sub(halfViewportSize)
+    const translationFromCenterNew = translationFromCenterOld.mulScalar(ratio)
+    this.translation = translationFromCenterNew.add(halfViewportSize).round()
   }
+
+  zoomIn () {
+    this.zoomAroundCenter(this.scale * 2)
+  }
+
   zoomOut () {
-    this.scale /= 2
+    this.zoomAroundCenter(this.scale / 2)
   }
 }
