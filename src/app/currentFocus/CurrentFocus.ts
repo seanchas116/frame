@@ -1,8 +1,7 @@
 import { observable, computed } from 'mobx'
 import { isTextInput } from '../../lib/isTextInput'
 
-export default
-class CurrentFocus {
+export class CurrentFocus {
   @observable element = document.activeElement
 
   @computed get isTextInput () {
