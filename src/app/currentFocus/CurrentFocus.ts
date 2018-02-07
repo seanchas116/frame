@@ -3,7 +3,7 @@ import { isTextInput } from '../../lib/isTextInput'
 
 export default
 class CurrentFocus {
-  @observable private element = document.activeElement
+  @observable element = document.activeElement
 
   @computed get isTextInput () {
     return isTextInput(this.element)
