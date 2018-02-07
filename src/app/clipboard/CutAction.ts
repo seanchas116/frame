@@ -6,7 +6,7 @@ import { editCut } from '../ActionIDs'
 import { ClipboardFormat, clipboardMime } from './ClipboardFormat'
 import { Document } from '../../core/document/Document'
 import { layerToData } from '../../core/format/v1/Serialize'
-import { currentFocus } from '../ui/CurrentFocus'
+import { currentFocus } from '../currentFocus/CurrentFocus'
 
 @registerAction
 export class CutAction implements Action {

@@ -10,7 +10,7 @@ import { imageDataToURL } from '../../lib/ImageDataToURL'
 import { ImageShape } from '../../core/document/Shape'
 import { Vec2, Rect } from 'paintvec'
 import { Layer } from '../../core/document/Layer'
-import { currentFocus } from '../ui/CurrentFocus'
+import { currentFocus } from '../currentFocus/CurrentFocus'
 
 @registerAction
 export class PasteAction implements Action {
