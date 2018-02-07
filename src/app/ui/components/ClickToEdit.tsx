@@ -29,6 +29,7 @@ const ClickToEditInput = styled.input`
 `
 
 interface ClickToEditProps {
+  className?: string
   text: string
   onChange: (text: string) => void
   editable: boolean
@@ -38,7 +39,7 @@ interface ClickToEditState {
   isEditing: boolean
 }
 
-export class ClickToEdit extends React.Component<ClickToEditProps, ClickToEditState> {
+export class ClickToEdit extends React.PureComponent<ClickToEditProps, ClickToEditState> {
   state = {
     isEditing: false
   }
@@ -56,7 +57,7 @@ export class ClickToEdit extends React.Component<ClickToEditProps, ClickToEditSt
   render () {
     const { text } = this.props
     const { isEditing } = this.state
-    return <ClickToEditWrap>
+    return <ClickToEditWrap className={this.props.className}>
       <ClickToEditText isEditing={isEditing} onClick={this.handleTextClick}>{text}</ClickToEditText>
       <ClickToEditInput innerRef={e => this.inputElement = e!} type='text' hidden={!isEditing} defaultValue={text}
         onBlur={this.handleInputBlur}

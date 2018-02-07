@@ -10,7 +10,7 @@ interface NumberInputState {
   value: number
 }
 
-export class NumberInput extends React.Component<NumberInputProps, NumberInputState> {
+export class NumberInput extends React.PureComponent<NumberInputProps, NumberInputState> {
   private isTyping = false
 
   constructor (props: NumberInputProps) {
