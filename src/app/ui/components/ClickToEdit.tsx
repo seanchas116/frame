@@ -1,16 +1,6 @@
 import * as React from 'react'
 import styled from 'styled-components'
 
-interface ClickToEditProps {
-  text: string
-  onChange: (text: string) => void
-  editable: boolean
-}
-
-interface ClickToEditState {
-  isEditing: boolean
-}
-
 const ClickToEditWrap = styled.div`
   --height: 16px;
   position: relative;
@@ -37,6 +27,16 @@ const ClickToEditInput = styled.input`
   border: none;
   outline: none;
 `
+
+interface ClickToEditProps {
+  text: string
+  onChange: (text: string) => void
+  editable: boolean
+}
+
+interface ClickToEditState {
+  isEditing: boolean
+}
 
 export class ClickToEdit extends React.Component<ClickToEditProps, ClickToEditState> {
   state = {
