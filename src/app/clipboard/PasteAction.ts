@@ -1,4 +1,5 @@
 import * as pasteboard from 'node-pasteboard'
+import * as Electron from 'electron'
 import { action } from 'mobx'
 import { Action, registerAction } from '../../core/action/Action'
 import { editPaste } from '../ActionIDs'
@@ -9,6 +10,7 @@ import { imageDataToURL } from '../../lib/ImageDataToURL'
 import { ImageShape } from '../../core/document/Shape'
 import { Vec2, Rect } from 'paintvec'
 import { Layer } from '../../core/document/Layer'
+import { currentFocus } from '../ui/CurrentFocus'
 
 @registerAction
 export class PasteAction implements Action {
@@ -19,6 +21,11 @@ export class PasteAction implements Action {
   enabled = true
 
   @action run () {
+    if (currentFocus.isTextInput) {
+      Electron.remote.getCurrentWebContents().paste()
+      return
+    }
+
     const document = Document.current
     const layers = this.getPasteLayers()
     if (layers.length > 0) {

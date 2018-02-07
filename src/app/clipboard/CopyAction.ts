@@ -1,9 +1,11 @@
 import * as pasteboard from 'node-pasteboard'
+import * as Electron from 'electron'
 import { Action, registerAction } from '../../core/action/Action'
 import { editCopy } from '../ActionIDs'
 import { ClipboardFormat, clipboardMime } from './ClipboardFormat'
 import { Document } from '../../core/document/Document'
 import { layerToData } from '../../core/format/v1/Serialize'
+import { currentFocus } from '../ui/CurrentFocus'
 
 @registerAction
 export class CopyAction implements Action {
@@ -14,6 +16,11 @@ export class CopyAction implements Action {
   enabled = true
 
   run () {
+    if (currentFocus.isTextInput) {
+      Electron.remote.getCurrentWebContents().copy()
+      return
+    }
+
     const data: ClipboardFormat = Document.current.selection.layers.map(layerToData)
     pasteboard.set({
       data: {
