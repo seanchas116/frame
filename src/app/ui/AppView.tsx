@@ -1,24 +1,44 @@
 import * as React from 'react'
 import { runInAction } from 'mobx'
+import styled from 'styled-components'
 import { FormatFileLoader } from '../../core/format/FormatFileLoader'
 import { Document } from '../../core/document/Document'
 import { EditorView } from '../editor/EditorView'
 import { ToolBar } from './ToolBar'
 import { LayerList } from './LayerList'
 import { Inspector } from './Inspector'
-import * as styles from './AppView.scss'
+import './AppView.scss'
+
+const Wrap = styled.div`
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+`
+
+const TitleBar = styled.div`
+  height: 22px;
+  border-bottom: 2px solid var(--background-color);
+  background-color: var(--front-color);
+  -webkit-app-region: drag;
+`
+
+const Columns = styled.div`
+  display: flex;
+  flex: 1;
+`
 
 export class AppView extends React.Component {
   render () {
-    return <div className={styles.AppView} onDragOver={this.handleDragOver} onDrop={this.handleDrop}>
-      {process.platform === 'darwin' && <div className={styles.titleBar} />}
-      <div className={styles.columns}>
+    return <Wrap onDragOver={this.handleDragOver} onDrop={this.handleDrop}>
+      {process.platform === 'darwin' && <TitleBar />}
+      <Columns>
         <ToolBar />
         <LayerList />
         <EditorView />
         <Inspector />
-      </div>
-    </div>
+      </Columns>
+    </Wrap>
   }
 
   private handleDragOver = (e: React.DragEvent<HTMLElement>) => {

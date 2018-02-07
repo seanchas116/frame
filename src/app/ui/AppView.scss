@@ -14,19 +14,3 @@ body {
   font-family: var(--default-font-family);
   color: var(--text-color);
 }
-.AppView {
-  width: 100vw;
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  .titleBar {
-    height: 22px;
-    border-bottom: 2px solid var(--background-color);
-    background-color: var(--front-color);
-    -webkit-app-region: drag;
-  }
-  .columns {
-    display: flex;
-    flex: 1;
-  }
-}
