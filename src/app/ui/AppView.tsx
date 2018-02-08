@@ -1,13 +1,32 @@
 import * as React from 'react'
 import { runInAction } from 'mobx'
-import styled from 'styled-components'
+import styled, { injectGlobal } from 'styled-components'
 import { FormatFileLoader } from '../../core/format/FormatFileLoader'
 import { Document } from '../../core/document/Document'
 import { EditorView } from '../editor/EditorView'
 import { ToolBar } from './ToolBar'
 import { LayerList } from './LayerList'
 import { Inspector } from './Inspector'
-import './AppView.scss'
+
+// tslint:disable-next-line:no-unused-expression
+injectGlobal`
+  :root {
+    --background-color: #F0F0F0;
+    --front-color: #F8F8F8;
+    --primary-color: #47ABFF;
+    --text-color: #4A4A4A;
+    --default-font-family: BlinkMacSystemFont, "Segoe UI";
+  }
+  body {
+    margin: 0;
+    background-color: white;
+  }
+  * {
+    user-select: none;
+    font-family: var(--default-font-family);
+    color: var(--text-color);
+  }
+`
 
 const Wrap = styled.div`
   width: 100vw;
