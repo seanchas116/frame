@@ -2,6 +2,7 @@ import * as React from 'react'
 import { action } from 'mobx'
 import { Rect } from 'paintvec'
 import { observer } from 'mobx-react'
+import styled from 'styled-components'
 import { RGBColor } from '../../lib/Color'
 import { Document } from '../../core/document/Document'
 import { Layer } from '../../core/document/Layer'
@@ -11,27 +12,58 @@ import { fileStore } from '../file/FileStore'
 import { NumberInput } from './components/NumberInput'
 import * as styles from './Inspector.scss'
 
+const Panel = styled.div`
+  margin-bottom: 8px;
+`
+
+const PanelHeader = styled.div`
+  height: 24px;
+  line-height: 24px;
+  font-size: 14px;
+`
+
+const PositionRow = styled.div`
+  display: flex;
+  align-items: center;
+  margin: 8px 0;
+`
+
+const PositionColumn = styled.label`
+  display: flex;
+  align-items: center;
+  margin-right: 8px;
+`
+
+const PositionLabel = styled.div`
+  width: 12px;
+  font-size: 12px;
+`
+
+const PositionInput = styled(NumberInput)`
+  width: 48px;
+`
+
 @observer class RectPanel extends React.Component<{layer: Layer}> {
   render () {
     const { rect } = this.props.layer
-    return <div className={styles.numberPanel}>
-      <div className={styles.header}>Position</div>
-      <div className={styles.row}>
+    return <Panel>
+      <PanelHeader>Position</PanelHeader>
+      <PositionRow>
         {this.renderColumn('x', rect.left, this.handleLeftChange)}
         {this.renderColumn('y', rect.top, this.handleTopChange)}
-      </div>
-      <div className={styles.row}>
+      </PositionRow>
+      <PositionRow>
         {this.renderColumn('w', rect.width, this.handleWidthChange)}
         {this.renderColumn('h', rect.height, this.handleHeightChange)}
-      </div>
-    </div>
+      </PositionRow>
+    </Panel>
   }
 
   private renderColumn (name: string, value: number, onChange: (value: number) => void) {
-    return <label className={styles.column}>
-      <div className={styles.label}>{name}</div>
-      <NumberInput className={styles.input} value={value} onChange={onChange} />
-    </label>
+    return <PositionColumn>
+      <PositionLabel>{name}</PositionLabel>
+      <PositionInput value={value} onChange={onChange} />
+    </PositionColumn>
   }
 
   @action private handleLeftChange = (value: number) => {
