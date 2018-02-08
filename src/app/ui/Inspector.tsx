@@ -10,7 +10,6 @@ import { StrokeAlignment } from '../../core/document/Style'
 import { ColorBrush } from '../../core/document/Brush'
 import { fileStore } from '../file/FileStore'
 import { NumberInput } from './components/NumberInput'
-import * as styles from './Inspector.scss'
 
 const Panel = styled.div`
   margin-bottom: 8px;
@@ -91,17 +90,28 @@ const PositionInput = styled(NumberInput)`
   }
 }
 
+const FillBorderRow = styled.div`
+  display: flex;
+  align-items: center;
+  > * {
+    margin-right: 8px;
+  }
+  > input[type='number'] {
+    width: 40px;
+  }
+`
+
 @observer class FillPanel extends React.Component<{layer: Layer}> {
   render () {
     const { style } = this.props.layer
     const color = style.fill instanceof ColorBrush ? style.fill.color.toRGB().toHexRGBString() : '#000000'
-    return <div className={styles.panel}>
-      <div className={styles.header}>Fill</div>
-      <div className={styles.fillBorderRow}>
+    return <Panel>
+      <PanelHeader>Fill</PanelHeader>
+      <FillBorderRow>
         <input type='checkbox' checked={style.fillEnabled} onChange={this.handleEnabledChange} />
         <input type='color' value={color} onChange={this.handleColorChange} onBlur={this.handleColorChangeFinish}/>
-      </div>
-    </div>
+      </FillBorderRow>
+    </Panel>
   }
 
   @action private handleEnabledChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -125,9 +135,9 @@ const PositionInput = styled(NumberInput)`
   render () {
     const { style } = this.props.layer
     const color = style.stroke instanceof ColorBrush ? style.stroke.color.toRGB().toHexRGBString() : '#000000'
-    return <div className={styles.panel}>
-      <div className={styles.header}>Border</div>
-      <div className={styles.fillBorderRow}>
+    return <Panel>
+      <PanelHeader>Border</PanelHeader>
+      <FillBorderRow>
         <input type='checkbox' checked={style.strokeEnabled} onChange={this.handleEnabledChange} />
         <input type='color' value={color} onChange={this.handleColorChange} onBlur={this.handleColorChangeFinish} />
         <select value={style.strokeAlignment} onChange={this.handleAlignmentChange}>
@@ -136,8 +146,8 @@ const PositionInput = styled(NumberInput)`
           <option value='outside'>Outside</option>
         </select>
         <NumberInput value={style.strokeWidth} onChange={this.handleWidthChange}/>
-      </div>
-    </div>
+      </FillBorderRow>
+    </Panel>
   }
 
   @action private handleEnabledChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -169,13 +179,21 @@ const PositionInput = styled(NumberInput)`
   }
 }
 
+const InspectorWrap = styled.div`
+  width: 240px;
+  padding: 8px;
+  box-sizing: border-box;
+  background-color: var(--front-color);
+  border-left: 2px solid var(--background-color);
+`
+
 @observer export class Inspector extends React.Component {
   render () {
     const layer: Layer | undefined = fileStore.document.selection.layers[0]
-    return <div className={styles.Inspector}>
+    return <InspectorWrap>
       {layer && <RectPanel layer={layer} />}
       {layer && <FillPanel layer={layer} />}
       {layer && <BorderPanel layer={layer} />}
-    </div>
+    </InspectorWrap>
   }
 }
