@@ -1,8 +1,17 @@
 import * as React from 'react'
 import { action } from 'mobx'
+import styled from 'styled-components'
 import { TextFragment } from '../../core/document/Text'
 import { Layer } from '../../core/document/Layer'
-import * as styles from './TextEditor.scss'
+
+const TextEditorWrap = styled.div`
+  position: absolute;
+  outline: none;
+`
+
+const TextEditorEditable = styled.div`
+  display: inline-block;
+`
 
 export class TextEdior extends React.Component<{layer: Layer}> {
   editable!: HTMLElement
@@ -28,14 +37,14 @@ export class TextEdior extends React.Component<{layer: Layer}> {
       width: width + 'px',
       height: height + 'px'
     }
-    return <div style={style} className={styles.TextEditor}>
-      <div
-        ref={e => this.editable = e!}
-        className={styles.editable} style={style}
+    return <TextEditorWrap style={style}>
+      <TextEditorEditable
+        innerRef={e => this.editable = e!}
+        style={style}
         onInput={this.handleInput}
         contentEditable={true}
       />
-    </div>
+    </TextEditorWrap>
   }
 
   @action private handleInput = () => {
