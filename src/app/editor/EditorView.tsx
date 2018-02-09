@@ -2,6 +2,7 @@ import * as React from 'react'
 import { observable, action } from 'mobx'
 import { observer } from 'mobx-react'
 import { Vec2 } from 'paintvec'
+import styled from 'styled-components'
 import { editor } from './Editor'
 import { LayerView } from './LayerView'
 import { InsertOverlay } from './InsertOverlay'
@@ -12,7 +13,15 @@ import { isTextInput } from '../../lib/isTextInput'
 import { toCSSTransform } from '../../lib/CSSTransform'
 import { TextEditorOverlay } from './TextEditorOverlay'
 import { Document } from '../../core/document/Document'
-import * as styles from './EditorView.scss'
+
+const EditorViewWrap = styled.div`
+  flex: 1;
+  position: relative;
+`
+
+const EditorViewSVG = styled.svg`
+  position: absolute;
+`
 
 @observer export class EditorView extends React.Component {
   @observable static instance: EditorView | undefined
@@ -45,18 +54,18 @@ import * as styles from './EditorView.scss'
     const layerViews = document.rootGroup.children.map(layer => <LayerView key={layer.key} layer={layer} />)
     layerViews.reverse()
 
-    return <div className={styles.EditorView} ref={e => this.element = e!} onWheel={this.handleWheel} >
-      <svg className={styles.svg} width={width} height={height}>
-        <rect className={styles.background} x={0} y={0} width={width} height={height} onClick={this.handleClickBackground}/>
+    return <EditorViewWrap innerRef={e => this.element = e!} onWheel={this.handleWheel} >
+      <EditorViewSVG width={width} height={height}>
+        <rect fill='white' x={0} y={0} width={width} height={height} onClick={this.handleClickBackground}/>
         <g transform={toCSSTransform(editor.scroll.documentToViewport)}>
           {layerViews}
         </g>
         <SnapLines snapper={layerSnapper} />
         {selectedLayers.length > 0 && <LayerResizeHandles layers={selectedLayers} />}
-      </svg>
+      </EditorViewSVG>
       {focusedLayer && <TextEditorOverlay layer={focusedLayer}/>}
       {editor.insertMode && <InsertOverlay />}
-    </div>
+    </EditorViewWrap>
   }
 
   @action private handleResize = () => {
