@@ -1,13 +1,13 @@
 import * as React from 'react'
 import { Vec2, Rect } from 'paintvec'
 import { action } from 'mobx'
-import styled from 'styled-components'
 import { PointerEvents } from '../../lib/PointerEvents'
 import { Layer } from '../../core/document/Layer'
 import { Document } from '../../core/document/Document'
 import { editor } from './Editor'
 import { Shape, ShapeType, RectShape, EllipseShape, TextShape } from '../../core/document/Shape'
 import { ColorBrush } from '../../core/document/Brush'
+import { Overlay } from './Overlay'
 
 function createShape (type: ShapeType): Shape {
   switch (type) {
@@ -23,21 +23,13 @@ function createShape (type: ShapeType): Shape {
   }
 }
 
-const InsertOverlayArea = styled.div`
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-`
-
 export class InsertOverlay extends React.Component {
   dragStartPos = new Vec2()
   layer: Layer | undefined = undefined
 
   render () {
     return <PointerEvents onPointerDown={this.handlePointerDown} onPointerMove={this.handlePointerMove} onPointerUp={this.handlePointerUp}>
-      <InsertOverlayArea />
+      <Overlay />
     </PointerEvents>
   }
 
