@@ -7,7 +7,7 @@ import { Document } from '../../core/document/Document'
 import { editor } from './Editor'
 import { Shape, ShapeType, RectShape, EllipseShape, TextShape } from '../../core/document/Shape'
 import { ColorBrush } from '../../core/document/Brush'
-import { Overlay } from './Overlay'
+import { Overlay } from './components/Overlay'
 
 function createShape (type: ShapeType): Shape {
   switch (type) {

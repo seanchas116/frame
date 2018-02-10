@@ -3,7 +3,7 @@ import { action } from 'mobx'
 import { Document } from '../../core/document/Document'
 import { Layer } from '../../core/document/Layer'
 import { TextEdior } from './TextEditor'
-import { Overlay } from './Overlay'
+import { Overlay } from './components/Overlay'
 
 export class TextEditorOverlay extends React.Component<{layer: Layer}> {
   render () {
