@@ -15,7 +15,6 @@ import { TextEditorOverlay } from './TextEditorOverlay'
 import { Document } from '../../core/document/Document'
 
 const EditorViewWrap = styled.div`
-  flex: 1;
   position: relative;
 `
 
@@ -23,7 +22,7 @@ const EditorViewSVG = styled.svg`
   position: absolute;
 `
 
-@observer export class EditorView extends React.Component {
+@observer export class EditorView extends React.Component<{className?: string}> {
   @observable static instance: EditorView | undefined
 
   size = new Vec2(100, 100)
@@ -54,7 +53,7 @@ const EditorViewSVG = styled.svg`
     const layerViews = document.rootGroup.children.map(layer => <LayerView key={layer.key} layer={layer} />)
     layerViews.reverse()
 
-    return <EditorViewWrap innerRef={e => this.element = e!} onWheel={this.handleWheel} >
+    return <EditorViewWrap className={this.props.className} innerRef={e => this.element = e!} onWheel={this.handleWheel} >
       <EditorViewSVG width={width} height={height}>
         <rect fill='white' x={0} y={0} width={width} height={height} onClick={this.handleClickBackground}/>
         <g transform={toCSSTransform(editor.scroll.documentToViewport)}>

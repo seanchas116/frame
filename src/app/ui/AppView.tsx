@@ -42,6 +42,10 @@ const TitleBar = styled.div`
   -webkit-app-region: drag;
 `
 
+const EditorViewColumn = styled(EditorView)`
+  flex: 1;
+`
+
 const Columns = styled.div`
   display: flex;
   flex: 1;
@@ -54,7 +58,7 @@ export class AppView extends React.Component {
       <Columns>
         <ToolBar />
         <LayerList />
-        <EditorView />
+        <EditorViewColumn />
         <Inspector />
       </Columns>
     </Wrap>
