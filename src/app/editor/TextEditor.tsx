@@ -3,14 +3,20 @@ import { action } from 'mobx'
 import styled from 'styled-components'
 import { TextFragment } from '../../core/document/Text'
 import { Layer } from '../../core/document/Layer'
+import { editor } from './Editor'
+import { toCSSTransform } from '../../lib/CSSTransform'
 
 const TextEditorWrap = styled.div`
   position: absolute;
-  outline: none;
+`
+
+const TextEditorArea = styled.div`
+  position: absolute;
 `
 
 const TextEditorEditable = styled.div`
   display: inline-block;
+  outline: none;
 `
 
 export class TextEdior extends React.Component<{layer: Layer}> {
@@ -31,19 +37,22 @@ export class TextEdior extends React.Component<{layer: Layer}> {
 
   render () {
     const { left, top, width, height } = this.props.layer.rect
+    const transform = toCSSTransform(editor.scroll.documentToViewport)
     const style = {
       left: left + 'px',
       top: top + 'px',
       width: width + 'px',
       height: height + 'px'
     }
-    return <TextEditorWrap style={style}>
-      <TextEditorEditable
-        innerRef={e => this.editable = e!}
-        style={style}
-        onInput={this.handleInput}
-        contentEditable={true}
-      />
+    return <TextEditorWrap style={{ transform }}>
+      <TextEditorArea style={style}>
+        <TextEditorEditable
+          innerRef={e => this.editable = e!}
+          style={style}
+          onInput={this.handleInput}
+          contentEditable={true}
+        />
+      </TextEditorArea>
     </TextEditorWrap>
   }
 
