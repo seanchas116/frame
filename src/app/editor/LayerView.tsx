@@ -17,7 +17,8 @@ function renderText (layer: Layer) {
   const { rect } = layer
   if (!layer.text.isEmpty) {
     const style: React.CSSProperties = {
-      wordWrap: 'break-word'
+      wordWrap: 'break-word',
+      cursor: 'default'
     }
     const spans: React.ReactChild[] = []
     for (const span of layer.text.spans) {
