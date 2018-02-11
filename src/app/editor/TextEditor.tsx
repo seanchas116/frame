@@ -87,6 +87,50 @@ export class TextEdior extends React.Component<{layer: Layer}> {
 
   @action private handleSelectionChange = () => {
     const selection = getSelection()
-    console.log('selection change', selection.toString())
+    if (!this.editable.contains(selection.anchorNode) || !this.editable.contains(selection.focusNode)) {
+      return
+    }
+    const from = offsetFromAncestorNode(this.editable, selection.anchorNode, selection.anchorOffset)
+    const to = offsetFromAncestorNode(this.editable, selection.focusNode, selection.focusOffset)
+    console.log('selection change', from, to)
   }
+}
+
+function offsetFromAncestorNode (ancestor: Node, container: Node, offset: number) {
+  let count: number
+  let child: Node | null
+  let parent: Node
+  if (container instanceof Text) {
+    count = offset
+    child = container.previousSibling
+    parent = container.parentNode!
+  } else {
+    count = 0
+    child = container.childNodes[offset - 1]
+    parent = container
+  }
+
+  while (true) {
+    while (child) {
+      count += countNodeCharacters(child!)
+      child = child!.previousSibling
+    }
+    if (parent === ancestor) {
+      break
+    } else {
+      child = parent
+      parent = parent.parentNode!
+    }
+  }
+  return count
+}
+
+function countNodeCharacters (node: Node): number {
+  if (node instanceof Text) {
+    return node.data.length
+  }
+  if (node instanceof HTMLBRElement) {
+    return 1
+  }
+  return Array.from(node.childNodes).reduce((a, x) => a + countNodeCharacters(x), 0)
 }
