@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { action } from 'mobx'
 import styled from 'styled-components'
-import { TextFragment } from '../../core/document/Text'
+import { TextSpan } from '../../core/document/Text'
 import { Layer } from '../../core/document/Layer'
 import { editor } from './Editor'
 import { toCSSTransform } from '../../lib/CSSTransform'
@@ -24,14 +24,20 @@ export class TextEdior extends React.Component<{layer: Layer}> {
 
   componentDidMount () {
     const { text } = this.props.layer
-    for (const fragment of text.fragments) {
-      if (fragment.type === 'span') {
-        const spanElem = document.createElement('span')
-        spanElem.innerText = fragment.characters.join('')
-        this.editable.appendChild(spanElem)
-      } else {
-        this.editable.appendChild(document.createElement('br'))
+    for (const span of text.spans) {
+      const spanElem = document.createElement('span')
+      let chars: string[] = []
+      for (const char of span.characters) {
+        if (char === '\n') {
+          spanElem.appendChild(document.createTextNode(chars.join('')))
+          spanElem.appendChild(document.createElement('br'))
+          chars = []
+        } else {
+          chars.push(char)
+        }
       }
+      spanElem.appendChild(document.createTextNode(chars.join('')))
+      this.editable.appendChild(spanElem)
     }
   }
 
@@ -57,20 +63,19 @@ export class TextEdior extends React.Component<{layer: Layer}> {
   }
 
   @action private handleInput = () => {
-    const fragments: TextFragment[] = []
-    for (const child of this.editable.childNodes) {
-      // TODO: handle nested <br>
-      if (child instanceof HTMLBRElement) {
-        fragments.push({
-          type: 'break'
-        })
-      } else {
-        fragments.push({
-          type: 'span',
-          characters: [...(child.textContent || '')]
-        })
+    const span: TextSpan = { characters: [] }
+    const iterateChildren = (children: NodeList) => {
+      for (const child of children) {
+        if (child instanceof HTMLBRElement) {
+          span.characters.push('\n')
+        } else if (child instanceof Text && child.textContent) {
+          span.characters.push(...child.textContent.split(''))
+        } else if (child instanceof HTMLSpanElement) {
+          iterateChildren(child.childNodes)
+        }
       }
     }
-    this.props.layer.text.fragments.replace(fragments)
+    iterateChildren(this.editable.childNodes)
+    this.props.layer.text.spans.replace([span])
   }
 }

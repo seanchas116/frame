@@ -1,12 +1,12 @@
 import { Vec2, Rect } from 'paintvec'
 import { Document } from '../../document/Document'
-import { DocumentData, BrushData, HSVColorData, Vec2Data, GradientStopData, ShapeData, RectData, LayerData, DeepLayerData, TextFragmentData } from './Schema'
+import { DocumentData, BrushData, HSVColorData, Vec2Data, GradientStopData, ShapeData, RectData, LayerData, DeepLayerData, TextSpanData } from './Schema'
 import { Brush, ColorBrush } from '../../document/Brush'
 import { Shape, RectShape, EllipseShape, TextShape, ImageShape, GroupShape } from '../../document/Shape'
 import { HSVColor } from '../../../lib/Color'
 import { Style } from '../../document/Style'
 import { Layer } from '../../document/Layer'
-import { TextFragment, Text } from '../../document/Text'
+import { Text, TextSpan } from '../../document/Text'
 
 export function vec2ToData (p: Vec2): Vec2Data {
   const { x, y } = p
@@ -79,22 +79,15 @@ export function styleToData (style: Style) {
   }
 }
 
-export function textFragmentToData (fragment: TextFragment): TextFragmentData {
-  if (fragment.type === 'span') {
-    return {
-      type: 'span',
-      content: fragment.characters.join('')
-    }
-  } else {
-    return {
-      type: 'break'
-    }
+export function textSpanToData (span: TextSpan): TextSpanData {
+  return {
+    content: span.characters.join('')
   }
 }
 
 export function textToData (text: Text) {
   return {
-    fragments: text.fragments.map(textFragmentToData)
+    spans: text.spans.map(textSpanToData)
   }
 }
 

@@ -71,18 +71,11 @@ export interface StyleData {
 }
 
 export interface TextSpanData {
-  type: 'span'
   content: string
 }
 
-export interface TextBreakData {
-  type: 'break'
-}
-
-export type TextFragmentData = TextSpanData | TextBreakData
-
 export interface TextData {
-  fragments: TextFragmentData[]
+  spans: TextSpanData[]
 }
 
 export interface LayerData {
