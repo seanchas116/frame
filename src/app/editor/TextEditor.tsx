@@ -39,6 +39,12 @@ export class TextEdior extends React.Component<{layer: Layer}> {
       spanElem.appendChild(document.createTextNode(chars.join('')))
       this.editable.appendChild(spanElem)
     }
+
+    document.addEventListener('selectionchange', this.handleSelectionChange)
+  }
+
+  componentWillUnmount () {
+    document.removeEventListener('selectionchange', this.handleSelectionChange)
   }
 
   render () {
@@ -77,5 +83,10 @@ export class TextEdior extends React.Component<{layer: Layer}> {
     }
     iterateChildren(this.editable.childNodes)
     this.props.layer.text.spans.replace([span])
+  }
+
+  @action private handleSelectionChange = () => {
+    const selection = getSelection()
+    console.log('selection change', selection.toString())
   }
 }
