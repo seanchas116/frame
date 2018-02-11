@@ -47,14 +47,6 @@ module.exports = {
         }
       },
       {
-        test: /\.scss$/,
-        use: [
-          { loader: 'style-loader', options: { sourceMap: true } },
-          { loader: 'typings-for-css-modules-loader', options: { modules: true, namedExport: true, sourceMap: true } },
-          { loader: 'sass-loader', options: { sourceMap: true } }
-        ]
-      },
-      {
         test: /\.css$/,
         use: [ 'style-loader', 'css-loader']
       },
