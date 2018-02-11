@@ -1,12 +1,12 @@
 import * as React from 'react'
 import { action } from 'mobx'
 import { observer } from 'mobx-react'
+import styled from 'styled-components'
 import { TreeView, TreeRowInfo, TreeNode } from 'react-draggable-tree'
 import { Layer } from '../../core/document/Layer'
 import { Document } from '../../core/document/Document'
 import { ClickToEdit } from './components/ClickToEdit'
 import 'react-draggable-tree/lib/index.css'
-import * as styles from './LayerList.scss'
 
 const toTreeNode = (layer: Layer): TreeNode => {
   return {
@@ -20,6 +20,22 @@ const layerForPath = (path: number[]) => {
   return Document.current.rootGroup.descendant(path)
 }
 
+interface LayerRowContentWrapProps {
+  selected: boolean
+}
+
+const LayerRowContentWrap = styled.div`
+  font-size: 13px;
+  height: 24px;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  > * {
+    color: ${(props: LayerRowContentWrapProps) => props.selected ? 'white' : 'var(--text-color)'};
+    flex: 1;
+  }
+`
+
 @observer
 class LayerRowContent extends React.Component<TreeRowInfo> {
   render () {
@@ -28,11 +44,23 @@ class LayerRowContent extends React.Component<TreeRowInfo> {
       layer.name = text
     })
     const editable = Document.current.selection.has(layer)
-    return <div className={styles.content}>
+    return <LayerRowContentWrap selected={this.props.selected}>
       <ClickToEdit text={layer.name} onChange={onChange} editable={editable} />
-    </div>
+    </LayerRowContentWrap>
   }
 }
+
+const StyledTreeView = styled(TreeView)`
+  width: 200px;
+  height: 100%;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  background-color: var(--front-color);
+  border-right: 2px solid var(--background-color);
+  .ReactDraggableTree_row-selected {
+    background-color: var(--primary-color);
+  }
+`
 
 @observer
 export class LayerList extends React.Component {
@@ -40,10 +68,7 @@ export class LayerList extends React.Component {
     const selectedKeys = Document.current.selection.layers.map(l => l.key)
     const root = toTreeNode(Document.current.rootGroup)
 
-    return <TreeView
-      className={styles.LayerList}
-      rowClassName={styles.row}
-      rowSelectedClassName={styles.row_selected}
+    return <StyledTreeView
       rowHeight={24}
       rowContent={LayerRowContent}
       root={root}
