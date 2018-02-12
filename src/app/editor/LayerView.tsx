@@ -24,7 +24,7 @@ function renderText (layer: Layer) {
     for (const span of layer.text.spans) {
       const children: React.ReactChild[] = []
       let chars: string[] = []
-      for (const char of span.characters) {
+      for (const char of span.content) {
         if (char === '\n') {
           children.push(chars.join(''))
           children.push(<br />)

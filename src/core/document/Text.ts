@@ -6,7 +6,7 @@ export interface TextSpan {
   readonly fontSize?: number
   readonly fontWeight?: number
   readonly color?: HSVColor
-  readonly characters: string[]
+  readonly content: string
 }
 
 export class Text {

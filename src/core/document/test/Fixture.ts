@@ -9,7 +9,7 @@ export function createShapeLayer (document: Document) {
   layer.rect = Rect.fromWidthHeight(10, 20, 30, 40)
   layer.name = 'Layer'
   layer.text.spans.replace([{
-    characters: [...'Text']
+    content: 'Text'
   }])
   return layer
 }

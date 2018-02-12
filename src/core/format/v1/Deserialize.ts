@@ -74,7 +74,7 @@ export function dataToStyle (data: StyleData): Style {
 
 export function dataToTextSpan (data: TextSpanData): TextSpan {
   return {
-    characters: [...data.content]
+    content: data.content
   }
 }
 

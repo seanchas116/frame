@@ -81,7 +81,7 @@ export function styleToData (style: Style) {
 
 export function textSpanToData (span: TextSpan): TextSpanData {
   return {
-    content: span.characters.join('')
+    content: span.content
   }
 }
 
