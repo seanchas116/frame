@@ -117,7 +117,7 @@ function offsetFromAncestorNode (ancestor: Node, container: Node, offset: number
     if (parent === ancestor) {
       break
     } else {
-      child = parent
+      child = parent.previousSibling
       parent = parent.parentNode!
     }
   }
