@@ -2,11 +2,18 @@ import { observable } from 'mobx'
 import { HSVColor } from '../../lib/Color'
 
 export interface TextSpan {
-  readonly fontFamily?: string
-  readonly fontSize?: number
-  readonly fontWeight?: number
-  readonly color?: HSVColor
+  readonly family?: string
+  readonly size: number
+  readonly weight: number
+  readonly color: HSVColor
   readonly content: string
+}
+
+export const defaultTextSpan: TextSpan = {
+  size: 12,
+  weight: 300,
+  color: HSVColor.black,
+  content: ''
 }
 
 export class Text {

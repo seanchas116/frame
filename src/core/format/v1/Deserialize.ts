@@ -74,7 +74,10 @@ export function dataToStyle (data: StyleData): Style {
 
 export function dataToTextSpan (data: TextSpanData): TextSpan {
   return {
-    content: data.content
+    content: data.content,
+    size: data.size,
+    weight: data.weight,
+    color: dataToHSV(data.color)
   }
 }
 

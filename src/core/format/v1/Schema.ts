@@ -71,6 +71,9 @@ export interface StyleData {
 }
 
 export interface TextSpanData {
+  size: number
+  weight: number
+  color: HSVColorData
   content: string
 }
 

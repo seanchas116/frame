@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import { Layer } from '../../core/document/Layer'
 import { editor } from './Editor'
 import { toCSSTransform } from '../../lib/CSSTransform'
+import { defaultTextSpan } from '../../core/document/Text'
 
 const TextEditorWrap = styled.div`
   position: absolute;
@@ -81,7 +82,8 @@ export class TextEdior extends React.Component<{layer: Layer}> {
       }
     }
     iterateChildren(this.editable.childNodes)
-    this.props.layer.text.spans.replace([{ content }])
+    const span = { ...defaultTextSpan, content }
+    this.props.layer.text.spans.replace([span])
   }
 
   @action private handleSelectionChange = () => {
