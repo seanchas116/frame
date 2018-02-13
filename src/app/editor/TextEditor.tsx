@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import { Layer } from '../../core/document/Layer'
 import { editor } from './Editor'
 import { toCSSTransform } from '../../lib/CSSTransform'
-import { defaultTextSpan } from '../../core/document/Text'
+import { defaultTextSpan, TextSpan } from '../../core/document/Text'
 
 const TextEditorWrap = styled.div`
   position: absolute;
@@ -19,11 +19,20 @@ const TextEditorEditable = styled.div`
   outline: none;
 `
 
+function setStyle (element: HTMLElement, span: TextSpan) {
+  Object.assign(element.style, {
+    fontSize: span.size + 'px',
+    fontWeight: span.weight as any,
+    color: span.color.toRGB().toRGBString()
+  })
+}
+
 export class TextEdior extends React.Component<{layer: Layer}> {
   editable!: HTMLElement
 
   componentDidMount () {
     const { text } = this.props.layer
+    setStyle(this.editable, defaultTextSpan)
     for (const span of text.spans) {
       const spanElem = document.createElement('span')
       let chars: string[] = []
@@ -37,6 +46,7 @@ export class TextEdior extends React.Component<{layer: Layer}> {
         }
       }
       spanElem.appendChild(document.createTextNode(chars.join('')))
+      setStyle(spanElem, span)
       this.editable.appendChild(spanElem)
     }
 

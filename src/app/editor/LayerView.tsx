@@ -34,7 +34,12 @@ function renderText (layer: Layer) {
         }
       }
       children.push(chars.join(''))
-      spans.push(<span>{children}</span>)
+      const spanStyle: React.CSSProperties = {
+        fontSize: span.size + 'px',
+        fontWeight: span.weight as any,
+        color: span.color.toRGB().toRGBString()
+      }
+      spans.push(<span style={spanStyle}>{children}</span>)
     }
     return <foreignObject x={rect.left} y={rect.top} width={rect.width} height={rect.height}>
       <div style={style}>{spans}</div>
