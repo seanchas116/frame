@@ -109,6 +109,8 @@ export class RGBColor {
 
 export class HSVColor {
   static readonly transparent = new HSVColor(0, 0, 0, 0)
+  static readonly white = new HSVColor(0, 0, 1, 1)
+  static readonly black = new HSVColor(0, 0, 0, 1)
 
   // h: 0 ... 360
   // s: 0 ... 1
