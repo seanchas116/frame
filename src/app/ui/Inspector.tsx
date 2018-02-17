@@ -186,10 +186,12 @@ const LayerInspector = (props: {layer: Layer}) => {
   </div>
 }
 
-const TextInspector = (props: {layer: Layer}) => {
-  return <div>
-    Text Inspector
-  </div>
+class TextInspector extends React.Component<{layer: Layer}> {
+  render () {
+    return <div>
+      Text Inspector
+    </div>
+  }
 }
 
 const InspectorWrap = styled.div`
