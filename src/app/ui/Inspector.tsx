@@ -179,6 +179,14 @@ const FillBorderRow = styled.div`
   }
 }
 
+const LayerInspector = (props: {layer: Layer}) => {
+  return <div>
+    <RectPanel layer={props.layer} />
+    <FillPanel layer={props.layer} />
+    <BorderPanel layer={props.layer} />
+  </div>
+}
+
 const InspectorWrap = styled.div`
   width: 240px;
   padding: 8px;
@@ -191,9 +199,7 @@ const InspectorWrap = styled.div`
   render () {
     const layer: Layer | undefined = fileStore.document.selection.layers[0]
     return <InspectorWrap>
-      {layer && <RectPanel layer={layer} />}
-      {layer && <FillPanel layer={layer} />}
-      {layer && <BorderPanel layer={layer} />}
+      {layer && <LayerInspector layer={layer} />}
     </InspectorWrap>
   }
 }
