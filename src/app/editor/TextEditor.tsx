@@ -1,6 +1,7 @@
 import * as React from 'react'
 import { action } from 'mobx'
 import styled from 'styled-components'
+import { Document } from '../../core/document/Document'
 import { Layer } from '../../core/document/Layer'
 import { editor } from './Editor'
 import { toCSSTransform } from '../../lib/CSSTransform'
@@ -106,9 +107,10 @@ export class TextEdior extends React.Component<{layer: Layer}> {
     if (!this.editable.contains(selection.anchorNode) || !this.editable.contains(selection.focusNode)) {
       return
     }
-    const from = offsetFromAncestorNode(this.editable, selection.anchorNode, selection.anchorOffset)
-    const to = offsetFromAncestorNode(this.editable, selection.focusNode, selection.focusOffset)
-    console.log('selection change', from, to)
+    const begin = offsetFromAncestorNode(this.editable, selection.anchorNode, selection.anchorOffset)
+    const end = offsetFromAncestorNode(this.editable, selection.focusNode, selection.focusOffset)
+    console.log('selection change', begin, end)
+    Document.current.selectedTextRange = { begin, end }
   }
 }
 
