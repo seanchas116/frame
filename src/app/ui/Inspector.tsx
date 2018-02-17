@@ -8,7 +8,6 @@ import { Document } from '../../core/document/Document'
 import { Layer } from '../../core/document/Layer'
 import { StrokeAlignment } from '../../core/document/Style'
 import { ColorBrush } from '../../core/document/Brush'
-import { fileStore } from '../file/FileStore'
 import { NumberInput } from './components/NumberInput'
 
 const Panel = styled.div`
@@ -187,6 +186,12 @@ const LayerInspector = (props: {layer: Layer}) => {
   </div>
 }
 
+const TextInspector = (props: {layer: Layer}) => {
+  return <div>
+    Text Inspector
+  </div>
+}
+
 const InspectorWrap = styled.div`
   width: 240px;
   padding: 8px;
@@ -197,9 +202,18 @@ const InspectorWrap = styled.div`
 
 @observer export class Inspector extends React.Component {
   render () {
-    const layer: Layer | undefined = fileStore.document.selection.layers[0]
+    const layer: Layer | undefined = Document.current.selection.layers[0]
+    const focusedLayer = Document.current.focusedLayer
+
+    let inspector: React.ReactNode | undefined
+    if (focusedLayer) {
+      inspector = <TextInspector layer={focusedLayer} />
+    } else if (layer) {
+      inspector = <LayerInspector layer={layer} />
+    }
+
     return <InspectorWrap>
-      {layer && <LayerInspector layer={layer} />}
+      {inspector}
     </InspectorWrap>
   }
 }
