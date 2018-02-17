@@ -18,7 +18,8 @@ function renderText (layer: Layer) {
   if (!layer.text.isEmpty) {
     const style: React.CSSProperties = {
       wordWrap: 'break-word',
-      cursor: 'default'
+      cursor: 'default',
+      lineHeight: 0
     }
     const spans: React.ReactChild[] = []
     for (const span of layer.text.spans) {
@@ -36,6 +37,7 @@ function renderText (layer: Layer) {
       children.push(chars.join(''))
       const spanStyle: React.CSSProperties = {
         fontSize: span.size + 'px',
+        lineHeight: span.size + 'px',
         fontWeight: span.weight as any,
         color: span.color.toRGB().toRGBString()
       }

@@ -12,6 +12,7 @@ const TextEditorWrap = styled.div`
 
 const TextEditorArea = styled.div`
   position: absolute;
+  line-height: 0;
 `
 
 const TextEditorEditable = styled.div`
@@ -22,6 +23,7 @@ const TextEditorEditable = styled.div`
 function setStyle (element: HTMLElement, span: TextSpan) {
   Object.assign(element.style, {
     fontSize: span.size + 'px',
+    lineHeight: span.size + 'px',
     fontWeight: span.weight as any,
     color: span.color.toRGB().toRGBString()
   })
@@ -33,6 +35,9 @@ export class TextEdior extends React.Component<{layer: Layer}> {
   componentDidMount () {
     const { text } = this.props.layer
     setStyle(this.editable, defaultTextSpan)
+    if (text.spans.length !== 0) {
+      this.editable.style.lineHeight = '0'
+    }
     for (const span of text.spans) {
       const spanElem = document.createElement('span')
       let chars: string[] = []
