@@ -1,6 +1,11 @@
 import { observable } from 'mobx'
 import { HSVColor } from '../../lib/Color'
 
+export interface TextRange {
+  begin: number
+  end: number
+}
+
 export interface TextSpan {
   readonly family?: string
   readonly size: number
