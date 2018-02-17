@@ -1,9 +1,10 @@
 import * as _ from 'lodash'
-import { observable } from 'mobx'
+import { observable, reaction } from 'mobx'
 import { Layer } from './Layer'
 import { GroupShape } from './Shape'
 import { History } from './History'
 import { Selection } from './Selection'
+import { TextRange } from './Text'
 
 export class Document {
   @observable static current = new Document()
@@ -11,6 +12,7 @@ export class Document {
   readonly rootGroup: Layer
   readonly selection = new Selection(this)
   @observable focusedLayer: Layer | undefined = undefined
+  @observable selectedTextRange: TextRange | undefined = undefined
 
   get undoStack () {
     return History.get(this)!.undoStack
@@ -21,6 +23,10 @@ export class Document {
     this.rootGroup.makeRoot(this)
     this.rootGroup.shape = new GroupShape()
     new History(this)
+
+    reaction(() => this.focusedLayer, () => {
+      this.selectedTextRange = undefined
+    })
   }
 
   commit (message: string) {
