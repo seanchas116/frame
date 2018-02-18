@@ -30,4 +30,10 @@ describe('ValueRange', () => {
       assert.equal(intersection, undefined)
     })
   })
+  describe('fromValues', () => {
+    it('creates range from value', () => {
+      const range = ValueRange.fromValues(100, 200, -100, 500, 400)
+      assert.deepEqual(range, new ValueRange(-100, 500))
+    })
+  })
 })
