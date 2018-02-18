@@ -2,13 +2,13 @@ import { assert } from 'chai'
 import { ValueRange } from './ValueRange'
 
 describe('ValueRange', () => {
-  describe('length', () => {
+  describe('#length', () => {
     it('returns difference of end and begin', () => {
       const range = new ValueRange(10, 30)
       assert.equal(range.length, 20)
     })
   })
-  describe('union', () => {
+  describe('#union', () => {
     it('returns union', () => {
       const range1 = new ValueRange(10, 30)
       const range2 = new ValueRange(20, 50)
@@ -16,7 +16,7 @@ describe('ValueRange', () => {
       assert.deepEqual(union, new ValueRange(10, 50))
     })
   })
-  describe('intersection', () => {
+  describe('#intersection', () => {
     it('returns intersection', () => {
       const range1 = new ValueRange(10, 30)
       const range2 = new ValueRange(20, 50)
@@ -30,7 +30,7 @@ describe('ValueRange', () => {
       assert.equal(intersection, undefined)
     })
   })
-  describe('fromValues', () => {
+  describe('.fromValues', () => {
     it('creates range from value', () => {
       const range = ValueRange.fromValues(100, 200, -100, 500, 400)
       assert.deepEqual(range, new ValueRange(-100, 500))
