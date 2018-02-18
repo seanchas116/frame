@@ -20,7 +20,7 @@ const Row = styled.div`
   height: 24px;
   padding: 0 8px;
   > :not(:first-child) {
-    margin-left: 4px;
+    margin-left: 8px;
   }
 `
 
