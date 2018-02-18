@@ -188,9 +188,22 @@ const LayerInspector = (props: {layer: Layer}) => {
 
 class TextInspector extends React.Component<{layer: Layer}> {
   render () {
+    const size = 12
     return <div>
-      Text Inspector
+      <div>
+        <label>Size<NumberInput value={size} onChange={this.handleSizeChange} /></label>
+      </div>
+      <div>
+      <label>Color<input type='color' onChange={this.handleColorChange} /></label>
+      </div>
     </div>
+  }
+
+  private handleSizeChange = (value: number) => {
+    // TODO
+  }
+  private handleColorChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    // TODO
   }
 }
 
