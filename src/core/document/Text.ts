@@ -54,4 +54,8 @@ export class Text {
       color: sameOrNone(spansInRange.map(s => s.color), (c1, c2) => c1.equals(c2))
     }
   }
+
+  setStyle (range: ValueRange, style: Partial<TextStyle>) {
+    // TODO
+  }
 }
