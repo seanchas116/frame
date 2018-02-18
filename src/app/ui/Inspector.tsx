@@ -3,12 +3,12 @@ import { action } from 'mobx'
 import { Rect } from 'paintvec'
 import { observer } from 'mobx-react'
 import styled from 'styled-components'
-import { RGBColor } from '../../lib/Color'
 import { Document } from '../../core/document/Document'
 import { Layer } from '../../core/document/Layer'
 import { StrokeAlignment } from '../../core/document/Style'
-import { ColorBrush } from '../../core/document/Brush'
+import { Brush } from '../../core/document/Brush'
 import { NumberInput } from './components/NumberInput'
+import { BrushInput } from './components/BrushInput'
 
 const RowGroup = styled.div`
   margin-top: 8px;
@@ -92,12 +92,11 @@ const InspectorWrap = styled.div`
 @observer class FillPanel extends React.Component<{layer: Layer}> {
   render () {
     const { style } = this.props.layer
-    const color = style.fill instanceof ColorBrush ? style.fill.color.toRGB().toHexRGBString() : '#000000'
     return <RowGroup>
       <LabelRow>Fill</LabelRow>
       <Row>
         <input type='checkbox' checked={style.fillEnabled} onChange={this.handleEnabledChange} />
-        <input type='color' value={color} onChange={this.handleColorChange} onBlur={this.handleColorChangeFinish}/>
+        <BrushInput value={style.fill} onChange={this.handleBrushChange} onChangeEnd={this.handleBrushChangeEnd}/>
       </Row>
     </RowGroup>
   }
@@ -108,13 +107,12 @@ const InspectorWrap = styled.div`
     Document.current.commit('Change Fill Enabled')
   }
 
-  @action private handleColorChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  @action private handleBrushChange = (brush: Brush) => {
     const { style } = this.props.layer
-    const color = RGBColor.fromString(e.currentTarget.value)
-    style.fill = new ColorBrush(color.toHSV())
+    style.fill = brush
   }
 
-  @action private handleColorChangeFinish = () => {
+  @action private handleBrushChangeEnd = () => {
     Document.current.commit('Change Fill Color')
   }
 }
@@ -122,12 +120,11 @@ const InspectorWrap = styled.div`
 @observer class BorderPanel extends React.Component<{layer: Layer}> {
   render () {
     const { style } = this.props.layer
-    const color = style.stroke instanceof ColorBrush ? style.stroke.color.toRGB().toHexRGBString() : '#000000'
     return <RowGroup>
       <LabelRow>Border</LabelRow>
       <Row>
         <input type='checkbox' checked={style.strokeEnabled} onChange={this.handleEnabledChange} />
-        <input type='color' value={color} onChange={this.handleColorChange} onBlur={this.handleColorChangeFinish} />
+        <BrushInput value={style.stroke} onChange={this.handleBrushChange} onChangeEnd={this.handleBrushChangeEnd} />
         <select value={style.strokeAlignment} onChange={this.handleAlignmentChange}>
           <option value='inside'>Inside</option>
           <option value='center'>Center</option>
@@ -144,13 +141,12 @@ const InspectorWrap = styled.div`
     Document.current.commit('Change Border Enabled')
   }
 
-  @action private handleColorChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  @action private handleBrushChange = (brush: Brush) => {
     const { style } = this.props.layer
-    const color = RGBColor.fromString(e.currentTarget.value)
-    style.stroke = new ColorBrush(color.toHSV())
+    style.stroke = brush
   }
 
-  @action private handleColorChangeFinish = () => {
+  @action private handleBrushChangeEnd = () => {
     Document.current.commit('Change Border Color')
   }
 
