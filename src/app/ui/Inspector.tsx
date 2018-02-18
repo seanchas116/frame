@@ -10,58 +10,58 @@ import { StrokeAlignment } from '../../core/document/Style'
 import { ColorBrush } from '../../core/document/Brush'
 import { NumberInput } from './components/NumberInput'
 
-const Panel = styled.div`
-  margin-bottom: 8px;
+const RowGroup = styled.div`
+  margin-top: 8px;
 `
 
-const PanelHeader = styled.div`
+const Row = styled.div`
+  display: flex;
+  align-items: center;
   height: 24px;
+  padding: 0 8px;
+  > :not(:first-child) {
+    margin-left: 4px;
+  }
+`
+
+const Label = styled.div`
+  font-size: 13px;
+  width: 80px;
   line-height: 24px;
-  font-size: 14px;
 `
 
-const PositionRow = styled.div`
-  display: flex;
-  align-items: center;
-  margin: 8px 0;
+const LabelRow = styled(Label)`
+  width: 100%;
+  padding: 0 8px;
+  border-top: 2px solid var(--background-color);
 `
 
-const PositionColumn = styled.label`
-  display: flex;
-  align-items: center;
-  margin-right: 8px;
-`
-
-const PositionLabel = styled.div`
-  width: 12px;
-  font-size: 12px;
-`
-
-const PositionInput = styled(NumberInput)`
+const RowNumberInput = styled(NumberInput)`
   width: 48px;
+`
+
+const InspectorWrap = styled.div`
+  width: 240px;
+  box-sizing: border-box;
+  background-color: var(--front-color);
+  border-left: 2px solid var(--background-color);
 `
 
 @observer class RectPanel extends React.Component<{layer: Layer}> {
   render () {
     const { rect } = this.props.layer
-    return <Panel>
-      <PanelHeader>Position</PanelHeader>
-      <PositionRow>
-        {this.renderColumn('x', rect.left, this.handleLeftChange)}
-        {this.renderColumn('y', rect.top, this.handleTopChange)}
-      </PositionRow>
-      <PositionRow>
-        {this.renderColumn('w', rect.width, this.handleWidthChange)}
-        {this.renderColumn('h', rect.height, this.handleHeightChange)}
-      </PositionRow>
-    </Panel>
-  }
-
-  private renderColumn (name: string, value: number, onChange: (value: number) => void) {
-    return <PositionColumn>
-      <PositionLabel>{name}</PositionLabel>
-      <PositionInput value={value} onChange={onChange} />
-    </PositionColumn>
+    return <RowGroup>
+      <Row>
+        <Label>Position</Label>
+        <RowNumberInput value={rect.left} onChange={this.handleLeftChange} />
+        <RowNumberInput value={rect.top} onChange={this.handleTopChange} />
+      </Row>
+      <Row>
+        <Label>Size</Label>
+        <RowNumberInput value={rect.width} onChange={this.handleWidthChange} />
+        <RowNumberInput value={rect.height} onChange={this.handleHeightChange} />
+      </Row>
+    </RowGroup>
   }
 
   @action private handleLeftChange = (value: number) => {
@@ -89,28 +89,17 @@ const PositionInput = styled(NumberInput)`
   }
 }
 
-const FillBorderRow = styled.div`
-  display: flex;
-  align-items: center;
-  > * {
-    margin-right: 8px;
-  }
-  > input[type='number'] {
-    width: 40px;
-  }
-`
-
 @observer class FillPanel extends React.Component<{layer: Layer}> {
   render () {
     const { style } = this.props.layer
     const color = style.fill instanceof ColorBrush ? style.fill.color.toRGB().toHexRGBString() : '#000000'
-    return <Panel>
-      <PanelHeader>Fill</PanelHeader>
-      <FillBorderRow>
+    return <RowGroup>
+      <LabelRow>Fill</LabelRow>
+      <Row>
         <input type='checkbox' checked={style.fillEnabled} onChange={this.handleEnabledChange} />
         <input type='color' value={color} onChange={this.handleColorChange} onBlur={this.handleColorChangeFinish}/>
-      </FillBorderRow>
-    </Panel>
+      </Row>
+    </RowGroup>
   }
 
   @action private handleEnabledChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -134,9 +123,9 @@ const FillBorderRow = styled.div`
   render () {
     const { style } = this.props.layer
     const color = style.stroke instanceof ColorBrush ? style.stroke.color.toRGB().toHexRGBString() : '#000000'
-    return <Panel>
-      <PanelHeader>Border</PanelHeader>
-      <FillBorderRow>
+    return <RowGroup>
+      <LabelRow>Border</LabelRow>
+      <Row>
         <input type='checkbox' checked={style.strokeEnabled} onChange={this.handleEnabledChange} />
         <input type='color' value={color} onChange={this.handleColorChange} onBlur={this.handleColorChangeFinish} />
         <select value={style.strokeAlignment} onChange={this.handleAlignmentChange}>
@@ -144,9 +133,9 @@ const FillBorderRow = styled.div`
           <option value='center'>Center</option>
           <option value='outside'>Outside</option>
         </select>
-        <NumberInput value={style.strokeWidth} onChange={this.handleWidthChange}/>
-      </FillBorderRow>
-    </Panel>
+        <RowNumberInput value={style.strokeWidth} onChange={this.handleWidthChange}/>
+      </Row>
+    </RowGroup>
   }
 
   @action private handleEnabledChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -206,14 +195,6 @@ class TextInspector extends React.Component<{layer: Layer}> {
     // TODO
   }
 }
-
-const InspectorWrap = styled.div`
-  width: 240px;
-  padding: 8px;
-  box-sizing: border-box;
-  background-color: var(--front-color);
-  border-left: 2px solid var(--background-color);
-`
 
 @observer export class Inspector extends React.Component {
   render () {
