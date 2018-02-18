@@ -26,7 +26,7 @@ const Row = styled.div`
 
 const Label = styled.div`
   font-size: 13px;
-  width: 80px;
+  width: 96px;
   line-height: 24px;
 `
 
