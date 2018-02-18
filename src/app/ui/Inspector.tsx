@@ -8,7 +8,9 @@ import { Layer } from '../../core/document/Layer'
 import { StrokeAlignment } from '../../core/document/Style'
 import { Brush } from '../../core/document/Brush'
 import { NumberInput } from './components/NumberInput'
+import { ColorInput } from './components/ColorInput'
 import { BrushInput } from './components/BrushInput'
+import { HSVColor } from '../../lib/Color'
 
 const RowGroup = styled.div`
   margin-top: 8px;
@@ -174,20 +176,25 @@ const LayerInspector = (props: {layer: Layer}) => {
 class TextInspector extends React.Component<{layer: Layer}> {
   render () {
     const size = 12
-    return <div>
-      <div>
-        <label>Size<NumberInput value={size} onChange={this.handleSizeChange} /></label>
-      </div>
-      <div>
-      <label>Color<input type='color' onChange={this.handleColorChange} /></label>
-      </div>
-    </div>
+    return <RowGroup>
+      <Row>
+        <Label>Size</Label>
+        <RowNumberInput value={size} onChange={this.handleSizeChange} />
+      </Row>
+      <Row>
+        <Label>Color</Label>
+        <ColorInput value={HSVColor.black} onChange={this.handleColorChange} onChangeEnd={this.handleColorChangeEnd}/>
+      </Row>
+    </RowGroup>
   }
 
   private handleSizeChange = (value: number) => {
     // TODO
   }
-  private handleColorChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  private handleColorChange = (value: HSVColor) => {
+    // TODO
+  }
+  private handleColorChangeEnd = () => {
     // TODO
   }
 }
