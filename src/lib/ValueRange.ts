@@ -6,6 +6,10 @@ export class ValueRange {
     return this.end - this.begin
   }
 
+  shift (diff: number) {
+    return new ValueRange(this.begin + diff, this.end + diff)
+  }
+
   union (other: ValueRange) {
     const begin = Math.min(this.begin, other.begin)
     const end = Math.max(this.end, other.end)
