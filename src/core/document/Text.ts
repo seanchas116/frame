@@ -1,11 +1,7 @@
 import { observable } from 'mobx'
 import { HSVColor } from '../../lib/Color'
 import { sameOrNone } from '../../lib/sameOrNone'
-
-export interface TextRange {
-  begin: number
-  end: number
-}
+import { ValueRange } from '../../lib/ValueRange'
 
 export interface TextStyle {
   readonly family?: string
@@ -32,21 +28,22 @@ export class Text {
     return this.spans.length === 0
   }
 
-  spansWithRange (): [TextSpan, TextRange][] {
-    let pairs: [TextSpan, TextRange][] = []
+  spansWithRange (): [TextSpan, ValueRange][] {
+    let pairs: [TextSpan, ValueRange][] = []
     let lastEnd = 0
     for (const span of this.spans) {
       let begin = lastEnd
       let end = begin + span.content.length
-      pairs.push([span, { begin, end }])
+      pairs.push([span, new ValueRange(begin, end)])
     }
     return pairs
   }
 
-  styleForRange (range: TextRange): Partial<TextStyle> {
+  styleForRange (range: ValueRange): Partial<TextStyle> {
     const spansInRange: TextSpan[] = []
     for (const [span, spanRange] of this.spansWithRange()) {
-      if (range.begin < spanRange.end && spanRange.begin < range.end) {
+      const overlap = spanRange.intersection(range)
+      if (overlap && overlap.length > 0) {
         spansInRange.push(span)
       }
     }

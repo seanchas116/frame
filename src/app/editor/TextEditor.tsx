@@ -6,6 +6,7 @@ import { Layer } from '../../core/document/Layer'
 import { editor } from './Editor'
 import { toCSSTransform } from '../../lib/CSSTransform'
 import { defaultTextSpan, TextSpan } from '../../core/document/Text'
+import { ValueRange } from '../../lib/ValueRange'
 
 const TextEditorWrap = styled.div`
   position: absolute;
@@ -110,7 +111,7 @@ export class TextEdior extends React.Component<{layer: Layer}> {
     const begin = offsetFromAncestorNode(this.editable, selection.anchorNode, selection.anchorOffset)
     const end = offsetFromAncestorNode(this.editable, selection.focusNode, selection.focusOffset)
     console.log('selection change', begin, end)
-    Document.current.selectedTextRange = { begin, end }
+    Document.current.selectedTextRange = ValueRange.fromValues(begin, end)
   }
 }
 
