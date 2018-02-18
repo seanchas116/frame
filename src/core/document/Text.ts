@@ -21,6 +21,13 @@ export const defaultTextSpan: TextSpan = {
   content: ''
 }
 
+export function sliceTextSpan (span: TextSpan, range: ValueRange) {
+  return {
+    ...span,
+    content: span.content.slice(range.begin, range.end)
+  }
+}
+
 export class Text {
   readonly spans = observable<TextSpan>([])
 
@@ -34,6 +41,7 @@ export class Text {
     for (const span of this.spans) {
       let begin = lastEnd
       let end = begin + span.content.length
+      lastEnd = end
       pairs.push([span, new ValueRange(begin, end)])
     }
     return pairs
@@ -64,15 +72,16 @@ export class Text {
       const overlap = spanRange.intersection(range)
       const rightOverlap = spanRange.intersection(rightRange)
       if (leftOverlap && leftOverlap.length > 0) {
-        // TODO: add span with original style
+        newSpans.push(sliceTextSpan(span, leftOverlap.shift(-spanRange.begin)))
       }
       if (overlap && overlap.length > 0) {
-        // TODO: add styled span
+        const newSpan = { ...sliceTextSpan(span, overlap.shift(-spanRange.begin)), ...style }
+        newSpans.push(newSpan)
       }
       if (rightOverlap && rightOverlap.length > 0) {
-        // TODO: add span with original style
+        newSpans.push(sliceTextSpan(span, rightOverlap.shift(-spanRange.begin)))
       }
     }
-    return newSpans
+    this.spans.replace(newSpans)
   }
 }
