@@ -56,6 +56,23 @@ export class Text {
   }
 
   setStyle (range: ValueRange, style: Partial<TextStyle>) {
-    // TODO
+    const leftRange = new ValueRange(-Infinity, range.begin)
+    const rightRange = new ValueRange(range.end, Infinity)
+    let newSpans: TextSpan[] = []
+    for (const [span, spanRange] of this.spansWithRange()) {
+      const leftOverlap = spanRange.intersection(leftRange)
+      const overlap = spanRange.intersection(range)
+      const rightOverlap = spanRange.intersection(rightRange)
+      if (leftOverlap && leftOverlap.length > 0) {
+        // TODO: add span with original style
+      }
+      if (overlap && overlap.length > 0) {
+        // TODO: add styled span
+      }
+      if (rightOverlap && rightOverlap.length > 0) {
+        // TODO: add span with original style
+      }
+    }
+    return newSpans
   }
 }
