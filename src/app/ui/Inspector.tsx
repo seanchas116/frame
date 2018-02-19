@@ -188,14 +188,23 @@ class TextInspector extends React.Component<{layer: Layer}> {
     </RowGroup>
   }
 
-  private handleSizeChange = (value: number) => {
-    // TODO
+  @action private handleSizeChange = (value: number) => {
+    const range = Document.current.textSelection.range
+    if (!range) {
+      return
+    }
+    this.props.layer.text.setStyle(range, { size: value })
+    Document.current.commit('Change Text Size')
   }
-  private handleColorChange = (value: HSVColor) => {
-    // TODO
+  @action private handleColorChange = (value: HSVColor) => {
+    const range = Document.current.textSelection.range
+    if (!range) {
+      return
+    }
+    this.props.layer.text.setStyle(range, { color: value })
   }
-  private handleColorChangeEnd = () => {
-    // TODO
+  @action private handleColorChangeEnd = () => {
+    Document.current.commit('Change Text Color')
   }
 }
 
