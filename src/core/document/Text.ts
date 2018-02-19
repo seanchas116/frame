@@ -1,4 +1,4 @@
-import { observable } from 'mobx'
+import { observable, computed } from 'mobx'
 import { HSVColor } from '../../lib/Color'
 import { sameOrNone } from '../../lib/sameOrNone'
 import { ValueRange } from '../../lib/ValueRange'
@@ -40,11 +40,11 @@ export function combineTextStyles (spans: TextSpan[]) {
 export class Text {
   readonly spans = observable<TextSpan>([])
 
-  get isEmpty () {
+  @computed get isEmpty () {
     return this.spans.length === 0
   }
 
-  spansWithRange (): [TextSpan, ValueRange][] {
+  @computed get spansWithRange (): ReadonlyArray<[TextSpan, ValueRange]> {
     let pairs: [TextSpan, ValueRange][] = []
     let lastEnd = 0
     for (const span of this.spans) {
@@ -58,7 +58,7 @@ export class Text {
 
   spansInRange (range: ValueRange) {
     const spansInRange: TextSpan[] = []
-    for (const [span, spanRange] of this.spansWithRange()) {
+    for (const [span, spanRange] of this.spansWithRange) {
       const overlap = spanRange.intersection(range)
       if (overlap && overlap.length > 0) {
         spansInRange.push(span)
@@ -71,7 +71,7 @@ export class Text {
     const leftRange = new ValueRange(-Infinity, range.begin)
     const rightRange = new ValueRange(range.end, Infinity)
     let newSpans: TextSpan[] = []
-    for (const [span, spanRange] of this.spansWithRange()) {
+    for (const [span, spanRange] of this.spansWithRange) {
       const leftOverlap = spanRange.intersection(leftRange)
       const overlap = spanRange.intersection(range)
       const rightOverlap = spanRange.intersection(rightRange)
