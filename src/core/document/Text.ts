@@ -28,6 +28,15 @@ export function sliceTextSpan (span: TextSpan, range: ValueRange) {
   }
 }
 
+export function combineTextStyles (spans: TextSpan[]) {
+  return {
+    family: sameOrNone(spans.map(s => s.family)),
+    size: sameOrNone(spans.map(s => s.size)),
+    weight: sameOrNone(spans.map(s => s.weight)),
+    color: sameOrNone(spans.map(s => s.color), (c1, c2) => c1.equals(c2))
+  }
+}
+
 export class Text {
   readonly spans = observable<TextSpan>([])
 
@@ -47,7 +56,7 @@ export class Text {
     return pairs
   }
 
-  styleForRange (range: ValueRange): Partial<TextStyle> {
+  spansInRange (range: ValueRange) {
     const spansInRange: TextSpan[] = []
     for (const [span, spanRange] of this.spansWithRange()) {
       const overlap = spanRange.intersection(range)
@@ -55,12 +64,7 @@ export class Text {
         spansInRange.push(span)
       }
     }
-    return {
-      family: sameOrNone(spansInRange.map(s => s.family)),
-      size: sameOrNone(spansInRange.map(s => s.size)),
-      weight: sameOrNone(spansInRange.map(s => s.weight)),
-      color: sameOrNone(spansInRange.map(s => s.color), (c1, c2) => c1.equals(c2))
-    }
+    return spansInRange
   }
 
   setStyle (range: ValueRange, style: Partial<TextStyle>) {

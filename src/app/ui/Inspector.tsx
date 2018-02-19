@@ -1,10 +1,11 @@
 import * as React from 'react'
-import { action } from 'mobx'
+import { action, computed } from 'mobx'
 import { Rect } from 'paintvec'
 import { observer } from 'mobx-react'
 import styled from 'styled-components'
 import { Document } from '../../core/document/Document'
 import { Layer } from '../../core/document/Layer'
+import { combineTextStyles } from '../../core/document/Text'
 import { StrokeAlignment } from '../../core/document/Style'
 import { Brush } from '../../core/document/Brush'
 import { NumberInput } from './components/NumberInput'
@@ -174,8 +175,18 @@ const LayerInspector = (props: {layer: Layer}) => {
 }
 
 @observer class TextInspector extends React.Component<{layer: Layer}> {
+  @computed get combinedStyle () {
+    return combineTextStyles(this.selectedSpans)
+  }
+
+  @computed get selectedSpans () {
+    const range = Document.current.textSelection.range
+    return range ? this.props.layer.text.spansInRange(range) : []
+  }
+
   render () {
-    const size = 12
+    const size = this.combinedStyle.size || 12
+    const color = this.combinedStyle.color || HSVColor.black
     return <RowGroup>
       <Row>
         <Label>Size</Label>
@@ -183,7 +194,7 @@ const LayerInspector = (props: {layer: Layer}) => {
       </Row>
       <Row>
         <Label>Color</Label>
-        <ColorInput value={HSVColor.black} onChange={this.handleColorChange} onChangeEnd={this.handleColorChangeEnd}/>
+        <ColorInput value={color} onChange={this.handleColorChange} onChangeEnd={this.handleColorChangeEnd}/>
       </Row>
     </RowGroup>
   }
