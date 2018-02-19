@@ -4,7 +4,7 @@ import { Layer } from './Layer'
 import { GroupShape } from './Shape'
 import { History } from './History'
 import { Selection } from './Selection'
-import { ValueRange } from '../../lib/ValueRange'
+import { TextSelection } from './TextSelection'
 
 export class Document {
   @observable static current = new Document()
@@ -12,7 +12,7 @@ export class Document {
   readonly rootGroup: Layer
   readonly selection = new Selection(this)
   @observable focusedLayer: Layer | undefined = undefined
-  @observable selectedTextRange: ValueRange | undefined = undefined
+  readonly textSelection = new TextSelection()
 
   get undoStack () {
     return History.get(this)!.undoStack
@@ -25,7 +25,7 @@ export class Document {
     new History(this)
 
     reaction(() => this.focusedLayer, () => {
-      this.selectedTextRange = undefined
+      this.textSelection.clear()
     })
   }
 
