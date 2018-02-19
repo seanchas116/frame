@@ -173,7 +173,7 @@ const LayerInspector = (props: {layer: Layer}) => {
   </div>
 }
 
-class TextInspector extends React.Component<{layer: Layer}> {
+@observer class TextInspector extends React.Component<{layer: Layer}> {
   render () {
     const size = 12
     return <RowGroup>
