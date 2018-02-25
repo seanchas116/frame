@@ -5,8 +5,9 @@ import { Document } from '../../core/document/Document'
 import { Layer } from '../../core/document/Layer'
 import { editor } from './Editor'
 import { toCSSTransform } from '../../lib/CSSTransform'
-import { defaultTextSpan, TextSpan } from '../../core/document/Text'
+import { defaultTextSpan, TextSpan, TextStyle } from '../../core/document/Text'
 import { ValueRange } from '../../lib/ValueRange'
+import { RGBColor } from '../../lib/Color'
 
 const TextEditorWrap = styled.div`
   position: absolute;
@@ -87,6 +88,15 @@ export class TextEdior extends React.Component<{layer: Layer}> {
 
   @action private handleInput = () => {
     let content = ''
+    const getTextStyle = (element: HTMLElement): TextStyle => {
+      const style = getComputedStyle(element)
+      return {
+        color: RGBColor.fromString(style.color!).toHSV(),
+        size: Number.parseInt(style.fontSize!.slice(0, -2)),
+        weight: Number.parseInt(style.fontWeight!)
+      }
+    }
+
     const iterateChildren = (children: NodeList) => {
       for (const child of children) {
         if (child instanceof HTMLBRElement) {
@@ -98,6 +108,7 @@ export class TextEdior extends React.Component<{layer: Layer}> {
         }
       }
     }
+    getTextStyle(this.editable)
     iterateChildren(this.editable.childNodes)
     const span = { ...defaultTextSpan, content }
     this.props.layer.text.spans.replace([span])
