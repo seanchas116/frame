@@ -5,7 +5,7 @@ import { Document } from '../../core/document/Document'
 import { Layer } from '../../core/document/Layer'
 import { editor } from './Editor'
 import { toCSSTransform } from '../../lib/CSSTransform'
-import { defaultTextStyle, TextStyle } from '../../core/document/Text'
+import { TextStyle } from '../../core/document/Text'
 import { ValueRange } from '../../lib/ValueRange'
 import { RGBColor } from '../../lib/Color'
 
@@ -37,7 +37,7 @@ export class TextEdior extends React.Component<{layer: Layer}> {
 
   componentDidMount () {
     const { text } = this.props.layer
-    setStyle(this.editable, defaultTextStyle)
+    setStyle(this.editable, TextStyle.default)
     if (text.spans.length !== 0) {
       this.editable.style.lineHeight = '0'
     }
@@ -110,7 +110,7 @@ export class TextEdior extends React.Component<{layer: Layer}> {
     }
     getTextStyle(this.editable)
     iterateChildren(this.editable.childNodes)
-    const span = { ...defaultTextStyle, content }
+    const span = { ...TextStyle.default, content }
     this.props.layer.text.spans.replace([span])
   }
 

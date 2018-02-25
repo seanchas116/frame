@@ -5,7 +5,7 @@ import { observer } from 'mobx-react'
 import styled from 'styled-components'
 import { Document } from '../../core/document/Document'
 import { Layer } from '../../core/document/Layer'
-import { combineTextStyles } from '../../core/document/Text'
+import { TextStyle } from '../../core/document/Text'
 import { StrokeAlignment } from '../../core/document/Style'
 import { Brush } from '../../core/document/Brush'
 import { NumberInput } from './components/NumberInput'
@@ -176,7 +176,7 @@ const LayerInspector = (props: {layer: Layer}) => {
 
 @observer class TextInspector extends React.Component<{layer: Layer}> {
   @computed private get combinedStyle () {
-    return combineTextStyles(this.selectedSpans)
+    return TextStyle.combine(this.selectedSpans)
   }
 
   @computed private get selectedSpans () {

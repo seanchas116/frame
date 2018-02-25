@@ -10,29 +10,30 @@ export interface TextStyle {
   readonly color: HSVColor
 }
 
-export interface TextSpan extends TextStyle {
-  readonly content: string
+export const TextStyle = {
+  default: {
+    size: 12,
+    weight: 300,
+    color: HSVColor.black
+  },
+  combine (styles: TextStyle[]): Partial<TextStyle> {
+    return {
+      family: sameOrNone(styles.map(s => s.family)),
+      size: sameOrNone(styles.map(s => s.size)),
+      weight: sameOrNone(styles.map(s => s.weight)),
+      color: sameOrNone(styles.map(s => s.color), (c1, c2) => c1.equals(c2))
+    }
+  }
 }
 
-export const defaultTextStyle: TextStyle = {
-  size: 12,
-  weight: 300,
-  color: HSVColor.black
+export interface TextSpan extends TextStyle {
+  readonly content: string
 }
 
 export function sliceTextSpan (span: TextSpan, range: ValueRange) {
   return {
     ...span,
     content: span.content.slice(range.begin, range.end)
-  }
-}
-
-export function combineTextStyles (spans: TextSpan[]) {
-  return {
-    family: sameOrNone(spans.map(s => s.family)),
-    size: sameOrNone(spans.map(s => s.size)),
-    weight: sameOrNone(spans.map(s => s.weight)),
-    color: sameOrNone(spans.map(s => s.color), (c1, c2) => c1.equals(c2))
   }
 }
 
