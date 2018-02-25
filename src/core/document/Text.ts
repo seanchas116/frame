@@ -23,6 +23,9 @@ export const TextStyle = {
       weight: sameOrNone(styles.map(s => s.weight)),
       color: sameOrNone(styles.map(s => s.color), (c1, c2) => c1.equals(c2))
     }
+  },
+  equals (a: TextStyle, b: TextStyle) {
+    return a.family === b.family && a.size === b.size && a.weight === b.weight && a.color.equals(b.color)
   }
 }
 
@@ -36,6 +39,28 @@ export const TextSpan = {
       ...span,
       content: span.content.slice(range.begin, range.end)
     }
+  },
+  shrink (spans: TextSpan[]) {
+    const newSpans: TextSpan[] = []
+    let mergingSpan: TextSpan | undefined = undefined
+    for (const span of spans) {
+      if (mergingSpan) {
+        if (TextStyle.equals(mergingSpan, span)) {
+          // ↓TypeScript bug?
+          const content: any = mergingSpan.content + span.content
+          mergingSpan = { ...(mergingSpan as TextSpan), content }
+        } else {
+          newSpans.push(mergingSpan)
+          mergingSpan = span
+        }
+      } else {
+        mergingSpan = span
+      }
+    }
+    if (mergingSpan) {
+      newSpans.push(mergingSpan)
+    }
+    return newSpans
   }
 }
 
@@ -92,6 +117,6 @@ export class Text {
   }
 
   shrink () {
-    // TODO
+    this.spans.replace(TextSpan.shrink(this.spans.peek()))
   }
 }
