@@ -34,4 +34,24 @@ describe('Text', () => {
       assert.deepEqual(toJS(text.spans), expected)
     })
   })
+
+  describe('#shrink', () => {
+    it('merges adjacent spans with same style', () => {
+      const original = [
+        { ...defaultTextSpan, content: 'Foo' },
+        { ...defaultTextSpan, content: 'bar' },
+        { ...defaultTextSpan, weight: 100, content: 'bar' },
+        { ...defaultTextSpan, content: 'Foo' },
+        { ...defaultTextSpan, content: 'bar' }
+      ]
+      const expected = [
+        { ...defaultTextSpan, content: 'Foobar' },
+        { ...defaultTextSpan, weight: 100, content: 'bar' },
+        { ...defaultTextSpan, content: 'Foobar' }
+      ]
+      text.spans.replace(original)
+      text.shrink()
+      assert.deepEqual(toJS(text.spans), expected)
+    })
+  })
 })

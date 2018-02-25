@@ -88,4 +88,8 @@ export class Text {
     }
     this.spans.replace(newSpans)
   }
+
+  shrink () {
+    // TODO
+  }
 }
