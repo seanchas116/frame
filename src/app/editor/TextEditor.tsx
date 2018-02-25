@@ -36,29 +36,8 @@ export class TextEdior extends React.Component<{layer: Layer}> {
   editable!: HTMLElement
 
   componentDidMount () {
-    const { text } = this.props.layer
-    setStyle(this.editable, TextStyle.default)
-    if (text.spans.length !== 0) {
-      this.editable.style.lineHeight = '0'
-    }
-    for (const span of text.spans) {
-      const spanElem = document.createElement('span')
-      let chars: string[] = []
-      for (const char of span.content) {
-        if (char === '\n') {
-          spanElem.appendChild(document.createTextNode(chars.join('')))
-          spanElem.appendChild(document.createElement('br'))
-          chars = []
-        } else {
-          chars.push(char)
-        }
-      }
-      spanElem.appendChild(document.createTextNode(chars.join('')))
-      setStyle(spanElem, span)
-      this.editable.appendChild(spanElem)
-    }
-
     document.addEventListener('selectionchange', this.handleSelectionChange)
+    this.updateDOM()
   }
 
   componentWillUnmount () {
@@ -84,6 +63,30 @@ export class TextEdior extends React.Component<{layer: Layer}> {
         />
       </TextEditorArea>
     </TextEditorWrap>
+  }
+
+  private updateDOM () {
+    const { text } = this.props.layer
+    setStyle(this.editable, TextStyle.default)
+    if (text.spans.length !== 0) {
+      this.editable.style.lineHeight = '0'
+    }
+    for (const span of text.spans) {
+      const spanElem = document.createElement('span')
+      let chars: string[] = []
+      for (const char of span.content) {
+        if (char === '\n') {
+          spanElem.appendChild(document.createTextNode(chars.join('')))
+          spanElem.appendChild(document.createElement('br'))
+          chars = []
+        } else {
+          chars.push(char)
+        }
+      }
+      spanElem.appendChild(document.createTextNode(chars.join('')))
+      setStyle(spanElem, span)
+      this.editable.appendChild(spanElem)
+    }
   }
 
   @action private handleInput = () => {
