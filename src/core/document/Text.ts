@@ -30,10 +30,12 @@ export interface TextSpan extends TextStyle {
   readonly content: string
 }
 
-export function sliceTextSpan (span: TextSpan, range: ValueRange) {
-  return {
-    ...span,
-    content: span.content.slice(range.begin, range.end)
+export const TextSpan = {
+  slice (span: TextSpan, range: ValueRange) {
+    return {
+      ...span,
+      content: span.content.slice(range.begin, range.end)
+    }
   }
 }
 
@@ -76,14 +78,14 @@ export class Text {
       const overlap = spanRange.intersection(range)
       const rightOverlap = spanRange.intersection(rightRange)
       if (leftOverlap && leftOverlap.length > 0) {
-        newSpans.push(sliceTextSpan(span, leftOverlap.shift(-spanRange.begin)))
+        newSpans.push(TextSpan.slice(span, leftOverlap.shift(-spanRange.begin)))
       }
       if (overlap && overlap.length > 0) {
-        const newSpan = { ...sliceTextSpan(span, overlap.shift(-spanRange.begin)), ...style }
+        const newSpan = { ...TextSpan.slice(span, overlap.shift(-spanRange.begin)), ...style }
         newSpans.push(newSpan)
       }
       if (rightOverlap && rightOverlap.length > 0) {
-        newSpans.push(sliceTextSpan(span, rightOverlap.shift(-spanRange.begin)))
+        newSpans.push(TextSpan.slice(span, rightOverlap.shift(-spanRange.begin)))
       }
     }
     this.spans.replace(newSpans)
