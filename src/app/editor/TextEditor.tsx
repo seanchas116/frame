@@ -5,7 +5,7 @@ import { Document } from '../../core/document/Document'
 import { Layer } from '../../core/document/Layer'
 import { editor } from './Editor'
 import { toCSSTransform } from '../../lib/CSSTransform'
-import { TextStyle } from '../../core/document/Text'
+import { TextStyle, TextSpan } from '../../core/document/Text'
 import { ValueRange } from '../../lib/ValueRange'
 import { RGBColor } from '../../lib/Color'
 
@@ -87,7 +87,7 @@ export class TextEdior extends React.Component<{layer: Layer}> {
   }
 
   @action private handleInput = () => {
-    let content = ''
+    let spans: TextSpan[] = []
     const getTextStyle = (element: HTMLElement): TextStyle => {
       const style = getComputedStyle(element)
       return {
@@ -100,18 +100,16 @@ export class TextEdior extends React.Component<{layer: Layer}> {
     const iterateChildren = (children: NodeList) => {
       for (const child of children) {
         if (child instanceof HTMLBRElement) {
-          content += '\n'
+          spans.push({ ...getTextStyle(child.parentElement!), content: '\n' })
         } else if (child instanceof Text && child.textContent) {
-          content += child.textContent
+          spans.push({ ...getTextStyle(child.parentElement!), content: child.textContent })
         } else if (child instanceof HTMLSpanElement) {
           iterateChildren(child.childNodes)
         }
       }
     }
-    getTextStyle(this.editable)
     iterateChildren(this.editable.childNodes)
-    const span = { ...TextStyle.default, content }
-    this.props.layer.text.spans.replace([span])
+    this.props.layer.text.spans.replace(TextSpan.shrink(spans))
   }
 
   @action private handleSelectionChange = () => {
