@@ -112,6 +112,9 @@ export class TextEdior extends React.Component<{layer: Layer}> {
       }
     }
     iterateChildren(this.editable.childNodes)
+    if (spans[spans.length - 1].content === '\n') { // trim last <br>
+      spans.pop()
+    }
     this.props.layer.text.spans.replace(TextSpan.shrink(spans))
   }
 
