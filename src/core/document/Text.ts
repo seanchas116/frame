@@ -14,11 +14,10 @@ export interface TextSpan extends TextStyle {
   readonly content: string
 }
 
-export const defaultTextSpan: TextSpan = {
+export const defaultTextStyle: TextStyle = {
   size: 12,
   weight: 300,
-  color: HSVColor.black,
-  content: ''
+  color: HSVColor.black
 }
 
 export function sliceTextSpan (span: TextSpan, range: ValueRange) {

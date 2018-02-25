@@ -5,7 +5,7 @@ import { Document } from '../../core/document/Document'
 import { Layer } from '../../core/document/Layer'
 import { editor } from './Editor'
 import { toCSSTransform } from '../../lib/CSSTransform'
-import { defaultTextSpan, TextSpan, TextStyle } from '../../core/document/Text'
+import { defaultTextStyle, TextStyle } from '../../core/document/Text'
 import { ValueRange } from '../../lib/ValueRange'
 import { RGBColor } from '../../lib/Color'
 
@@ -23,12 +23,12 @@ const TextEditorEditable = styled.div`
   outline: none;
 `
 
-function setStyle (element: HTMLElement, span: TextSpan) {
+function setStyle (element: HTMLElement, style: TextStyle) {
   Object.assign(element.style, {
-    fontSize: span.size + 'px',
-    lineHeight: span.size + 'px',
-    fontWeight: span.weight as any,
-    color: span.color.toRGB().toRGBString()
+    fontSize: style.size + 'px',
+    lineHeight: style.size + 'px',
+    fontWeight: style.weight as any,
+    color: style.color.toRGB().toRGBString()
   })
 }
 
@@ -37,7 +37,7 @@ export class TextEdior extends React.Component<{layer: Layer}> {
 
   componentDidMount () {
     const { text } = this.props.layer
-    setStyle(this.editable, defaultTextSpan)
+    setStyle(this.editable, defaultTextStyle)
     if (text.spans.length !== 0) {
       this.editable.style.lineHeight = '0'
     }
@@ -110,7 +110,7 @@ export class TextEdior extends React.Component<{layer: Layer}> {
     }
     getTextStyle(this.editable)
     iterateChildren(this.editable.childNodes)
-    const span = { ...defaultTextSpan, content }
+    const span = { ...defaultTextStyle, content }
     this.props.layer.text.spans.replace([span])
   }
 
