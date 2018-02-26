@@ -1,9 +1,12 @@
 import * as React from 'react'
-import { action } from 'mobx'
+import { action, computed, reaction } from 'mobx'
+import { observer } from 'mobx-react'
 import styled from 'styled-components'
+import * as _ from 'lodash'
 import { Document } from '../../core/document/Document'
 import { Layer } from '../../core/document/Layer'
 import { editor } from './Editor'
+import { Disposable, disposeAll } from '../../lib/Disposable'
 import { toCSSTransform } from '../../lib/CSSTransform'
 import { TextStyle, TextSpan } from '../../core/document/Text'
 import { ValueRange } from '../../lib/ValueRange'
@@ -32,16 +35,30 @@ function setStyle (element: HTMLElement, style: TextStyle) {
   })
 }
 
-export class TextEdior extends React.Component<{layer: Layer}> {
-  editable!: HTMLElement
+@observer export class TextEdior extends React.Component<{layer: Layer}> {
+  private editable!: HTMLElement
+  private lastSpans: TextSpan[] = []
+  private disposables: Disposable[] = []
+
+  @computed get spans () {
+    return Array.from(this.props.layer.text.spans)
+  }
 
   componentDidMount () {
     document.addEventListener('selectionchange', this.handleSelectionChange)
+    this.disposables = [
+      reaction(() => this.spans, spans => {
+        if (!_.isEqual(spans, this.lastSpans)) {
+          this.updateDOM()
+        }
+      })
+    ]
     this.updateDOM()
   }
 
   componentWillUnmount () {
     document.removeEventListener('selectionchange', this.handleSelectionChange)
+    disposeAll(this.disposables)
   }
 
   render () {
@@ -66,6 +83,11 @@ export class TextEdior extends React.Component<{layer: Layer}> {
   }
 
   private updateDOM () {
+    // TODO: keep selection
+    while (this.editable.firstChild) {
+      this.editable.removeChild(this.editable.firstChild)
+    }
+
     const { text } = this.props.layer
     setStyle(this.editable, TextStyle.default)
     if (text.spans.length !== 0) {
@@ -87,6 +109,7 @@ export class TextEdior extends React.Component<{layer: Layer}> {
       setStyle(spanElem, span)
       this.editable.appendChild(spanElem)
     }
+    this.lastSpans = Array.from(text.spans)
   }
 
   @action private handleInput = () => {
@@ -115,7 +138,9 @@ export class TextEdior extends React.Component<{layer: Layer}> {
     if (spans[spans.length - 1].content === '\n') { // trim last <br>
       spans.pop()
     }
-    this.props.layer.text.spans.replace(TextSpan.shrink(spans))
+    const shrinked = TextSpan.shrink(spans)
+    this.lastSpans = shrinked
+    this.props.layer.text.spans.replace(shrinked)
   }
 
   @action private handleSelectionChange = () => {
