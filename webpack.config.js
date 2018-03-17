@@ -22,7 +22,7 @@ module.exports = {
     'node-pasteboard': true
   },
   module: {
-    loaders: [
+    rules: [
       {
         test: /\.json$/,
         use: 'json-loader'

@@ -55,7 +55,7 @@ export class Layer {
     }
   }
 
-  @computed private get data () {
+  @computed get data () { // should be private?
     return layerToData(this)
   }
 

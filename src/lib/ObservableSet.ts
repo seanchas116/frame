@@ -1,7 +1,7 @@
-import { Atom } from 'mobx'
+import { createAtom } from 'mobx'
 
 export class ObservableSet<T> implements Iterable<T> {
-  private atom = new Atom('ObservableSet')
+  private atom = createAtom('ObservableSet')
   private set: Set<T>
 
   constructor (values?: Iterable<T>) {
