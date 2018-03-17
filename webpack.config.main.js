@@ -16,7 +16,7 @@ module.exports = {
     'transparent-titlebar': true
   },
   module: {
-    loaders: [
+    rules: [
       {
         test: /\.ts$/,
         use: {

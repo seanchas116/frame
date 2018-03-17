@@ -1,5 +1,5 @@
-import { useStrict } from 'mobx'
+import { configure } from 'mobx'
 import '../core'
 import '../app'
 
-useStrict(true)
+configure({ enforceActions: true })
