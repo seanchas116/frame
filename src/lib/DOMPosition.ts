@@ -12,6 +12,25 @@ export class DOMPosition {
   constructor (public node: Node, public offset: number) {
   }
 
+  static fromOffsetFromNode (base: Node, offset: number): DOMPosition | undefined {
+    const iterator = document.createNodeIterator(base, NodeFilter.SHOW_ALL, {
+      acceptNode: node => node instanceof Text || node instanceof HTMLBRElement ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_SKIP
+    })
+    let remainingOffset = offset
+    while (true) {
+      let node = iterator.nextNode()
+      if (!node) {
+        break
+      }
+      const length = node instanceof Text ? node.length : 1
+      if (remainingOffset < length) {
+        return new DOMPosition(node, remainingOffset)
+      }
+      remainingOffset -= length
+    }
+    return undefined
+  }
+
   offsetFromNode (base: Node) {
     let count: number
     let child: Node | null

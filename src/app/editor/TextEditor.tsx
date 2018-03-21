@@ -111,6 +111,27 @@ function setStyle (element: HTMLElement, style: TextStyle) {
       this.editable.appendChild(spanElem)
     }
     this.lastSpans = Array.from(text.spans)
+
+    setImmediate(() => {
+      this.reselectRange()
+    })
+  }
+
+  private reselectRange () {
+    const textRange = Document.current.textSelection.range
+    if (textRange) {
+      const start = DOMPosition.fromOffsetFromNode(this.editable, textRange.begin)
+      const end = DOMPosition.fromOffsetFromNode(this.editable, textRange.end)
+      if (start && end) {
+        const range = document.createRange()
+        range.setStart(start.node, start.offset)
+        range.setEnd(end.node, end.offset)
+        console.log(range)
+        const selection = document.getSelection()
+        selection.removeAllRanges()
+        selection.addRange(range)
+      }
+    }
   }
 
   @action private handleInput = () => {
@@ -151,7 +172,6 @@ function setStyle (element: HTMLElement, style: TextStyle) {
     }
     const begin = new DOMPosition(selection.anchorNode, selection.anchorOffset).offsetFromNode(this.editable)
     const end = new DOMPosition(selection.focusNode, selection.focusOffset).offsetFromNode(this.editable)
-    console.log('selection change', begin, end)
     Document.current.textSelection.range = ValueRange.fromValues(begin, end)
   }
 }
