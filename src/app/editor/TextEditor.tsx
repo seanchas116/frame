@@ -11,6 +11,7 @@ import { toCSSTransform } from '../../lib/CSSTransform'
 import { TextStyle, TextSpan } from '../../core/document/Text'
 import { ValueRange } from '../../lib/ValueRange'
 import { RGBColor } from '../../lib/Color'
+import { DOMPosition } from '../../lib/DOMPosition'
 
 const TextEditorWrap = styled.div`
   position: absolute;
@@ -148,48 +149,9 @@ function setStyle (element: HTMLElement, style: TextStyle) {
     if (!this.editable.contains(selection.anchorNode) || !this.editable.contains(selection.focusNode)) {
       return
     }
-    const begin = offsetFromAncestorNode(this.editable, selection.anchorNode, selection.anchorOffset)
-    const end = offsetFromAncestorNode(this.editable, selection.focusNode, selection.focusOffset)
+    const begin = new DOMPosition(selection.anchorNode, selection.anchorOffset).offsetFromNode(this.editable)
+    const end = new DOMPosition(selection.focusNode, selection.focusOffset).offsetFromNode(this.editable)
     console.log('selection change', begin, end)
     Document.current.textSelection.range = ValueRange.fromValues(begin, end)
   }
-}
-
-function offsetFromAncestorNode (ancestor: Node, container: Node, offset: number) {
-  let count: number
-  let child: Node | null
-  let parent: Node
-  if (container instanceof Text) {
-    count = offset
-    child = container.previousSibling
-    parent = container.parentNode!
-  } else {
-    count = 0
-    child = container.childNodes[offset - 1]
-    parent = container
-  }
-
-  while (true) {
-    while (child) {
-      count += countNodeCharacters(child!)
-      child = child!.previousSibling
-    }
-    if (parent === ancestor) {
-      break
-    } else {
-      child = parent.previousSibling
-      parent = parent.parentNode!
-    }
-  }
-  return count
-}
-
-function countNodeCharacters (node: Node): number {
-  if (node instanceof Text) {
-    return node.data.length
-  }
-  if (node instanceof HTMLBRElement) {
-    return 1
-  }
-  return Array.from(node.childNodes).reduce((a, x) => a + countNodeCharacters(x), 0)
 }
