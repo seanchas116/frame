@@ -4,6 +4,7 @@
 
 [![CircleCI](https://circleci.com/gh/seanchas116/frame.svg?style=svg)](https://circleci.com/gh/seanchas116/frame) [![codecov](https://codecov.io/gh/seanchas116/frame/branch/master/graph/badge.svg)](https://codecov.io/gh/seanchas116/frame)
 
+[View tasks in Trello](https://trello.com/b/DT7dTjOG/frame)
 
 ## What to do
 
