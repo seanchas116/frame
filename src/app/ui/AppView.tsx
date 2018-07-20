@@ -77,10 +77,10 @@ export class AppView extends React.Component {
     const files = e.dataTransfer.files
     for (let i = 0; i < files.length; ++i) {
       const file = files.item(i)
-      const document = await FormatFileLoader.loadFile(file)
+      const document = await FormatFileLoader.loadFile(file!)
       runInAction(() => {
         if (document) {
-          const layers = document.rootGroup.children.peek()
+          const layers = Array.from(document.rootGroup.children)
           Document.current.insertLayers(layers)
         }
       })

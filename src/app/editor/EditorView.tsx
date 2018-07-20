@@ -80,7 +80,7 @@ const EditorViewSVG = styled.svg`
 
   @action private handleDocumentKeyDown = (e: KeyboardEvent) => {
     if (e.key === 'Backspace' || e.key === 'Delete') {
-      if (!isTextInput(e.target)) {
+      if (!(e.target && isTextInput(e.target))) {
         Document.current.deleteLayers()
         Document.current.commit('Delete Layers')
       }
