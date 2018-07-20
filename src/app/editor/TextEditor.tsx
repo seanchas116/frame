@@ -140,8 +140,8 @@ function setStyle (element: HTMLElement, style: TextStyle) {
       const style = getComputedStyle(element)
       return {
         color: RGBColor.fromString(style.color!).toHSV(),
-        size: Number.parseInt(style.fontSize!.slice(0, -2)),
-        weight: Number.parseInt(style.fontWeight!)
+        size: Number.parseInt(style.fontSize!.slice(0, -2), 10),
+        weight: Number.parseInt(style.fontWeight!, 10)
       }
     }
 

@@ -117,6 +117,6 @@ export class Text {
   }
 
   shrink () {
-    this.spans.replace(TextSpan.shrink(this.spans.peek()))
+    this.spans.replace(TextSpan.shrink(Array.from(this.spans)))
   }
 }
