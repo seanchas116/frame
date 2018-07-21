@@ -2,12 +2,12 @@ import * as React from 'react'
 
 interface NumberInputProps {
   className?: string
-  value?: number
+  value: number
   onChange: (value: number) => void
 }
 
 interface NumberInputState {
-  value?: number
+  value: number
 }
 
 export class NumberInput extends React.PureComponent<NumberInputProps, NumberInputState> {
@@ -37,7 +37,7 @@ export class NumberInput extends React.PureComponent<NumberInputProps, NumberInp
   private handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     this.isTyping = true
     if (e.key === 'Enter') {
-      this.props.onChange(this.state.value || 0)
+      this.props.onChange(this.state.value)
     }
   }
 
@@ -52,6 +52,6 @@ export class NumberInput extends React.PureComponent<NumberInputProps, NumberInp
   }
 
   private handleBlur = () => {
-    this.props.onChange(this.state.value || 0)
+    this.props.onChange(this.state.value)
   }
 }

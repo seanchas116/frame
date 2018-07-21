@@ -201,7 +201,7 @@ const LayerInspector = (props: {layer: Layer}) => {
   }
 
   render () {
-    const size = this.combinedStyle.size
+    const size = this.combinedStyle.size || TextStyle.default.size
     const color = this.combinedStyle.color || TextStyle.default.color
     const fontFamilies = [...fontRegistry.families.values()]
     const fontStyles = this.fontFamily ? this.fontFamily.styles : new Map()
