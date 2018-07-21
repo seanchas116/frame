@@ -231,12 +231,7 @@ const LayerInspector = (props: {layer: Layer}) => {
   }
 
   @action private handleSizeChange = (value: number) => {
-    const range = Document.current.textSelection.range
-    if (!range) {
-      return
-    }
-    this.props.shape.text.setStyle(range, { size: value })
-    Document.current.commit('Change Text Size')
+    this.changeTextStyle({ size: value }, 'Change Text Size')
   }
   @action private handleColorChange = (value: HSVColor) => {
     const range = Document.current.textSelection.range
@@ -250,19 +245,10 @@ const LayerInspector = (props: {layer: Layer}) => {
   }
   @action private handleFamilyChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const family = event.currentTarget.value
-    const range = Document.current.textSelection.range
-    if (!range) {
-      return
-    }
-    this.props.shape.text.setStyle(range, { family: family })
-    Document.current.commit('Change Font Family')
+    this.changeTextStyle({ family: family }, 'Change Font Family')
   }
   @action private handleStyleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     if (!this.fontFamily) {
-      return
-    }
-    const range = Document.current.textSelection.range
-    if (!range) {
       return
     }
     const style = event.currentTarget.value
@@ -270,8 +256,16 @@ const LayerInspector = (props: {layer: Layer}) => {
     if (!weight) {
       return
     }
-    this.props.shape.text.setStyle(range, { weight: weight })
-    Document.current.commit('Change Font Weight')
+    this.changeTextStyle({ weight: weight }, 'Change Font Weight')
+  }
+
+  private changeTextStyle (style: Partial<TextStyle>, commitMessage: string) {
+    const range = Document.current.textSelection.range
+    if (!range) {
+      return
+    }
+    this.props.shape.text.setStyle(range, style)
+    Document.current.commit(commitMessage)
   }
 }
 
