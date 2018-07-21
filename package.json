@@ -52,7 +52,7 @@
   },
   "devDependencies": {
     "@types/chai": "^4.1.4",
-    "@types/classnames": "^2.2.5",
+    "@types/classnames": "^2.2.6",
     "@types/color-string": "^1.5.0",
     "@types/lodash": "^4.14.112",
     "@types/minimist": "^1.2.0",
