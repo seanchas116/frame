@@ -187,8 +187,9 @@ const LayerInspector = (props: {layer: Layer}) => {
   }
 
   render () {
-    const size = this.combinedStyle.size || 12
-    const color = this.combinedStyle.color || HSVColor.black
+    const size = this.combinedStyle.size || TextStyle.default.size
+    const color = this.combinedStyle.color || TextStyle.default.color
+    const family = this.combinedStyle.family || TextStyle.default.family
     const families = [...fontRegistry.families.values()]
     return <RowGroup>
       <Row>
@@ -201,7 +202,7 @@ const LayerInspector = (props: {layer: Layer}) => {
       </Row>
       <Row>
         <Label>Family</Label>
-        <select onChange={this.handleFamilyChange}>{
+        <select value={family} onChange={this.handleFamilyChange}>{
           families.map(family => <option value={family.name}>{family.name}</option>)
         }</select>
       </Row>
