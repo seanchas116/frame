@@ -20,7 +20,7 @@ export class FontRegistry {
   private fontManager = require('font-manager')
   readonly fonts = observable<FontInfo>([])
 
-  @computed families () {
+  @computed get families () {
     const families = new Map<string, FontFamily>()
     for (const font of this.fonts) {
       let family = families.get(font.family) || (() => {

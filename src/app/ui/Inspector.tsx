@@ -13,7 +13,7 @@ import { ColorInput } from './components/ColorInput'
 import { BrushInput } from './components/BrushInput'
 import { HSVColor } from '../../lib/Color'
 import { TextShape } from '../../core/document/Shape'
-import '../font/FontRegistry'
+import { fontRegistry } from '../font/FontRegistry'
 
 const RowGroup = styled.div`
   margin-top: 8px;
@@ -189,6 +189,7 @@ const LayerInspector = (props: {layer: Layer}) => {
   render () {
     const size = this.combinedStyle.size || 12
     const color = this.combinedStyle.color || HSVColor.black
+    const families = [...fontRegistry.families.values()]
     return <RowGroup>
       <Row>
         <Label>Size</Label>
@@ -197,6 +198,12 @@ const LayerInspector = (props: {layer: Layer}) => {
       <Row>
         <Label>Color</Label>
         <ColorInput value={color} onChange={this.handleColorChange} onChangeEnd={this.handleColorChangeEnd}/>
+      </Row>
+      <Row>
+        <Label>Family</Label>
+        <select>{
+          families.map(family => <option>{family.name}</option>)
+        }</select>
       </Row>
     </RowGroup>
   }
