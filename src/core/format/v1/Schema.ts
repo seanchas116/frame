@@ -44,7 +44,7 @@ export interface EllipseShapeData {
 
 export interface TextShapeData {
   type: 'text'
-  text: string
+  text: TextData
 }
 
 export interface ImageShapeData {
@@ -86,7 +86,6 @@ export interface LayerData {
   rect: RectData
   shape: ShapeData
   style: StyleData
-  text: TextData
 }
 
 export interface DeepLayerData extends LayerData {

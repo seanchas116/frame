@@ -38,7 +38,7 @@ export function dataToShape (data: ShapeData): Shape {
   switch (data.type) {
     case 'text': {
       const shape = new TextShape()
-      shape.text = data.text
+      shape.text = dataToText(data.text)
       return shape
     }
     case 'image': {
@@ -92,7 +92,6 @@ export function loadLayerData (layer: Layer, data: LayerData) {
   layer.rect = dataToRect(data.rect)
   layer.shape = dataToShape(data.shape)
   layer.style = dataToStyle(data.style)
-  layer.text = dataToText(data.text)
 }
 
 export function dataToLayer (data: LayerData): Layer {

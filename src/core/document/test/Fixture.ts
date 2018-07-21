@@ -1,6 +1,6 @@
 import { Document } from '../Document'
 import { Layer } from '../Layer'
-import { RectShape } from '../Shape'
+import { RectShape, TextShape } from '../Shape'
 import { Rect } from 'paintvec'
 import { TextStyle } from '../Text'
 
@@ -9,10 +9,20 @@ export function createShapeLayer (document: Document) {
   layer.shape = new RectShape()
   layer.rect = Rect.fromWidthHeight(10, 20, 30, 40)
   layer.name = 'Layer'
-  layer.text.spans.replace([{
+  return layer
+}
+
+export function createTextLayer (document: Document) {
+  const layer = new Layer()
+  const shape = new TextShape()
+  shape.text.spans.replace([{
     ...TextStyle.default,
     content: 'Text'
   }])
+  layer.shape = shape
+  layer.rect = Rect.fromWidthHeight(10, 20, 30, 40)
+  layer.name = 'Layer'
+
   return layer
 }
 
@@ -27,9 +37,9 @@ export function createDocument () {
   const document = new Document()
   document.rootGroup.children.replace([
     createShapeLayer(document),
-    createShapeLayer(document),
+    createTextLayer(document),
     createGroupLayer(document, [
-      createShapeLayer(document),
+      createTextLayer(document),
       createShapeLayer(document)
     ]),
     createShapeLayer(document)

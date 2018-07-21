@@ -4,14 +4,15 @@ import { observer } from 'mobx-react'
 import styled from 'styled-components'
 import * as _ from 'lodash'
 import { Document } from '../../core/document/Document'
-import { Layer } from '../../core/document/Layer'
 import { editor } from './Editor'
 import { Disposable, disposeAll } from '../../lib/Disposable'
 import { toCSSTransform } from '../../lib/CSSTransform'
-import { TextStyle, TextSpan } from '../../core/document/Text'
+import { Text, TextStyle, TextSpan } from '../../core/document/Text'
 import { ValueRange } from '../../lib/ValueRange'
 import { RGBColor } from '../../lib/Color'
 import { DOMPosition } from '../../lib/DOMPosition'
+import { TextShape } from '../../core/document/Shape'
+import { Layer } from '../../core/document/Layer'
 
 const TextEditorWrap = styled.div`
   position: absolute;
@@ -36,13 +37,13 @@ function setStyle (element: HTMLElement, style: TextStyle) {
   })
 }
 
-@observer export class TextEdior extends React.Component<{layer: Layer}> {
+@observer export class TextEdior extends React.Component<{layer: Layer, shape: TextShape}> {
   private editable!: HTMLElement
   private lastSpans: TextSpan[] = []
   private disposables: Disposable[] = []
 
   @computed get spans () {
-    return Array.from(this.props.layer.text.spans)
+    return Array.from(this.props.shape.text.spans)
   }
 
   componentDidMount () {
@@ -89,7 +90,7 @@ function setStyle (element: HTMLElement, style: TextStyle) {
       this.editable.removeChild(this.editable.firstChild)
     }
 
-    const { text } = this.props.layer
+    const { text } = this.props.shape
     setStyle(this.editable, TextStyle.default)
     if (text.spans.length !== 0) {
       this.editable.style.lineHeight = '0'
@@ -162,7 +163,7 @@ function setStyle (element: HTMLElement, style: TextStyle) {
     }
     const shrinked = TextSpan.shrink(spans)
     this.lastSpans = shrinked
-    this.props.layer.text.spans.replace(shrinked)
+    this.props.shape.text.spans.replace(shrinked)
   }
 
   @action private handleSelectionChange = () => {
