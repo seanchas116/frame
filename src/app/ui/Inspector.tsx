@@ -176,15 +176,6 @@ const LayerInspector = (props: {layer: Layer}) => {
   </div>
 }
 
-@observer class FontSelect extends React.Component<{}> {
-  render () {
-    const families = [...fontRegistry.families.values()]
-    return <select>{
-      families.map(family => <option>{family.name}</option>)
-    }</select>
-  }
-}
-
 @observer class TextInspector extends React.Component<{layer: Layer, shape: TextShape}> {
   @computed private get combinedStyle () {
     return TextStyle.combine(this.selectedSpans)
@@ -198,6 +189,7 @@ const LayerInspector = (props: {layer: Layer}) => {
   render () {
     const size = this.combinedStyle.size || 12
     const color = this.combinedStyle.color || HSVColor.black
+    const families = [...fontRegistry.families.values()]
     return <RowGroup>
       <Row>
         <Label>Size</Label>
@@ -209,7 +201,9 @@ const LayerInspector = (props: {layer: Layer}) => {
       </Row>
       <Row>
         <Label>Family</Label>
-        <FontSelect />
+        <select onChange={this.handleFamilyChange}>{
+          families.map(family => <option value={family.name}>{family.name}</option>)
+        }</select>
       </Row>
     </RowGroup>
   }
@@ -231,6 +225,15 @@ const LayerInspector = (props: {layer: Layer}) => {
   }
   @action private handleColorChangeEnd = () => {
     Document.current.commit('Change Text Color')
+  }
+  @action private handleFamilyChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const family = event.currentTarget.value
+    const range = Document.current.textSelection.range
+    if (!range) {
+      return
+    }
+    this.props.shape.text.setStyle(range, { family: family })
+    Document.current.commit('Change Font Family')
   }
 }
 
