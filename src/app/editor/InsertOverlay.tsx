@@ -8,6 +8,7 @@ import { editor } from './Editor'
 import { Shape, ShapeType, RectShape, EllipseShape, TextShape } from '../../core/document/Shape'
 import { ColorBrush } from '../../core/document/Brush'
 import { Overlay } from './components/Overlay'
+import { TextStyle } from '../../core/document/Text'
 
 function createShape (type: ShapeType): Shape {
   switch (type) {
@@ -16,7 +17,12 @@ function createShape (type: ShapeType): Shape {
     case 'ellipse':
       return new EllipseShape()
     case 'text':
-      return new TextShape()
+      const shape = new TextShape()
+      shape.text.spans.replace([{
+        ...TextStyle.default,
+        content: 'Text'
+      }])
+      return shape
     case 'image':
     case 'group':
       throw new Error('non-supported shape type')
