@@ -15,6 +15,7 @@ interface FontInfo {
 interface FontFamily {
   name: string
   fonts: FontInfo[]
+  styles: Map<string, number> // style name => weight
 }
 
 export class FontRegistry {
@@ -26,11 +27,19 @@ export class FontRegistry {
     const fonts = sortBy(this.fonts, font => font.family)
     for (const font of fonts) {
       let family = families.get(font.family) || (() => {
-        const family: FontFamily = { name: font.family, fonts: [] }
+        const family: FontFamily = { name: font.family, fonts: [], styles: new Map() }
         families.set(font.family, family)
         return family
       })()
       family.fonts.push(font)
+    }
+    for (const family of families.values()) {
+      const fonts = sortBy(family.fonts, font => font.weight)
+      for (const font of fonts) {
+        if (!font.italic) {
+          family.styles.set(font.style, font.weight)
+        }
+      }
     }
     return families
   }
