@@ -193,6 +193,9 @@ const LayerInspector = (props: {layer: Layer}) => {
     const family = fontRegistry.families.get(familyName)
     const families = [...fontRegistry.families.values()]
     const styles = family ? [...family.styles.keys()] : []
+    const styleWeight = family && [...family.styles].find(([style, weight]) => weight === this.combinedStyle.weight)
+    const style = styleWeight ? styleWeight[0] : ''
+
     return <RowGroup>
       <Row>
         <Label>Size</Label>
@@ -210,7 +213,7 @@ const LayerInspector = (props: {layer: Layer}) => {
       </Row>
       <Row>
         <Label>Style</Label>
-        <select>{
+        <select value={style}>{
           styles.map(style => <option value={style}>{style}</option>)
         }</select>
       </Row>
