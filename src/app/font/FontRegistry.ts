@@ -1,3 +1,4 @@
+import { sortBy } from 'lodash'
 import { observable, toJS, computed } from 'mobx'
 
 interface FontInfo {
@@ -22,7 +23,8 @@ export class FontRegistry {
 
   @computed get families () {
     const families = new Map<string, FontFamily>()
-    for (const font of this.fonts) {
+    const fonts = sortBy(this.fonts, font => font.family)
+    for (const font of fonts) {
       let family = families.get(font.family) || (() => {
         const family: FontFamily = { name: font.family, fonts: [] }
         families.set(font.family, family)
