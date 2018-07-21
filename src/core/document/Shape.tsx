@@ -53,6 +53,7 @@ export class TextShape implements IShape {
       }
       children.push(chars.join(''))
       const spanStyle: React.CSSProperties = {
+        fontFamily: span.family,
         fontSize: span.size + 'px',
         lineHeight: span.size + 'px',
         fontWeight: span.weight as any,
