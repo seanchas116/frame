@@ -12,6 +12,7 @@ import { NumberInput } from './components/NumberInput'
 import { ColorInput } from './components/ColorInput'
 import { BrushInput } from './components/BrushInput'
 import { HSVColor } from '../../lib/Color'
+import { TextShape } from '../../core/document/Shape'
 
 const RowGroup = styled.div`
   margin-top: 8px;
@@ -174,14 +175,14 @@ const LayerInspector = (props: {layer: Layer}) => {
   </div>
 }
 
-@observer class TextInspector extends React.Component<{layer: Layer}> {
+@observer class TextInspector extends React.Component<{layer: Layer, shape: TextShape}> {
   @computed private get combinedStyle () {
     return TextStyle.combine(this.selectedSpans)
   }
 
   @computed private get selectedSpans () {
     const range = Document.current.textSelection.range
-    return range ? this.props.layer.text.spansInRange(range) : []
+    return range ? this.props.shape.text.spansInRange(range) : []
   }
 
   render () {
@@ -204,7 +205,7 @@ const LayerInspector = (props: {layer: Layer}) => {
     if (!range) {
       return
     }
-    this.props.layer.text.setStyle(range, { size: value })
+    this.props.shape.text.setStyle(range, { size: value })
     Document.current.commit('Change Text Size')
   }
   @action private handleColorChange = (value: HSVColor) => {
@@ -212,7 +213,7 @@ const LayerInspector = (props: {layer: Layer}) => {
     if (!range) {
       return
     }
-    this.props.layer.text.setStyle(range, { color: value })
+    this.props.shape.text.setStyle(range, { color: value })
   }
   @action private handleColorChangeEnd = () => {
     Document.current.commit('Change Text Color')
@@ -225,8 +226,8 @@ const LayerInspector = (props: {layer: Layer}) => {
     const focusedLayer = Document.current.focusedLayer
 
     let inspector: React.ReactNode | undefined
-    if (focusedLayer) {
-      inspector = <TextInspector layer={focusedLayer} />
+    if (focusedLayer && focusedLayer.shape instanceof TextShape) {
+      inspector = <TextInspector layer={focusedLayer} shape={focusedLayer.shape} />
     } else if (layer) {
       inspector = <LayerInspector layer={layer} />
     }

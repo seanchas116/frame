@@ -43,7 +43,7 @@ export function shapeToData (shape: Shape): ShapeData {
   if (shape instanceof TextShape) {
     return {
       type: 'text',
-      text: shape.text
+      text: textToData(shape.text)
     }
   } else if (shape instanceof ImageShape) {
     return {
@@ -99,8 +99,7 @@ export function layerToData (layer: Layer): LayerData {
     name: layer.name,
     rect: rectToData(layer.rect),
     shape: shapeToData(layer.shape),
-    style: styleToData(layer.style),
-    text: textToData(layer.text)
+    style: styleToData(layer.style)
   }
 }
 
