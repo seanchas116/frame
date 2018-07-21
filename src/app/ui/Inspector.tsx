@@ -176,6 +176,15 @@ const LayerInspector = (props: {layer: Layer}) => {
   </div>
 }
 
+@observer class FontSelect extends React.Component<{}> {
+  render () {
+    const families = [...fontRegistry.families.values()]
+    return <select>{
+      families.map(family => <option>{family.name}</option>)
+    }</select>
+  }
+}
+
 @observer class TextInspector extends React.Component<{layer: Layer, shape: TextShape}> {
   @computed private get combinedStyle () {
     return TextStyle.combine(this.selectedSpans)
@@ -189,7 +198,6 @@ const LayerInspector = (props: {layer: Layer}) => {
   render () {
     const size = this.combinedStyle.size || 12
     const color = this.combinedStyle.color || HSVColor.black
-    const families = [...fontRegistry.families.values()]
     return <RowGroup>
       <Row>
         <Label>Size</Label>
@@ -201,9 +209,7 @@ const LayerInspector = (props: {layer: Layer}) => {
       </Row>
       <Row>
         <Label>Family</Label>
-        <select>{
-          families.map(family => <option>{family.name}</option>)
-        }</select>
+        <FontSelect />
       </Row>
     </RowGroup>
   }
