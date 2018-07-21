@@ -186,15 +186,25 @@ const LayerInspector = (props: {layer: Layer}) => {
     return range ? this.props.shape.text.spansInRange(range) : []
   }
 
+  @computed private get fontFamilyName () {
+    return this.combinedStyle.family || TextStyle.default.family
+  }
+
+  @computed private get fontFamily () {
+    return fontRegistry.families.get(this.fontFamilyName)
+  }
+
+  @computed private get fontStyle () {
+    const family = this.fontFamily
+    const styleWeight = family && [...family.styles].find(([style, weight]) => weight === this.combinedStyle.weight)
+    return styleWeight ? styleWeight[0] : ''
+  }
+
   render () {
     const size = this.combinedStyle.size
     const color = this.combinedStyle.color || TextStyle.default.color
-    const familyName = this.combinedStyle.family || TextStyle.default.family
-    const family = fontRegistry.families.get(familyName)
-    const families = [...fontRegistry.families.values()]
-    const styles = family ? [...family.styles.keys()] : []
-    const styleWeight = family && [...family.styles].find(([style, weight]) => weight === this.combinedStyle.weight)
-    const style = styleWeight ? styleWeight[0] : ''
+    const fontFamilies = [...fontRegistry.families.values()]
+    const fontStyles = this.fontFamily ? this.fontFamily.styles : new Map()
 
     return <RowGroup>
       <Row>
@@ -207,14 +217,14 @@ const LayerInspector = (props: {layer: Layer}) => {
       </Row>
       <Row>
         <Label>Family</Label>
-        <select value={familyName} onChange={this.handleFamilyChange}>{
-          families.map(family => <option value={family.name}>{family.name}</option>)
+        <select value={this.fontFamilyName} onChange={this.handleFamilyChange}>{
+          fontFamilies.map(family => <option value={family.name}>{family.name}</option>)
         }</select>
       </Row>
       <Row>
         <Label>Style</Label>
-        <select value={style}>{
-          styles.map(style => <option value={style}>{style}</option>)
+        <select value={this.fontStyle} onChange={this.handleStyleChange}>{
+          [...fontStyles.keys()].map(style => <option value={style}>{style}</option>)
         }</select>
       </Row>
     </RowGroup>
@@ -246,6 +256,22 @@ const LayerInspector = (props: {layer: Layer}) => {
     }
     this.props.shape.text.setStyle(range, { family: family })
     Document.current.commit('Change Font Family')
+  }
+  @action private handleStyleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    if (!this.fontFamily) {
+      return
+    }
+    const range = Document.current.textSelection.range
+    if (!range) {
+      return
+    }
+    const style = event.currentTarget.value
+    const weight = this.fontFamily.styles.get(style)
+    if (!weight) {
+      return
+    }
+    this.props.shape.text.setStyle(range, { weight: weight })
+    Document.current.commit('Change Font Weight')
   }
 }
 
