@@ -60,9 +60,12 @@ export class TextShape implements IShape {
       }
       spans.push(<span style={spanStyle}>{children}</span>)
     }
-    return <foreignObject x={rect.left} y={rect.top} width={rect.width} height={rect.height} fill='transparent'>
-      <div style={style}>{spans}</div>
-    </foreignObject>
+    return <g>
+      <rect x={rect.left} y={rect.top} width={rect.width} height={rect.height} fill='transparent' stroke='none'/>
+      <foreignObject x={rect.left} y={rect.top} width={rect.width} height={rect.height}>
+        <div style={style}>{spans}</div>
+      </foreignObject>
+    </g>
   }
 }
 
