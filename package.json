@@ -33,6 +33,7 @@
   "dependencies": {
     "classnames": "^2.2.6",
     "color-string": "^1.5.2",
+    "font-manager": "^0.3.0",
     "jsondiffpatch": "^0.3.11",
     "keyboard-layout": "^2.0.13",
     "lodash": "^4.17.10",
