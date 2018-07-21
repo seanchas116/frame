@@ -4,7 +4,7 @@ import { sameOrNone } from '../../lib/sameOrNone'
 import { ValueRange } from '../../lib/ValueRange'
 
 export interface TextStyle {
-  readonly family?: string
+  readonly family: string
   readonly size: number
   readonly weight: number
   readonly color: HSVColor
@@ -12,6 +12,7 @@ export interface TextStyle {
 
 export const TextStyle = {
   default: {
+    family: 'Helvetica Neue', // FIXME: Helvetica Neue is probably not available in Windows
     size: 12,
     weight: 300,
     color: HSVColor.black

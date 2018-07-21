@@ -19,7 +19,8 @@ module.exports = {
     extensions: ['.ts', '.tsx', '.js']
   },
   externals: {
-    'node-pasteboard': true
+    'node-pasteboard': true,
+    'font-manager': true,
   },
   module: {
     rules: [

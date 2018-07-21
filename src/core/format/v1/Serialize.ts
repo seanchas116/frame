@@ -81,6 +81,7 @@ export function styleToData (style: Style) {
 
 export function textSpanToData (span: TextSpan): TextSpanData {
   return {
+    family: span.family,
     content: span.content,
     size: span.size,
     weight: span.weight,

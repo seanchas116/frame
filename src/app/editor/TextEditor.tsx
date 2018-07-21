@@ -30,6 +30,7 @@ const TextEditorEditable = styled.div`
 
 function setStyle (element: HTMLElement, style: TextStyle) {
   Object.assign(element.style, {
+    fontFamily: style.family,
     fontSize: style.size + 'px',
     lineHeight: style.size + 'px',
     fontWeight: style.weight as any,
@@ -140,6 +141,7 @@ function setStyle (element: HTMLElement, style: TextStyle) {
     const getTextStyle = (element: HTMLElement): TextStyle => {
       const style = getComputedStyle(element)
       return {
+        family: style.fontFamily || TextStyle.default.family,
         color: RGBColor.fromString(style.color!).toHSV(),
         size: Number.parseInt(style.fontSize!.slice(0, -2), 10),
         weight: Number.parseInt(style.fontWeight!, 10)

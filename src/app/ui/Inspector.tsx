@@ -13,6 +13,7 @@ import { ColorInput } from './components/ColorInput'
 import { BrushInput } from './components/BrushInput'
 import { HSVColor } from '../../lib/Color'
 import { TextShape } from '../../core/document/Shape'
+import { fontRegistry } from '../font/FontRegistry'
 
 const RowGroup = styled.div`
   margin-top: 8px;
@@ -186,8 +187,10 @@ const LayerInspector = (props: {layer: Layer}) => {
   }
 
   render () {
-    const size = this.combinedStyle.size || 12
-    const color = this.combinedStyle.color || HSVColor.black
+    const size = this.combinedStyle.size || TextStyle.default.size
+    const color = this.combinedStyle.color || TextStyle.default.color
+    const family = this.combinedStyle.family || TextStyle.default.family
+    const families = [...fontRegistry.families.values()]
     return <RowGroup>
       <Row>
         <Label>Size</Label>
@@ -196,6 +199,12 @@ const LayerInspector = (props: {layer: Layer}) => {
       <Row>
         <Label>Color</Label>
         <ColorInput value={color} onChange={this.handleColorChange} onChangeEnd={this.handleColorChangeEnd}/>
+      </Row>
+      <Row>
+        <Label>Family</Label>
+        <select value={family} onChange={this.handleFamilyChange}>{
+          families.map(family => <option value={family.name}>{family.name}</option>)
+        }</select>
       </Row>
     </RowGroup>
   }
@@ -217,6 +226,15 @@ const LayerInspector = (props: {layer: Layer}) => {
   }
   @action private handleColorChangeEnd = () => {
     Document.current.commit('Change Text Color')
+  }
+  @action private handleFamilyChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const family = event.currentTarget.value
+    const range = Document.current.textSelection.range
+    if (!range) {
+      return
+    }
+    this.props.shape.text.setStyle(range, { family: family })
+    Document.current.commit('Change Font Family')
   }
 }
 
