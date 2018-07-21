@@ -13,6 +13,7 @@ import { ColorInput } from './components/ColorInput'
 import { BrushInput } from './components/BrushInput'
 import { HSVColor } from '../../lib/Color'
 import { TextShape } from '../../core/document/Shape'
+import '../font/FontRegistry'
 
 const RowGroup = styled.div`
   margin-top: 8px;
