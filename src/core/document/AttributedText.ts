@@ -18,12 +18,12 @@ export class AttributedTextStyle {
     HSVColor.black
   )
 
-  static combine (styles: AttributedTextStyle[]): Partial<AttributedTextStyle> {
+  static combine (styles: Partial<AttributedTextStyle>[]): Partial<AttributedTextStyle> {
     return {
       family: sameOrNone(styles.map(s => s.family)),
       size: sameOrNone(styles.map(s => s.size)),
       weight: sameOrNone(styles.map(s => s.weight)),
-      color: sameOrNone(styles.map(s => s.color), (c1, c2) => c1.equals(c2))
+      color: sameOrNone(styles.map(s => s.color), (c1, c2) => c1 != null && c2 != null && c1.equals(c2))
     }
   }
 
@@ -142,6 +142,19 @@ export class AttributedTextLine {
     this.spans.replace(newSpans)
   }
 
+  getStyle (range: ValueRange) {
+    let offset = 0
+    const styles: AttributedTextStyle[] = []
+    for (const span of this.spans) {
+      const spanRange = new ValueRange(offset, offset + span.content.length)
+      const overlap = spanRange.intersection(range)
+      if (overlap && overlap.length) {
+        styles.push(span.style)
+      }
+    }
+    return AttributedTextStyle.combine(styles)
+  }
+
   shrink () {
     this.spans.replace(AttributedTextSpan.shrink(Array.from(this.spans)))
   }
@@ -165,6 +178,17 @@ export class AttributedText {
       offset += line.characterCount
       offset += 1
     }
+  }
+
+  getStyle (range: ValueRange) {
+    let offset = 0
+    const styles: Partial<AttributedTextStyle>[] = []
+    for (const line of this.lines) {
+      styles.push(line.getStyle(range.shift(-offset)))
+      offset += line.characterCount
+      offset += 1
+    }
+    return AttributedTextStyle.combine(styles)
   }
 
   shrink () {
