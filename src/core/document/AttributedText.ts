@@ -148,9 +148,10 @@ export class AttributedTextLine {
     for (const span of this.spans) {
       const spanRange = new ValueRange(offset, offset + span.content.length)
       const overlap = spanRange.intersection(range)
-      if (overlap && overlap.length) {
+      if (overlap) {
         styles.push(span.style)
       }
+      offset = spanRange.end
     }
     return AttributedTextStyle.combine(styles)
   }
@@ -184,9 +185,15 @@ export class AttributedText {
     let offset = 0
     const styles: Partial<AttributedTextStyle>[] = []
     for (const line of this.lines) {
-      styles.push(line.getStyle(range.shift(-offset)))
-      offset += line.characterCount
-      offset += 1
+      const lineRange = new ValueRange(offset, offset + line.characterCount)
+      const overlap = lineRange.intersection(range)
+      if (overlap && overlap.length > 0) {
+        const style = line.getStyle(range.shift(-offset))
+        console.log(style)
+        styles.push(style)
+      }
+      offset = lineRange.end + 1
+      // TODO set style correctly when linebreak is selected
     }
     return AttributedTextStyle.combine(styles)
   }
