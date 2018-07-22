@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { observable } from 'mobx'
 import { Vec2, Rect } from 'paintvec'
-import { Text } from './Text'
+import { AttributedText } from './AttributedText'
 
 interface IShape {
   readonly type: string
@@ -30,7 +30,7 @@ export class EllipseShape implements IShape {
 
 export class TextShape implements IShape {
   readonly type = 'text'
-  @observable text = new Text()
+  @observable text = new AttributedText()
 
   render (rect: Rect) {
     const style: React.CSSProperties = {

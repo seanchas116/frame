@@ -7,7 +7,7 @@ import { Document } from '../../core/document/Document'
 import { editor } from './Editor'
 import { Disposable, disposeAll } from '../../lib/Disposable'
 import { toCSSTransform } from '../../lib/CSSTransform'
-import { TextStyle, TextSpan } from '../../core/document/Text'
+import { AttributedTextStyle, AttributedTextSpan } from '../../core/document/AttributedText'
 import { ValueRange } from '../../lib/ValueRange'
 import { RGBColor } from '../../lib/Color'
 import { DOMPosition } from '../../lib/DOMPosition'
@@ -28,7 +28,7 @@ const TextEditorEditable = styled.div`
   outline: none;
 `
 
-function setStyle (element: HTMLElement, style: TextStyle) {
+function setStyle (element: HTMLElement, style: AttributedTextStyle) {
   Object.assign(element.style, {
     fontFamily: style.family,
     fontSize: style.size + 'px',
@@ -40,7 +40,7 @@ function setStyle (element: HTMLElement, style: TextStyle) {
 
 @observer export class TextEdior extends React.Component<{layer: Layer, shape: TextShape}> {
   private editable!: HTMLElement
-  private lastSpans: TextSpan[] = []
+  private lastSpans: AttributedTextSpan[] = []
   private disposables: Disposable[] = []
 
   @computed get spans () {
@@ -92,7 +92,7 @@ function setStyle (element: HTMLElement, style: TextStyle) {
     }
 
     const { text } = this.props.shape
-    setStyle(this.editable, TextStyle.default)
+    setStyle(this.editable, AttributedTextStyle.default)
     if (text.spans.length !== 0) {
       this.editable.style.lineHeight = '0'
     }
@@ -137,11 +137,11 @@ function setStyle (element: HTMLElement, style: TextStyle) {
   }
 
   @action private handleInput = () => {
-    let spans: TextSpan[] = []
-    const getTextStyle = (element: HTMLElement): TextStyle => {
+    let spans: AttributedTextSpan[] = []
+    const getTextStyle = (element: HTMLElement): AttributedTextStyle => {
       const style = getComputedStyle(element)
-      return new TextStyle(
-        style.fontFamily || TextStyle.default.family,
+      return new AttributedTextStyle(
+        style.fontFamily || AttributedTextStyle.default.family,
         Number.parseInt(style.fontSize!.slice(0, -2), 10),
         Number.parseInt(style.fontWeight!, 10),
         RGBColor.fromString(style.color!).toHSV()
@@ -151,9 +151,9 @@ function setStyle (element: HTMLElement, style: TextStyle) {
     const iterateChildren = (children: NodeList) => {
       for (const child of children) {
         if (child instanceof HTMLBRElement) {
-          spans.push(new TextSpan('\n', getTextStyle(child.parentElement!)))
+          spans.push(new AttributedTextSpan('\n', getTextStyle(child.parentElement!)))
         } else if (child instanceof Text && child.textContent) {
-          spans.push(new TextSpan(child.textContent, getTextStyle(child.parentElement!)))
+          spans.push(new AttributedTextSpan(child.textContent, getTextStyle(child.parentElement!)))
         } else if (child instanceof HTMLSpanElement) {
           iterateChildren(child.childNodes)
         }
@@ -163,7 +163,7 @@ function setStyle (element: HTMLElement, style: TextStyle) {
     if (spans[spans.length - 1].content === '\n') { // trim last <br>
       spans.pop()
     }
-    const shrinked = TextSpan.shrink(spans)
+    const shrinked = AttributedTextSpan.shrink(spans)
     this.lastSpans = shrinked
     this.props.shape.text.spans.replace(shrinked)
   }

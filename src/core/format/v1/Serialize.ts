@@ -6,7 +6,7 @@ import { Shape, RectShape, EllipseShape, TextShape, ImageShape, GroupShape } fro
 import { HSVColor } from '../../../lib/Color'
 import { Style } from '../../document/Style'
 import { Layer } from '../../document/Layer'
-import { Text, TextSpan } from '../../document/Text'
+import { AttributedText, AttributedTextSpan } from '../../document/AttributedText'
 
 export function vec2ToData (p: Vec2): Vec2Data {
   const { x, y } = p
@@ -79,7 +79,7 @@ export function styleToData (style: Style) {
   }
 }
 
-export function textSpanToData (span: TextSpan): TextSpanData {
+export function textSpanToData (span: AttributedTextSpan): TextSpanData {
   return {
     family: span.style.family,
     content: span.content,
@@ -89,7 +89,7 @@ export function textSpanToData (span: TextSpan): TextSpanData {
   }
 }
 
-export function textToData (text: Text) {
+export function textToData (text: AttributedText) {
   return {
     spans: text.spans.map(textSpanToData)
   }

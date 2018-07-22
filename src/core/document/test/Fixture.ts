@@ -2,7 +2,7 @@ import { Document } from '../Document'
 import { Layer } from '../Layer'
 import { RectShape, TextShape } from '../Shape'
 import { Rect } from 'paintvec'
-import { TextStyle, TextSpan } from '../Text'
+import { AttributedTextStyle, AttributedTextSpan } from '../AttributedText'
 
 export function createShapeLayer (document: Document) {
   const layer = new Layer()
@@ -16,7 +16,7 @@ export function createTextLayer (document: Document) {
   const layer = new Layer()
   const shape = new TextShape()
   shape.text.spans.replace([
-    new TextSpan('Text', TextStyle.default)
+    new AttributedTextSpan('Text', AttributedTextStyle.default)
   ])
   layer.shape = shape
   layer.rect = Rect.fromWidthHeight(10, 20, 30, 40)

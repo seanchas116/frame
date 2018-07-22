@@ -1,6 +1,6 @@
 import { assert } from 'chai'
-import { Document } from '../document/Document'
-import { Layer } from '../document/Layer'
+import { Document } from './Document'
+import { Layer } from './Layer'
 
 describe('Selection', () => {
   let document: Document

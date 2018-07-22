@@ -1,10 +1,10 @@
 import { observable } from 'mobx'
 import { ValueRange } from '../../lib/ValueRange'
-import { TextStyle } from './Text'
+import { AttributedTextStyle } from './AttributedText'
 
 export class TextSelection {
   @observable range: ValueRange | undefined = undefined
-  @observable insertStyle: TextStyle = TextStyle.default
+  @observable insertStyle: AttributedTextStyle = AttributedTextStyle.default
 
   clear () {
     this.range = undefined
