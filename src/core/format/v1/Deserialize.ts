@@ -1,12 +1,12 @@
 import { Vec2, Rect } from 'paintvec'
 import { Document } from '../../document/Document'
-import { DocumentData, BrushData, HSVColorData, Vec2Data, ShapeData, RectData, LayerData, StyleData, DeepLayerData, TextData, TextSpanData } from './Schema'
+import { DocumentData, BrushData, HSVColorData, Vec2Data, ShapeData, RectData, LayerData, StyleData, DeepLayerData, TextData, TextSpanData, TextLineData } from './Schema'
 import { Brush, ColorBrush, LinearGradientBrush, GradientStop } from '../../document/Brush'
 import { Shape, RectShape, EllipseShape, TextShape, ImageShape, GroupShape } from '../../document/Shape'
 import { HSVColor } from '../../../lib/Color'
 import { Style } from '../../document/Style'
 import { Layer } from '../../document/Layer'
-import { AttributedText, AttributedTextSpan, AttributedTextStyle } from '../../document/AttributedText'
+import { AttributedText, AttributedTextSpan, AttributedTextStyle, AttributedTextLine } from '../../document/AttributedText'
 
 export function dataToVec2 (p: Vec2Data) {
   return new Vec2(p.x, p.y)
@@ -81,10 +81,12 @@ export function dataToTextSpan (data: TextSpanData): AttributedTextSpan {
   )
 }
 
+export function dataToTextLine (data: TextLineData): AttributedTextLine {
+  return new AttributedTextLine(data.spans.map(dataToTextSpan))
+}
+
 export function dataToText (data: TextData): AttributedText {
-  const text = new AttributedText()
-  text.spans.replace(data.spans.map(dataToTextSpan))
-  return text
+  return new AttributedText(data.lines.map(dataToTextLine))
 }
 
 export function loadLayerData (layer: Layer, data: LayerData) {

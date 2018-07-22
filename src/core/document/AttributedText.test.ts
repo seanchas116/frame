@@ -1,23 +1,25 @@
 import { assert } from 'chai'
 import { toJS } from 'mobx'
-import { AttributedText, AttributedTextStyle, AttributedTextSpan } from './AttributedText'
+import { AttributedText, AttributedTextStyle, AttributedTextSpan, AttributedTextLine } from './AttributedText'
 import { ValueRange } from '../../lib/ValueRange'
 
 describe('AttributedText', () => {
   let text: AttributedText
   beforeEach(() => {
-    text = new AttributedText()
-    text.spans.replace([
-      new AttributedTextSpan('Foo', AttributedTextStyle.default.assign({ weight: 300 })),
-      new AttributedTextSpan('Bar', AttributedTextStyle.default.assign({ weight: 200, size: 14 })),
-      new AttributedTextSpan('Baz', AttributedTextStyle.default.assign({ weight: 400, size: 8 })),
-      new AttributedTextSpan('Hoge', AttributedTextStyle.default.assign({ weight: 500, size: 20 })),
-      new AttributedTextSpan('Poyo', AttributedTextStyle.default.assign({ weight: 100, size: 40 }))
+    text = new AttributedText([
+      new AttributedTextLine([
+        new AttributedTextSpan('Foo', AttributedTextStyle.default.assign({ weight: 300 })),
+        new AttributedTextSpan('Bar', AttributedTextStyle.default.assign({ weight: 200, size: 14 })),
+        new AttributedTextSpan('Baz', AttributedTextStyle.default.assign({ weight: 400, size: 8 })),
+        new AttributedTextSpan('Hoge', AttributedTextStyle.default.assign({ weight: 500, size: 20 })),
+        new AttributedTextSpan('Poyo', AttributedTextStyle.default.assign({ weight: 100, size: 40 }))
+      ])
     ])
   })
 
   describe('#setStyle', () => {
     it('sets style for span', () => {
+      // TODO: test multiple lines
       const style = { size: 100 }
       const range = new ValueRange(5, 10)
       text.setStyle(range, style)
@@ -31,7 +33,7 @@ describe('AttributedText', () => {
         new AttributedTextSpan('oge', AttributedTextStyle.default.assign({ weight: 500, size: 20 })),
         new AttributedTextSpan('Poyo', AttributedTextStyle.default.assign({ weight: 100, size: 40 }))
       ]
-      assert.deepEqual(toJS(text.spans), expected)
+      assert.deepEqual(toJS(text.lines[0].spans), expected)
     })
   })
 
@@ -49,9 +51,9 @@ describe('AttributedText', () => {
         new AttributedTextSpan('bar', AttributedTextStyle.default.assign({ weight: 100 })),
         new AttributedTextSpan('Foobar', AttributedTextStyle.default)
       ]
-      text.spans.replace(original)
+      text.lines[0].spans.replace(original)
       text.shrink()
-      assert.deepEqual(toJS(text.spans), expected)
+      assert.deepEqual(toJS(text.lines[0].spans), expected)
     })
   })
 })

@@ -30,7 +30,7 @@ export class EllipseShape implements IShape {
 
 export class TextShape implements IShape {
   readonly type = 'text'
-  @observable text = new AttributedText()
+  @observable text = new AttributedText([])
 
   render (rect: Rect) {
     const style: React.CSSProperties = {
@@ -38,33 +38,24 @@ export class TextShape implements IShape {
       cursor: 'default',
       lineHeight: 0
     }
-    const spans: React.ReactChild[] = []
-    for (const span of this.text.spans) {
-      const children: React.ReactChild[] = []
-      let chars: string[] = []
-      for (const char of span.content) {
-        if (char === '\n') {
-          children.push(chars.join(''))
-          children.push(<br />)
-          chars = []
-        } else {
-          chars.push(char)
+    const children: React.ReactChild[] = []
+    for (const line of this.text.lines) {
+      for (const span of line.spans) {
+        const spanStyle: React.CSSProperties = {
+          fontFamily: span.style.family,
+          fontSize: span.style.size + 'px',
+          lineHeight: span.style.size + 'px',
+          fontWeight: span.style.weight as any,
+          color: span.style.color.toRGB().toRGBString()
         }
+        children.push(<span style={spanStyle}>{span.content}</span>)
       }
-      children.push(chars.join(''))
-      const spanStyle: React.CSSProperties = {
-        fontFamily: span.style.family,
-        fontSize: span.style.size + 'px',
-        lineHeight: span.style.size + 'px',
-        fontWeight: span.style.weight as any,
-        color: span.style.color.toRGB().toRGBString()
-      }
-      spans.push(<span style={spanStyle}>{children}</span>)
+      children.push(<br />)
     }
     return <g>
       <rect x={rect.left} y={rect.top} width={rect.width} height={rect.height} fill='transparent' stroke='none'/>
       <foreignObject x={rect.left} y={rect.top} width={rect.width} height={rect.height}>
-        <div style={style}>{spans}</div>
+        <div style={style}>{children}</div>
       </foreignObject>
     </g>
   }

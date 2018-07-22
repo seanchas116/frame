@@ -7,7 +7,7 @@ import { Document } from '../../core/document/Document'
 import { editor } from './Editor'
 import { Disposable, disposeAll } from '../../lib/Disposable'
 import { toCSSTransform } from '../../lib/CSSTransform'
-import { AttributedTextStyle, AttributedTextSpan } from '../../core/document/AttributedText'
+import { AttributedTextStyle, AttributedTextSpan, AttributedTextLine } from '../../core/document/AttributedText'
 import { ValueRange } from '../../lib/ValueRange'
 import { RGBColor } from '../../lib/Color'
 import { DOMPosition } from '../../lib/DOMPosition'
@@ -40,18 +40,18 @@ function setStyle (element: HTMLElement, style: AttributedTextStyle) {
 
 @observer export class TextEdior extends React.Component<{layer: Layer, shape: TextShape}> {
   private editable!: HTMLElement
-  private lastSpans: AttributedTextSpan[] = []
+  private lastLines: AttributedTextLine[] = []
   private disposables: Disposable[] = []
 
-  @computed get spans () {
-    return Array.from(this.props.shape.text.spans)
+  @computed get lines () {
+    return Array.from(this.props.shape.text.lines)
   }
 
   componentDidMount () {
     document.addEventListener('selectionchange', this.handleSelectionChange)
     this.disposables = [
-      reaction(() => this.spans, spans => {
-        if (!_.isEqual(spans, this.lastSpans)) {
+      reaction(() => this.lines, lines => {
+        if (!_.isEqual(lines, this.lastLines)) {
           this.updateDOM()
         }
       })
@@ -93,26 +93,19 @@ function setStyle (element: HTMLElement, style: AttributedTextStyle) {
 
     const { text } = this.props.shape
     setStyle(this.editable, AttributedTextStyle.default)
-    if (text.spans.length !== 0) {
+    if (text.isEmpty) {
       this.editable.style.lineHeight = '0'
     }
-    for (const span of text.spans) {
-      const spanElem = document.createElement('span')
-      let chars: string[] = []
-      for (const char of span.content) {
-        if (char === '\n') {
-          spanElem.appendChild(document.createTextNode(chars.join('')))
-          spanElem.appendChild(document.createElement('br'))
-          chars = []
-        } else {
-          chars.push(char)
-        }
+    for (const line of text.lines) {
+      for (const span of line.spans) {
+        const spanElem = document.createElement('span')
+        spanElem.appendChild(document.createTextNode(span.content))
+        setStyle(spanElem, span.style)
+        this.editable.appendChild(spanElem)
       }
-      spanElem.appendChild(document.createTextNode(chars.join('')))
-      setStyle(spanElem, span.style)
-      this.editable.appendChild(spanElem)
+      this.editable.appendChild(document.createElement('br'))
     }
-    this.lastSpans = Array.from(text.spans)
+    this.lastLines = Array.from(text.lines)
 
     setImmediate(() => {
       this.reselectRange()
@@ -137,7 +130,7 @@ function setStyle (element: HTMLElement, style: AttributedTextStyle) {
   }
 
   @action private handleInput = () => {
-    let spans: AttributedTextSpan[] = []
+    let lines: AttributedTextLine[] = []
     const getTextStyle = (element: HTMLElement): AttributedTextStyle => {
       const style = getComputedStyle(element)
       return new AttributedTextStyle(
@@ -148,24 +141,27 @@ function setStyle (element: HTMLElement, style: AttributedTextStyle) {
       )
     }
 
+    let line = new AttributedTextLine([])
+
     const iterateChildren = (children: NodeList) => {
       for (const child of children) {
         if (child instanceof HTMLBRElement) {
-          spans.push(new AttributedTextSpan('\n', getTextStyle(child.parentElement!)))
+          lines.push(line)
+          line = new AttributedTextLine([])
         } else if (child instanceof Text && child.textContent) {
-          spans.push(new AttributedTextSpan(child.textContent, getTextStyle(child.parentElement!)))
+          line.spans.push(new AttributedTextSpan(child.textContent, getTextStyle(child.parentElement!)))
         } else if (child instanceof HTMLSpanElement) {
           iterateChildren(child.childNodes)
         }
       }
     }
     iterateChildren(this.editable.childNodes)
-    if (spans[spans.length - 1].content === '\n') { // trim last <br>
-      spans.pop()
+    if (lines.length > 0 && lines[lines.length - 1].isEmpty) { // trim last <br>
+      lines.pop()
     }
-    const shrinked = AttributedTextSpan.shrink(spans)
-    this.lastSpans = shrinked
-    this.props.shape.text.spans.replace(shrinked)
+    this.props.shape.text.lines.replace(lines)
+    this.props.shape.text.shrink()
+    this.lastLines = Array.from(this.props.shape.text.lines)
   }
 
   @action private handleSelectionChange = () => {

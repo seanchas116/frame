@@ -77,8 +77,20 @@ export class AttributedTextSpan {
   }
 }
 
-export class AttributedText {
+export class AttributedTextLine {
   readonly spans = observable<AttributedTextSpan>([])
+
+  constructor (spans: AttributedTextSpan[]) {
+    this.spans.replace(spans)
+  }
+
+  get characterCount () {
+    let sum = 0
+    for (const span of this.spans) {
+      sum += span.content.length
+    }
+    return sum
+  }
 
   @computed get isEmpty () {
     return this.spans.length === 0
@@ -132,5 +144,32 @@ export class AttributedText {
 
   shrink () {
     this.spans.replace(AttributedTextSpan.shrink(Array.from(this.spans)))
+  }
+}
+
+export class AttributedText {
+  readonly lines = observable<AttributedTextLine>([])
+
+  constructor (lines: AttributedTextLine[]) {
+    this.lines.replace(lines)
+  }
+
+  get isEmpty () {
+    return this.lines.length === 0 || this.lines[0].spans.length === 0
+  }
+
+  setStyle (range: ValueRange, style: Partial<AttributedTextStyle>) {
+    let offset = 0
+    for (const line of this.lines) {
+      line.setStyle(range.shift(-offset), style)
+      offset += line.characterCount
+      offset += 1
+    }
+  }
+
+  shrink () {
+    for (const line of this.lines) {
+      line.shrink()
+    }
   }
 }
