@@ -5,7 +5,7 @@ import { observer } from 'mobx-react'
 import styled from 'styled-components'
 import { Document } from '../../core/document/Document'
 import { Layer } from '../../core/document/Layer'
-import { TextStyle } from '../../core/document/Text'
+import { AttributedTextStyle } from '../../core/document/AttributedText'
 import { StrokeAlignment } from '../../core/document/Style'
 import { Brush } from '../../core/document/Brush'
 import { NumberInput } from './components/NumberInput'
@@ -178,16 +178,12 @@ const LayerInspector = (props: {layer: Layer}) => {
 
 @observer class TextInspector extends React.Component<{layer: Layer, shape: TextShape}> {
   @computed private get combinedStyle () {
-    return TextStyle.combine(this.selectedSpans)
-  }
-
-  @computed private get selectedSpans () {
     const range = Document.current.textSelection.range
-    return range ? this.props.shape.text.spansInRange(range) : []
+    return range ? this.props.shape.text.getStyle(range) : {}
   }
 
   @computed private get fontFamilyName () {
-    return this.combinedStyle.family || TextStyle.default.family
+    return this.combinedStyle.family || AttributedTextStyle.default.family
   }
 
   @computed private get fontFamily () {
@@ -201,8 +197,8 @@ const LayerInspector = (props: {layer: Layer}) => {
   }
 
   render () {
-    const size = this.combinedStyle.size || TextStyle.default.size
-    const color = this.combinedStyle.color || TextStyle.default.color
+    const size = this.combinedStyle.size || AttributedTextStyle.default.size
+    const color = this.combinedStyle.color || AttributedTextStyle.default.color
     const fontFamilies = [...fontRegistry.families.values()]
     const fontStyles = this.fontFamily ? this.fontFamily.styles : new Map()
 
@@ -259,7 +255,7 @@ const LayerInspector = (props: {layer: Layer}) => {
     this.changeTextStyle({ weight: weight }, 'Change Font Weight')
   }
 
-  private changeTextStyle (style: Partial<TextStyle>, commitMessage: string) {
+  private changeTextStyle (style: Partial<AttributedTextStyle>, commitMessage: string) {
     const range = Document.current.textSelection.range
     if (!range) {
       return

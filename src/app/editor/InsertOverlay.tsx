@@ -8,7 +8,7 @@ import { editor } from './Editor'
 import { Shape, ShapeType, RectShape, EllipseShape, TextShape } from '../../core/document/Shape'
 import { ColorBrush } from '../../core/document/Brush'
 import { Overlay } from './components/Overlay'
-import { TextStyle } from '../../core/document/Text'
+import { AttributedTextStyle, AttributedTextSpan, AttributedTextLine } from '../../core/document/AttributedText'
 
 function createShape (type: ShapeType): Shape {
   switch (type) {
@@ -18,10 +18,11 @@ function createShape (type: ShapeType): Shape {
       return new EllipseShape()
     case 'text':
       const shape = new TextShape()
-      shape.text.spans.replace([{
-        ...TextStyle.default,
-        content: 'Text'
-      }])
+      shape.text.lines.replace([
+        new AttributedTextLine([
+          new AttributedTextSpan('Text', AttributedTextStyle.default)
+        ])
+      ])
       return shape
     case 'image':
     case 'group':

@@ -78,8 +78,12 @@ export interface TextSpanData {
   content: string
 }
 
-export interface TextData {
+export interface TextLineData {
   spans: TextSpanData[]
+}
+
+export interface TextData {
+  lines: TextLineData[]
 }
 
 export interface LayerData {
