@@ -6,7 +6,7 @@ import { Shape, RectShape, EllipseShape, TextShape, ImageShape, GroupShape } fro
 import { HSVColor } from '../../../lib/Color'
 import { Style } from '../../document/Style'
 import { Layer } from '../../document/Layer'
-import { Text, TextSpan } from '../../document/Text'
+import { Text, TextSpan, TextStyle } from '../../document/Text'
 
 export function dataToVec2 (p: Vec2Data) {
   return new Vec2(p.x, p.y)
@@ -73,13 +73,12 @@ export function dataToStyle (data: StyleData): Style {
 }
 
 export function dataToTextSpan (data: TextSpanData): TextSpan {
-  return {
-    family: data.family,
-    content: data.content,
-    size: data.size,
-    weight: data.weight,
-    color: dataToHSV(data.color)
-  }
+  return new TextSpan(
+    data.content,
+    new TextStyle(
+      data.family, data.size, data.weight, dataToHSV(data.color)
+    )
+  )
 }
 
 export function dataToText (data: TextData): Text {

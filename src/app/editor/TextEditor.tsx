@@ -109,7 +109,7 @@ function setStyle (element: HTMLElement, style: TextStyle) {
         }
       }
       spanElem.appendChild(document.createTextNode(chars.join('')))
-      setStyle(spanElem, span)
+      setStyle(spanElem, span.style)
       this.editable.appendChild(spanElem)
     }
     this.lastSpans = Array.from(text.spans)
@@ -140,20 +140,20 @@ function setStyle (element: HTMLElement, style: TextStyle) {
     let spans: TextSpan[] = []
     const getTextStyle = (element: HTMLElement): TextStyle => {
       const style = getComputedStyle(element)
-      return {
-        family: style.fontFamily || TextStyle.default.family,
-        color: RGBColor.fromString(style.color!).toHSV(),
-        size: Number.parseInt(style.fontSize!.slice(0, -2), 10),
-        weight: Number.parseInt(style.fontWeight!, 10)
-      }
+      return new TextStyle(
+        style.fontFamily || TextStyle.default.family,
+        Number.parseInt(style.fontSize!.slice(0, -2), 10),
+        Number.parseInt(style.fontWeight!, 10),
+        RGBColor.fromString(style.color!).toHSV()
+      )
     }
 
     const iterateChildren = (children: NodeList) => {
       for (const child of children) {
         if (child instanceof HTMLBRElement) {
-          spans.push({ ...getTextStyle(child.parentElement!), content: '\n' })
+          spans.push(new TextSpan('\n', getTextStyle(child.parentElement!)))
         } else if (child instanceof Text && child.textContent) {
-          spans.push({ ...getTextStyle(child.parentElement!), content: child.textContent })
+          spans.push(new TextSpan(child.textContent, getTextStyle(child.parentElement!)))
         } else if (child instanceof HTMLSpanElement) {
           iterateChildren(child.childNodes)
         }

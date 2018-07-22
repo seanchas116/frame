@@ -1,6 +1,6 @@
 import { assert } from 'chai'
 import { toJS } from 'mobx'
-import { Text, TextStyle } from './Text'
+import { Text, TextStyle, TextSpan } from './Text'
 import { ValueRange } from '../../lib/ValueRange'
 
 describe('Text', () => {
@@ -8,11 +8,11 @@ describe('Text', () => {
   beforeEach(() => {
     text = new Text()
     text.spans.replace([
-      { ...TextStyle.default, weight: 300, content: 'Foo' },
-      { ...TextStyle.default, weight: 200, size: 14, content: 'Bar' },
-      { ...TextStyle.default, weight: 400, size: 8, content: 'Baz' },
-      { ...TextStyle.default, weight: 500, size: 20, content: 'Hoge' },
-      { ...TextStyle.default, weight: 100, size: 40, content: 'Poyo' }
+      new TextSpan('Foo', TextStyle.default.assign({ weight: 300 })),
+      new TextSpan('Bar', TextStyle.default.assign({ weight: 200, size: 14 })),
+      new TextSpan('Baz', TextStyle.default.assign({ weight: 400, size: 8 })),
+      new TextSpan('Hoge', TextStyle.default.assign({ weight: 500, size: 20 })),
+      new TextSpan('Poyo', TextStyle.default.assign({ weight: 100, size: 40 }))
     ])
   })
 
@@ -23,13 +23,13 @@ describe('Text', () => {
       text.setStyle(range, style)
 
       const expected = [
-        { ...TextStyle.default, weight: 300, content: 'Foo' },
-        { ...TextStyle.default, weight: 200, size: 14, content: 'Ba' },
-        { ...TextStyle.default, weight: 200, size: 100, content: 'r' },
-        { ...TextStyle.default, weight: 400, size: 100, content: 'Baz' },
-        { ...TextStyle.default, weight: 500, size: 100, content: 'H' },
-        { ...TextStyle.default, weight: 500, size: 20, content: 'oge' },
-        { ...TextStyle.default, weight: 100, size: 40, content: 'Poyo' }
+        new TextSpan('Foo', TextStyle.default.assign({ weight: 300 })),
+        new TextSpan('Ba', TextStyle.default.assign({ weight: 200, size: 14 })),
+        new TextSpan('r', TextStyle.default.assign({ weight: 200, size: 100 })),
+        new TextSpan('Baz', TextStyle.default.assign({ weight: 400, size: 100 })),
+        new TextSpan('H', TextStyle.default.assign({ weight: 500, size: 100 })),
+        new TextSpan('oge', TextStyle.default.assign({ weight: 500, size: 20 })),
+        new TextSpan('Poyo', TextStyle.default.assign({ weight: 100, size: 40 }))
       ]
       assert.deepEqual(toJS(text.spans), expected)
     })
@@ -38,16 +38,16 @@ describe('Text', () => {
   describe('#shrink', () => {
     it('merges adjacent spans with same style', () => {
       const original = [
-        { ...TextStyle.default, content: 'Foo' },
-        { ...TextStyle.default, content: 'bar' },
-        { ...TextStyle.default, weight: 100, content: 'bar' },
-        { ...TextStyle.default, content: 'Foo' },
-        { ...TextStyle.default, content: 'bar' }
+        new TextSpan('Foo', TextStyle.default),
+        new TextSpan('bar', TextStyle.default),
+        new TextSpan('bar', TextStyle.default.assign({ weight: 100 })),
+        new TextSpan('Foo', TextStyle.default),
+        new TextSpan('bar', TextStyle.default)
       ]
       const expected = [
-        { ...TextStyle.default, content: 'Foobar' },
-        { ...TextStyle.default, weight: 100, content: 'bar' },
-        { ...TextStyle.default, content: 'Foobar' }
+        new TextSpan('Foobar', TextStyle.default),
+        new TextSpan('bar', TextStyle.default.assign({ weight: 100 })),
+        new TextSpan('Foobar', TextStyle.default)
       ]
       text.spans.replace(original)
       text.shrink()

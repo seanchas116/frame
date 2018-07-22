@@ -178,7 +178,7 @@ const LayerInspector = (props: {layer: Layer}) => {
 
 @observer class TextInspector extends React.Component<{layer: Layer, shape: TextShape}> {
   @computed private get combinedStyle () {
-    return TextStyle.combine(this.selectedSpans)
+    return TextStyle.combine(this.selectedSpans.map(s => s.style))
   }
 
   @computed private get selectedSpans () {

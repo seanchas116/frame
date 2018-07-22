@@ -3,53 +3,65 @@ import { HSVColor } from '../../lib/Color'
 import { sameOrNone } from '../../lib/sameOrNone'
 import { ValueRange } from '../../lib/ValueRange'
 
-export interface TextStyle {
-  readonly family: string
-  readonly size: number
-  readonly weight: number
-  readonly color: HSVColor
-}
+export class TextStyle {
+  constructor (
+    public readonly family: string,
+    public readonly size: number,
+    public readonly weight: number,
+    public readonly color: HSVColor
+  ) {}
 
-export const TextStyle = {
-  default: {
-    family: 'Helvetica Neue', // FIXME: Helvetica Neue is probably not available in Windows
-    size: 12,
-    weight: 300,
-    color: HSVColor.black
-  },
-  combine (styles: TextStyle[]): Partial<TextStyle> {
+  static default = new TextStyle(
+    'Helvetica Neue', // FIXME: Helvetica Neue is probably not available in Windows
+    12,
+    300,
+    HSVColor.black
+  )
+
+  static combine (styles: TextStyle[]): Partial<TextStyle> {
     return {
       family: sameOrNone(styles.map(s => s.family)),
       size: sameOrNone(styles.map(s => s.size)),
       weight: sameOrNone(styles.map(s => s.weight)),
       color: sameOrNone(styles.map(s => s.color), (c1, c2) => c1.equals(c2))
     }
-  },
-  equals (a: TextStyle, b: TextStyle) {
-    return a.family === b.family && a.size === b.size && a.weight === b.weight && a.color.equals(b.color)
+  }
+
+  equals (other: TextStyle) {
+    return this.family === other.family && this.size === other.size && this.weight === other.weight && this.color.equals(other.color)
+  }
+
+  clone () {
+    return new TextStyle(this.family, this.size, this.weight, this.color)
+  }
+
+  assign (partialStyle: Partial<TextStyle>) {
+    return Object.assign(this.clone(), partialStyle)
   }
 }
 
-export interface TextSpan extends TextStyle {
-  readonly content: string
-}
+export class TextSpan {
+  constructor (
+    public readonly content: string,
+    public readonly style: TextStyle
+  ) {}
 
-export const TextSpan = {
-  slice (span: TextSpan, range: ValueRange) {
-    return {
-      ...span,
-      content: span.content.slice(range.begin, range.end)
-    }
-  },
-  shrink (spans: TextSpan[]) {
+  slice (range: ValueRange) {
+    return new TextSpan(
+      this.content.slice(range.begin, range.end),
+      this.style
+    )
+  }
+
+  static shrink (spans: TextSpan[]) {
     const newSpans: TextSpan[] = []
     let mergingSpan: TextSpan | undefined = undefined
     for (const span of spans) {
       if (mergingSpan) {
-        if (TextStyle.equals(mergingSpan, span)) {
+        if (mergingSpan.style.equals(span.style)) {
           // ↓TypeScript bug?
           const content: any = mergingSpan.content + span.content
-          mergingSpan = { ...(mergingSpan as TextSpan), content }
+          mergingSpan = new TextSpan(content, mergingSpan.style)
         } else {
           newSpans.push(mergingSpan)
           mergingSpan = span
@@ -104,14 +116,15 @@ export class Text {
       const overlap = spanRange.intersection(range)
       const rightOverlap = spanRange.intersection(rightRange)
       if (leftOverlap && leftOverlap.length > 0) {
-        newSpans.push(TextSpan.slice(span, leftOverlap.shift(-spanRange.begin)))
+        newSpans.push(span.slice(leftOverlap.shift(-spanRange.begin)))
       }
       if (overlap && overlap.length > 0) {
-        const newSpan = { ...TextSpan.slice(span, overlap.shift(-spanRange.begin)), ...style }
+        const slicedSpan = span.slice(overlap.shift(-spanRange.begin))
+        const newSpan = new TextSpan(slicedSpan.content, slicedSpan.style.assign(style))
         newSpans.push(newSpan)
       }
       if (rightOverlap && rightOverlap.length > 0) {
-        newSpans.push(TextSpan.slice(span, rightOverlap.shift(-spanRange.begin)))
+        newSpans.push(span.slice(rightOverlap.shift(-spanRange.begin)))
       }
     }
     this.spans.replace(newSpans)
