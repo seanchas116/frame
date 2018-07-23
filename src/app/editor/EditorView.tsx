@@ -25,7 +25,7 @@ const EditorViewSVG = styled.svg`
 @observer export class EditorView extends React.Component<{className?: string}> {
   @observable static instance: EditorView | undefined
 
-  size = new Vec2(100, 100)
+  @observable size = new Vec2(100, 100)
 
   private element!: HTMLElement
   private resizeObserver!: ResizeObserver
