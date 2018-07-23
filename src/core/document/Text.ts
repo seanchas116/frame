@@ -72,34 +72,13 @@ export class Text {
     return this.spans.length === 0
   }
 
-  @computed get spansWithRange (): ReadonlyArray<[TextSpan, ValueRange]> {
-    let pairs: [TextSpan, ValueRange][] = []
-    let lastEnd = 0
-    for (const span of this.spans) {
-      let begin = lastEnd
-      let end = begin + span.content.length
-      lastEnd = end
-      pairs.push([span, new ValueRange(begin, end)])
-    }
-    return pairs
-  }
-
-  spansInRange (range: ValueRange) {
-    const spansInRange: TextSpan[] = []
-    for (const [span, spanRange] of this.spansWithRange) {
-      const overlap = spanRange.intersection(range)
-      if (overlap && overlap.length > 0) {
-        spansInRange.push(span)
-      }
-    }
-    return spansInRange
-  }
-
   setStyle (range: ValueRange, style: Partial<TextStyle>) {
     const leftRange = new ValueRange(-Infinity, range.begin)
     const rightRange = new ValueRange(range.end, Infinity)
     let newSpans: TextSpan[] = []
-    for (const [span, spanRange] of this.spansWithRange) {
+    let offset = 0
+    for (const span of this.spans) {
+      const spanRange = new ValueRange(offset, offset + span.content.length)
       const leftOverlap = spanRange.intersection(leftRange)
       const overlap = spanRange.intersection(range)
       const rightOverlap = spanRange.intersection(rightRange)
@@ -113,8 +92,35 @@ export class Text {
       if (rightOverlap && rightOverlap.length > 0) {
         newSpans.push(TextSpan.slice(span, rightOverlap.shift(-spanRange.begin)))
       }
+      offset = spanRange.end
     }
     this.spans.replace(newSpans)
+  }
+
+  getStyle (range: ValueRange) {
+    if (range.length > 0) {
+      let offset = 0
+      const overlappingStyles: TextStyle[] = []
+      for (const span of this.spans) {
+        const spanRange = new ValueRange(offset, offset + span.content.length)
+        const overlap = spanRange.intersection(range)
+        if (overlap && overlap.length > 0) {
+          overlappingStyles.push(span)
+        }
+        offset = spanRange.end
+      }
+      return TextStyle.combine(overlappingStyles)
+    } else {
+      // cursor with no selection
+      let offset = 0
+      for (const span of this.spans) {
+        offset += span.content.length
+        if (range.begin <= offset) {
+          return span
+        }
+      }
+      return {}
+    }
   }
 
   shrink () {

@@ -178,12 +178,8 @@ const LayerInspector = (props: {layer: Layer}) => {
 
 @observer class TextInspector extends React.Component<{layer: Layer, shape: TextShape}> {
   @computed private get combinedStyle () {
-    return TextStyle.combine(this.selectedSpans)
-  }
-
-  @computed private get selectedSpans () {
     const range = Document.current.textSelection.range
-    return range ? this.props.shape.text.spansInRange(range) : []
+    return range ? this.props.shape.text.getStyle(range) : {}
   }
 
   @computed private get fontFamilyName () {
