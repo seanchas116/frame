@@ -140,8 +140,13 @@ function setStyle (element: HTMLElement, style: TextStyle) {
     let spans: TextSpan[] = []
     const getTextStyle = (element: HTMLElement): TextStyle => {
       const style = getComputedStyle(element)
+      // TODO: always set valid font family
+      let family = style.fontFamily || TextStyle.default.family
+      if (family && family[0] === '"') {
+        family = family.slice(1, -1)
+      }
       return {
-        family: style.fontFamily || TextStyle.default.family,
+        family: family,
         color: RGBColor.fromString(style.color!).toHSV(),
         size: Number.parseInt(style.fontSize!.slice(0, -2), 10),
         weight: Number.parseInt(style.fontWeight!, 10)
